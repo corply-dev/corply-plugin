@@ -1,0 +1,14 @@
+{
+  "name": "corply",
+  "description": "Corply — incorporate your startup (Delaware C-corp) from Claude Code.",
+  "owner": { "name": "Corply", "email": "founders@corply.dev" },
+  "plugins": [
+    {
+      "name": "corply",
+      "description": "Your startup's AI general counsel: Delaware C-corp incorporation, end-to-end, from Claude Code.",
+      "version": "0.1.0",
+      "source": "./",
+      "author": { "name": "Corply", "email": "founders@corply.dev" }
+    }
+  ]
+}
