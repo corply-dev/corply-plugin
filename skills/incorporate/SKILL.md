@@ -35,14 +35,23 @@ Advise actively: standard founder vesting, why a C-corp, equity-pool sizing. Kee
 todo list** of these steps and keep it in sync by calling `get_status`.
 
 ### 2. Save + validate
-Call `save_application(companyId, data)` with the whole structured payload (it's idempotent).
-Then `validate_application(formationId)` — it returns what's missing and Delaware name availability.
-Fix gaps and re-validate until `ready`.
+Call `save_application(companyId, data)` — send the whole payload when you can, but incremental
+saves are safe too: they **deep-merge** over what's stored, so saving one more field never wipes
+the founders/ownership/roles you saved earlier. Then `validate_application(formationId)` — it returns
+what's missing and Delaware name availability. Fix gaps and re-validate until `ready`. (If the
+application later becomes incomplete, `validate_application` demotes it back out of `ready` so it
+can't generate documents on incomplete data.)
 
 ### 3. Generate + review
 Call `generate_documents(formationId)`. Then call `request_signature(formationId)` — it returns the
 **disclaimer** and a **review link per signer**. Give each signer their `reviewUrl`; they must open
-and read the PDF before signing. This is the only step that touches the web.
+and read the PDF before signing. This is the only step that touches the web. Re-calling
+`request_signature` is safe — it won't create duplicate signatures.
+
+**Editing after documents are generated:** if the application changes after `generate_documents`,
+saving reopens the formation — Corply supersedes the frozen documents and open signatures and returns
+it to `intake`. Re-validate, re-generate, and everyone re-reviews and re-signs the new version. Once a
+formation is **submitted**, it can no longer be edited from here.
 
 ### 4. Sign — conversationally, behind a MANDATORY permission gate
 Signing is the one irreversible, legally binding act in this flow. A `record_signature` call asserts
@@ -93,9 +102,16 @@ automatically emailed their **signed** incorporation documents (PDF attachments)
 
 ## Cofounders
 Cofounders join from **their own** Claude Code: invite them by email; when they install the Corply
-plugin and sign in with that email, they land in the same organization automatically and see their
-pending signatures via `get_status`. Multi-party signing is asynchronous — the formation completes
-once everyone has signed the current document version.
+plugin and sign in with that email, they land in the same organization automatically. `get_status`
+returns each signer **their own** pending signatures (with review links), plus who else is still
+outstanding — so a cofounder resuming later can pick up exactly what they need to sign. Multi-party
+signing is asynchronous — the formation completes once everyone has signed the current document version.
+
+**Each signer signs only their own documents.** `record_signature` enforces this server-side: a
+signer's Corply sign-in email must match the email on their founder record. You cannot sign for an
+absent cofounder, and they cannot sign for you. If a founder's sign-in email differs from the email
+you listed for them in the application, they won't be able to sign — fix the founder's email (save the
+correction, which reopens/regenerates) so the two match.
 
 ## Disclaimer discipline
 Before any binding act (signing, submitting), state clearly: *"Corply is not a law firm and this is
