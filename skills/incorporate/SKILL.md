@@ -20,8 +20,10 @@ gather (batch) → save_application → validate_application → generate_docume
 
 Around that flow: `whoami` at session start (who's signed in, plus `pendingInvites` — invites this
 user hasn't accepted yet), `get_status` for live progress (now includes per-signer status in
-`signers` and a `webDashboardUrl`), and the cofounder tools `invite_cofounders`, `redeem_invite`,
-and `nudge_signer` — see **Cofounders** below.
+`signers`, a `webDashboardUrl`, and — once formation completes — a per-founder `postIncorp`
+checklist), the cofounder tools `invite_cofounders`, `redeem_invite`, and `nudge_signer` — see
+**Cofounders** below — and `mark_task_done` for closing out post-incorporation tasks — see
+**Post-incorporation** below.
 
 ### 1. Gather — all at once, then advise
 Ask for everything up front, don't drip one field at a time. You need:
@@ -142,6 +144,37 @@ signer's Corply sign-in email must match the email on their founder record. You 
 absent cofounder, and they cannot sign for you. If a founder's sign-in email differs from the email
 you listed for them in the application, they won't be able to sign — fix the founder's email (save the
 correction, which reopens/regenerates) so the two match.
+
+## Post-incorporation
+Formation doesn't end at `submit_for_formation`. Once Delaware files, `get_status.postIncorp` becomes
+the founder's own checklist — EIN, 83(b), opening a bank account, and the like. Each entry is
+`{key, title, status, owner, dueInDays?}`, and it's scoped to the caller: **each founder sees only
+their own obligations** (83(b) is one entry per founder, with their own `dueInDays`), plus the steps
+that belong to the company as a whole.
+
+### Status — summarize plainly
+When the user asks where things stand, call `get_status` and read off `postIncorp` in plain language:
+what's done, what's waiting on Corply, what's waiting on them. Don't dump the raw JSON.
+
+### 83(b) — lead with the deadline
+An 83(b) election is a hard **30-day IRS deadline** with no extensions — miss it and the tax treatment
+is gone for good. If `postIncorp` shows an 83(b) entry with a small or negative `dueInDays`, **lead
+with it** — before anything else — every time the user checks status: *"Your 83(b) is due in N days."*
+If `dueInDays` is negative, say so plainly, it's overdue. **Never invent a deadline** — if `dueInDays`
+is absent, don't state or guess one. And don't raise 83(b) outside a status conversation; this is a
+status-time lead, not a standing nag.
+
+### Marking a task done
+When the user reports finishing one of their own tasks ("I mailed my 83(b) yesterday", "bank account
+is open"), call `mark_task_done(stepKey, note)` with the matching `stepKey` from their `postIncorp`
+list and a short `note` capturing what they said. It flips the step to pending-review, not complete —
+Corply verifies before it's closed out, so say that plainly. Evidence (an IRS receipt, a bank letter)
+can't be attached from here — point them to `webDashboardUrl` to upload it on the web dashboard, or
+tell them to send it to Corply directly.
+
+**Only mark what they actually claimed.** Never call `mark_task_done` for a task the user didn't say
+they completed, and never for a task that isn't theirs. The tool is scoped to the caller and errors
+clearly on a task owned by Corply's team or another founder — don't try to route around that.
 
 ## Disclaimer discipline
 Before any binding act (signing, submitting), state clearly: *"Corply is not a law firm and this is
