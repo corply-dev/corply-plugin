@@ -1,6 +1,6 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
-  "name": "dev.corply/corply",
+  "name": "io.github.corply-dev/corply",
   "description": "Incorporate a Delaware C-Corp from your agent: guided application, generated legal documents (Certificate of Incorporation, Bylaws, Action of Incorporator, Board Consent), cofounder e-signature under ESIGN/UETA, and a human-reviewed Delaware filing. Operated by 0Lumen Labs Corp; not a law firm.",
   "repository": {
     "url": "https://github.com/corply-dev/corply-plugin",
