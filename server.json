@@ -6,7 +6,7 @@
     "url": "https://github.com/corply-dev/corply-plugin",
     "source": "github"
   },
-  "version": "0.1.0",
+  "version": "0.2.0",
   "websiteUrl": "https://corply.dev",
   "remotes": [
     {

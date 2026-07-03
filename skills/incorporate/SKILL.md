@@ -15,7 +15,8 @@ sitting where possible, not a multi-day back-and-forth.
 
 ```
 gather (batch) → save_application → validate_application → generate_documents
-   → review (magic links) → request_signature → record_signature (×each signer) → submit_for_formation
+   → request_payment → await_payment (loop until paid) → review (magic links)
+   → request_signature → record_signature (×each signer) → submit_for_formation
 ```
 
 ### 1. Gather — all at once, then advise
@@ -53,7 +54,27 @@ saving reopens the formation — Corply supersedes the frozen documents and open
 it to `intake`. Re-validate, re-generate, and everyone re-reviews and re-signs the new version. Once a
 formation is **submitted**, it can no longer be edited from here.
 
-### 4. Sign — conversationally, behind a MANDATORY permission gate
+### 4. Pay — mandatory, before any signing
+
+The one-time Corply incorporation fee ($600; promo codes accepted at checkout) is a **hard
+prerequisite** for signatures. `request_signature`, `invite_cofounders`, and
+`submit_for_formation` refuse with `PAYMENT_REQUIRED` until it clears — this is enforced
+server-side; never try to work around it.
+
+1. Call `request_payment(formationId)` and present the returned `checkoutUrl` plainly in chat:
+   the lead founder opens it in the browser and pays. Re-calling is safe — it reuses the open
+   session rather than creating a new charge.
+2. Then call `await_payment(formationId)` **in a loop** until it returns `status: "paid"`.
+   Each call waits up to ~25 seconds server-side. Tell the user you're waiting for Stripe to
+   confirm; keep looping. Do not proceed to review/signing until it reports `paid`.
+3. If it returns `expired`, run `request_payment` again for a fresh link. If it returns
+   `unpaid`, there is no open session — run `request_payment` first.
+
+Only the **lead** founder pays, **once per company**. Cofounders never see a payment step.
+Editing the application later (which reopens and regenerates documents) does **not** re-charge.
+`get_status` includes a `payment` block if you need to check where things stand after resuming.
+
+### 5. Sign — conversationally, behind a MANDATORY permission gate
 Signing is the one irreversible, legally binding act in this flow. A `record_signature` call asserts
 that **the named signer personally executed *that specific document*, right now, intending to be
 bound** (ESIGN/UETA). Getting it wrong can void the signature and unwind the incorporation at
@@ -95,7 +116,7 @@ never justify recording a signature the signer did not just affirmatively make.
 the signer's last message wasn't an explicit "sign this now"; the consent came from a *previous*
 session or was phrased as "always"/"blanket"; or the signer isn't the person in this chat.
 
-### 5. Submit
+### 6. Submit
 Call `submit_for_formation(formationId)`. Corply's team files with Delaware from there. **You never
 file with the state yourself** — that step is human/admin-gated by design. On submit, every founder is
 automatically emailed their **signed** incorporation documents (PDF attachments).
