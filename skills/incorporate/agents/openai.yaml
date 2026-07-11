@@ -1,0 +1,14 @@
+interface:
+  display_name: "Corply Incorporation"
+  short_description: "Incorporate a Delaware C-Corp from your AI agent."
+  brand_color: "#10A37F"
+  default_prompt: "Use Corply to incorporate my startup."
+policy:
+  allow_implicit_invocation: true
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "corply"
+      description: "Corply incorporation MCP server"
+      transport: "streamable_http"
+      url: "https://corply.dev/mcp"

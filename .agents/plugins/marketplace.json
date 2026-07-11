@@ -1,0 +1,20 @@
+{
+  "name": "corply",
+  "interface": {
+    "displayName": "Corply"
+  },
+  "plugins": [
+    {
+      "name": "corply",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

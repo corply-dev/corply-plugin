@@ -17,18 +17,32 @@ sitting where possible, not a multi-day back-and-forth.
 ### 0. Authentication — do this the moment a Corply tool is unreachable
 If a Corply tool fails because the MCP server is unauthenticated / needs sign-in (e.g. an
 auth error, or the `mcp__…__corply` tools aren't available at all), the founder skipped the
-one-time login. Don't stall or ask them to hunt through menus. Run this in a terminal via Bash:
+one-time login. Don't stall or ask them to hunt through menus. Use the right path for the
+agent surface:
+
+- **Claude Code plugin:** run this in a terminal via Bash:
 
 ```bash
 claude mcp login plugin:corply:corply
 ```
 
-Tell them: **"Your browser is opening — sign in with Google to link Claude Code to Corply."**
+  Tell them: **"Your browser is opening — sign in with Google to link Claude Code to Corply."**
+  On older Claude Code (before `claude mcp login` existed, < 2.1.186), fall back to telling them
+  to run `/mcp`, pick **corply**, and complete the browser sign-in there.
+
+- **Codex app or ChatGPT Work plugin:** tell them to open **Plugins**, choose **Corply**, and use
+  **Connect** or **Reconnect**. Then start a new task and ask to incorporate again.
+
+- **Codex CLI direct MCP setup:** if they added Corply with
+  `codex mcp add corply --url https://corply.dev/mcp`, run:
+
+```bash
+codex mcp login corply
+```
+
 After they finish the browser sign-in, retry the tool. If the retry still reports no
-authentication, the running session hasn't picked up the new token yet — tell them to restart
-Claude Code (quit and re-open, or start a fresh `claude` session), then run `/incorporate`
-again. On older Claude Code (before `claude mcp login` existed, < 2.1.186), fall back to
-telling them to run `/mcp`, pick **corply**, and complete the browser sign-in there.
+authentication, the running session hasn't picked up the new token yet — tell them to start a
+fresh agent session and run the incorporation request again.
 
 **Links:** ALWAYS present URLs as markdown hyperlinks `[label](url)` — never paste a raw URL into
 chat. This applies to every link you surface: checkout links, review links, the web dashboard, and

@@ -1,0 +1,33 @@
+{
+  "name": "corply",
+  "version": "0.2.1",
+  "description": "Incorporate a Delaware C-Corp from your AI agent: intake, document generation, cofounder e-signature, and human-reviewed filing handoff.",
+  "author": {
+    "name": "Corply",
+    "email": "founders@corply.dev",
+    "url": "https://corply.dev"
+  },
+  "homepage": "https://corply.dev",
+  "repository": "https://github.com/corply-dev/corply-plugin",
+  "license": "MIT",
+  "keywords": ["incorporation", "startup", "delaware", "c-corp", "legal"],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Corply",
+    "shortDescription": "Incorporate a Delaware C-Corp from your AI agent.",
+    "longDescription": "Corply guides founders from incorporation intake to generated formation documents, cofounder e-signature, and human-reviewed Delaware filing handoff. Corply is not a law firm.",
+    "developerName": "Corply",
+    "category": "Productivity",
+    "capabilities": ["Interactive", "Write"],
+    "websiteURL": "https://corply.dev",
+    "privacyPolicyURL": "https://corply.dev/privacy",
+    "termsOfServiceURL": "https://corply.dev/terms",
+    "defaultPrompt": [
+      "Use Corply to incorporate my startup.",
+      "Use Corply to check my incorporation status.",
+      "Use Corply to send cofounder signature links."
+    ],
+    "brandColor": "#10A37F"
+  }
+}
