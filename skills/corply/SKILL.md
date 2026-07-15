@@ -35,6 +35,8 @@ different things. Never convert one into another merely to make the plan look co
 
 ## References
 
+- Read [company-naming.md](references/company-naming.md) only when choosing, evaluating, or
+  suggesting a company name, checking name or domain availability, or discussing reservation.
 - Read [formation.md](references/formation.md) for a new or resumed incorporation, cofounder join,
   formation payment, document review, signature, filing handoff, or post-formation checkpoint.
 - Read [existing-company.md](references/existing-company.md) for an existing company's priorities,
