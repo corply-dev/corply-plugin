@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const PUBLIC_URL = "https://corply.dev/mcp";
 const LIVE_URL = process.env.CORPLY_MCP_URL || PUBLIC_URL;
-const EXPECTED_VERSION = "0.4.1";
+const EXPECTED_VERSION = "0.4.2";
 const errors = [];
 
 const REQUIRED_PUBLIC_TOOLS = [
@@ -16,6 +16,7 @@ const REQUIRED_PUBLIC_TOOLS = [
   "save_application",
   "validate_application",
   "check_company_names",
+  "invite_member",
   "generate_documents",
   "request_payment",
   "request_signature",
@@ -84,6 +85,10 @@ const claude = readJson(".claude-plugin/plugin.json");
 const claudeMarketplace = readJson(".claude-plugin/marketplace.json");
 const cursor = readJson(".cursor-plugin/plugin.json");
 const server = readJson("server.json");
+const skill = readText("skills/corply/SKILL.md").replace(/\s+/g, " ");
+const formation = readText("skills/corply/references/formation.md");
+const normalizedFormation = formation.replace(/\s+/g, " ");
+const authentication = readText("skills/corply/references/authentication.md");
 
 checkEqual(".mcp.json corply type", mcp.mcpServers?.corply?.type, "http");
 checkEqual(".mcp.json corply URL", mcp.mcpServers?.corply?.url, PUBLIC_URL);
@@ -104,6 +109,19 @@ checkEqual("MCP Registry version", server.version, EXPECTED_VERSION);
 const remoteUrls = Array.isArray(server.remotes) ? server.remotes.map((remote) => remote.url) : [];
 checkEqual("MCP Registry remote count", remoteUrls.length, 1);
 checkEqual("MCP Registry remote URL", remoteUrls[0], PUBLIC_URL);
+
+if (!skill.includes("Before we start: Corply is software, not a law firm, and does not provide legal, tax, or accounting advice.")) {
+  errors.push("Corply skill is missing the required pre-intake notice");
+}
+if (!normalizedFormation.includes("call `invite_member` for each of them immediately")) {
+  errors.push("formation guidance is missing early confirmed cofounder invitations");
+}
+if (!normalizedFormation.includes("never block document generation") || formation.includes("Continue only after")) {
+  errors.push("formation guidance still treats company-name checking as a document gate");
+}
+if (!authentication.includes("TERMS_ACCEPTANCE_REQUIRED")) {
+  errors.push("authentication guidance is missing current-terms recovery");
+}
 
 const agentYaml = readText("skills/corply/agents/openai.yaml");
 const yamlUrls = agentYaml.match(/https:\/\/[^\s"']+/g) ?? [];

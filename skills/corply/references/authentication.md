@@ -3,6 +3,10 @@
 Use this only when Corply tools are unavailable or report that authentication is missing. Never ask
 for an access token, cookie, credential, or private backend URL.
 
+If Corply reports `TERMS_ACCEPTANCE_REQUIRED`, reconnect using the surface-specific flow below,
+accept the current Corply Terms of Use in the browser, then retry the blocked read once. Do not try
+to bypass or record terms acceptance through ordinary company tools.
+
 ## Claude Code plugin
 
 Run:

@@ -14,8 +14,9 @@ never create a duplicate application or replay a completed stage because the con
 3. **Name check.** Read [company-naming.md](company-naming.md) when the founder needs help choosing
    or replacing a name. Call `check_company_names` with the exact saved legal name and up to five
    agent-created alternatives in the same call. Use its `true`, `false`, and `null` results directly.
-   A `false` selected name must be replaced and saved before checking again; retry a `null` result.
-   Continue only after the currently saved selected name returns `true`.
+   Treat the result as advisory: explain a `false` conflict or `null` provider failure, but never
+   block document generation or repeatedly retry because of it. Corply operations performs the
+   controlling Delaware check immediately before filing.
 4. **Immutable packet.** Summarize the frozen inputs and obtain fresh confirmation under
    [action-protocol.md](action-protocol.md). Generate only through the current canonical action,
    then summarize the packet Corply actually returned. Do not invent documents or review links.
@@ -26,9 +27,12 @@ never create a duplicate application or replay a completed stage because the con
    signer-specific review link. Apply the signature boundary in
    [action-protocol.md](action-protocol.md). Each named signer signs only the documents currently
    assigned to them.
-7. **Cofounders.** Invite, message, nudge, redeem an invitation, or switch organization only with the
-   affected founder's explicit request or confirmation. Multi-party signing may remain pending
-   while other founders work asynchronously.
+7. **Cofounders.** Once cofounder emails are saved, use the briefing's invitation status to identify
+   anyone who has not been invited. Ask once to invite the named emails, then on confirmation call
+   `invite_member` for each of them immediately; do not wait for name checking, documents, payment,
+   or signatures. Report delivery failures and returned manual invite links. Later signing requests
+   must not create a second membership invitation. Multi-party signing may remain pending while
+   other founders work asynchronously.
 8. **Filing handoff.** When every required signature is canonically complete, summarize the exact
    submission and confirm before sending it. Submission hands the packet to the returned filing or
    human-review path; it does not prove Delaware accepted the filing.

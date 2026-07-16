@@ -6,7 +6,7 @@
     {
       "name": "corply",
       "description": "Form and run a U.S. startup through natural conversation grounded in canonical company state.",
-      "version": "0.4.1",
+      "version": "0.4.2",
       "source": "./",
       "author": { "name": "Corply", "email": "founders@corply.dev" }
     }

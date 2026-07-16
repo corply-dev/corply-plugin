@@ -36,8 +36,9 @@ Once the founder has selected a complete legal name:
   alternatives in recommendation order.
 - Preserve the returned order and use every returned value directly: `true` means the name passed,
   `false` means it is unavailable, and `null` means that individual check failed and can be retried.
-- Return every checked name and its result. If the selected name is `false`, help the founder choose
-  and save another returned name, then check that exact saved name before generating documents.
+- Return every checked name and its result. If the selected name is `false`, recommend choosing and
+  saving another name. If it is `null`, explain the provider failure. Neither result blocks document
+  generation after the founder confirms that immutable action, and do not loop on retries.
 - Do not send the founder through a separate manual pre-document name check. Corply operations makes
   the final Delaware portal decision immediately before filing.
 - Keep entity-name availability separate from trademark clearance, domain availability, and naming
