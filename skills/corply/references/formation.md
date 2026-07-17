@@ -50,6 +50,22 @@ never create a duplicate application or replay a completed stage because the con
     request. Never collapse acceptance, document generation, signature delivery, stock issuance, or
     83(b) filing into one implied transition.
 
+## Joining as an invited cofounder
+
+When `whoami` or the refreshed briefing shows a pending invitation for the current user, offer it
+by organization name and role and ask whether they want to join. Call `redeem_invite` only after an
+explicit yes in this session; never auto-join. If the user already has a company of their own, say
+first that joining switches their active organization. After joining, refresh `get_company_briefing`
+and surface only that user's own pending work — typically reviewing and signing their assigned
+documents, under the same signature boundary in [action-protocol.md](action-protocol.md).
+
+## Signing progress and nudges
+
+When the lead asks how signing is going, report each signer's canonical status from the briefing or
+`get_status` in plain language. A reminder is an external send under
+[action-protocol.md](action-protocol.md): call `nudge_signer` only when the lead explicitly asks to
+remind a named cofounder, never unprompted.
+
 If answers change after the packet is frozen, explain what will be superseded. Treat regeneration
 as a new immutable-document action and reconfirm; every affected signer must review the current
 version.
