@@ -1,6 +1,6 @@
 {
   "name": "corply",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "A state-first operating partner for forming, running, and preparing a U.S. startup's revenue launch through Corply.",
   "author": {
     "name": "Corply",
@@ -28,7 +28,7 @@
   "interface": {
     "displayName": "Corply",
     "shortDescription": "Form, operate, and prepare your startup's revenue launch.",
-    "longDescription": "Talk normally with Corply to form a Delaware C corporation, run an existing U.S. startup, or prepare its customer-payment launch. Corply starts from canonical company state, completes available actions, and can configure a payment project and catalog, create an integration bundle, and verify the integration while preserving human control over partner onboarding, terms, payout banking, go-live, refunds, and money movement. Corply is not a law firm.",
+    "longDescription": "Talk normally with Corply to form a Delaware C corporation, run an existing U.S. startup, or build and inspect its customer-payment pipeline. Corply starts from canonical company state, controls server-priced orders, merchant routes, payment lifecycle, ledger and reconciliation, and preserves human control over provider onboarding, terms, payout banking, go-live, refunds, and money movement. Corply is not a law firm.",
     "developerName": "Corply",
     "category": "Productivity",
     "capabilities": [
@@ -40,7 +40,7 @@
     "termsOfServiceURL": "https://corply.dev/terms",
     "defaultPrompt": [
       "Incorporate my startup with Corply.",
-      "Prepare my startup's first-payment integration in sandbox.",
+      "Create my startup's Corply payment route in sandbox.",
       "What does my company need next?"
     ],
     "brandColor": "#10A37F",

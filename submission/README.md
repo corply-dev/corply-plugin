@@ -25,7 +25,7 @@ Use this kit for the initial public submission at https://platform.openai.com/pl
 ## Starter prompts
 
 1. Incorporate my startup with Corply.
-2. Prepare my startup's first-payment integration in sandbox.
+2. Create my startup's Corply payment route in sandbox.
 3. What does my company need next?
 
 ## Positive test cases
@@ -60,8 +60,8 @@ Use this kit for the initial public submission at https://platform.openai.com/pl
 
 ### 5. Prepare a customer-payment launch
 
-- **Prompt:** “Prepare my startup's first-payment integration in sandbox.”
-- **Expected behavior:** Call `get_company_briefing`, read the revenue-and-payments workflow, and use `prepare_revenue_launch` before creating anything. Continue through only the canonical available action among `create_payment_project`, `configure_payment_catalog`, `create_payment_integration_bundle`, and `verify_payment_integration`; never use the incorporation-fee tools for customer payments.
+- **Prompt:** “Create my startup's Corply payment route in sandbox.”
+- **Expected behavior:** Call `get_company_briefing`, read the revenue-and-payments workflow, and call `get_payment_pipeline_status`. If no route exists, use `create_payment_route_draft`, refresh status, and report the external provider/bank blockers; never use incorporation-fee tools for customer payments or start the legacy Paddle planner for a new Corply-controlled portal.
 - **Expected result:** A concise readiness result and the single next fact or action. Draft software work may proceed without ceremony, but the agent must stop at partner KYB/KYC submission, terms acceptance, payout-bank attachment or change, production go-live, refund, payout, or other money movement and require the applicable human flow and fresh confirmation.
 - **Fixture:** Authenticated reviewer account for an existing company with no payment project and deterministic test-mode provider fixtures. The five Corply Pay tools must be deployed before this test is submitted for review.
 

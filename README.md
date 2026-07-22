@@ -6,8 +6,8 @@ business reason, completes the available action, and refreshes the state before 
 
 Corply supports Delaware C-corporation formation and ongoing work across governance, equity,
 deadlines, good standing, hiring, banking, financing, evidence for work completed elsewhere, and a
-Corply Pay workflow for preparing, configuring, generating, and verifying a customer-payment
-integration. Corply is not a law firm and does not provide legal, tax, accounting, or immigration
+Corply Pay workflow for server-priced orders, merchant routing, payment lifecycle, ledgering, and
+reconciliation. Corply is not a law firm and does not provide legal, tax, accounting, or immigration
 advice.
 
 ## Install
@@ -45,7 +45,7 @@ existing-company work, and customer-payment launch. For example:
 - “Incorporate my startup.”
 - “Where is our formation blocked?”
 - “What does my company need next?”
-- “Prepare my startup's first-payment integration in sandbox.”
+- “Create my startup's Corply payment route in sandbox.”
 - “Set up our products and prices, then generate the payment integration.”
 - “Verify whether our payment integration is ready for launch.”
 - “We already completed this filing elsewhere—record the evidence.”
@@ -86,24 +86,22 @@ and verified company state remain distinct so diligence records are useful rathe
 
 ## Corply Pay
 
-Corply Pay's founder workflow starts by resolving revenue readiness, then creates a payment project,
-configures the products and prices, creates an integration bundle for the startup's software, and
-verifies the installed integration. The company briefing is canonical for company identity and
-facts; payment-project work resumes from the repository's exact `.corply/payments.json` manifest.
-The current payment tools do not persist a hosted payment project.
+Corply Pay starts from canonical company and payment-pipeline state. It creates an idempotent sandbox
+merchant-route draft, then controls integrity-verified server pricing, order-to-payment identity,
+authorization through payout state, immutable double-entry journal entries, provider recovery, and
+reconciliation. The first licensed card and bank transport is Moov; Corply remains the catalog,
+routing, ledger, and agent control plane.
 
-These Corply-side tools make no payment-provider calls and never accept secrets, bank details, or raw
-payment data. The workflow does not blur software readiness with financial approval. An authorized
-human still completes payment-partner KYB/KYC, accepts partner terms, connects or changes the payout
-bank, and confirms production go-live. Refunds, payouts, and other money movement always require a
-fresh, transaction-specific confirmation. Corply never fabricates approval or treats a passing
-software test as permission to process live money.
+The route-draft and status tools make no provider call, accept no secrets or bank/card data, and move
+no money. An authorized human still completes provider KYB/KYC, accepts terms, connects or changes
+the payout bank, and confirms production go-live. Agent-directed refunds, payouts, and other money
+movement require fresh transaction-specific confirmation. A simulator or passing test is never
+reported as real settlement.
 
-The current SDK is an unpublished local alpha. The generated integration is sandbox-only and
-fail-closed until the agent implements the host application's atomic identity/receipt/projection
-stores, recovery-before-create provider transaction gateway, and official Paddle verification boundary. It reconciles signed subscription price, currency,
-cadence, trial, and billing window against the approved catalog before granting access; it does not
-claim that a startup can accept live payments merely because code generation or tests passed.
+The current SDK is an unpublished local alpha. In-memory stores and mocked HTTP are test fixtures;
+durable backend state, provider approval and capabilities, hosted payment-method collection, signed
+webhook evidence, payout-bank verification, and an explicit production action are required before
+live money can move. The older Paddle manifest workflow remains migration-only for existing projects.
 
 ## This repository
 

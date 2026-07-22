@@ -1,120 +1,90 @@
 # Revenue and payments
 
-Use this workflow when a founder wants to accept customer payments, launch checkout, configure what
-they sell, generate an integration, or verify that their product is ready to collect revenue. This
-is separate from Corply's own incorporation fee: never use `request_payment` or `await_payment` to
-collect the founder's customer payments.
+Use this workflow when a founder wants Corply to accept customer payments, launch a payment portal,
+configure products or prices, inspect settlement or payouts, or prepare revenue infrastructure.
+Customer payments are separate from Corply's incorporation fee: never use `request_payment` or
+`await_payment` for a founder's customers.
 
-Start with `get_company_briefing`. Use only Corply Pay actions that the refreshed briefing or tool
-discovery actually exposes; the server's returned prerequisites, fields, and next action are
-canonical. Do not invent provider eligibility, approval, pricing, settlement timing, supported
-countries, tax treatment, or tool payloads.
+Start with `get_company_briefing`, then call `get_payment_pipeline_status`. The hosted backend is
+canonical for route, payment, journal, reconciliation, and blocker state. Do not restart from chat
+memory or infer that code, a provider dashboard, or a passing test means money moved.
 
-These five tools are deterministic Corply-side planning, configuration, artifact-generation, and
-technical-verification actions. They make zero payment-provider calls, accept no secrets, credentials,
-bank details, or raw payment data, and cannot approve an account, accept partner terms, attach a
-payout bank, enable production, refund, pay out, or otherwise move money. Never ask the founder to
-paste a provider API key, password, bank number, card number, or identity credential into chat or a
-tool argument.
+Corply owns the server-priced order, merchant route, authorization-to-payout state, immutable
+double-entry journal, recovery, reconciliation, and plugin control plane. The first licensed
+transport is Moov; it is an external card/bank rail, not Corply's catalog, ledger, checkout authority,
+or source of business truth. Never describe Corply as an independently approved processor, payment
+facilitator, merchant of record, bank, or money transmitter unless current evidence says so.
 
-## Revenue-launch sequence
+## Corply payment-pipeline sequence
 
-Before the first Corply Pay call, inspect the repository yourself: framework, package manager, app
-root, source root, and existing test/build commands are agent-owned technical facts. Never ask the
-founder for them. Generate stable project/product/price/environment/entitlement keys from the
-repository and founder-approved commercial labels; never ask the founder to invent implementation
-identifiers.
+1. **Inspect.** Call `get_payment_pipeline_status` for the exact company. Report whether a sandbox or
+   production route is active, recent lifecycle totals, reconciliation state, and returned blockers.
+   This read makes zero provider calls and moves no money.
+2. **Create the route draft.** If no route exists and the founder wants Corply's pipeline, call
+   `create_payment_route_draft` with a stable agent-generated `routeKey`, `currencies: ["USD"]`, and
+   a stable idempotency key. This is a reversible local backend save only. It cannot accept or store
+   provider credentials, provider IDs, identity documents, bank/card data, terms acceptance, or a
+   production setting; it does not create or activate an external account.
+3. **Refresh.** Call `get_payment_pipeline_status` again. Trust its blockers. Do not create a second
+   route merely because the conversation is new.
+4. **Build and verify the host integration.** The coding agent owns repository inspection and uses
+   the local `@corply/payments` package. The server must create an integrity-verified catalog and
+   checkout order, accept only an opaque hosted payment-method token from the browser, resolve the
+   exact server-owned route, and derive amount, currency, tenant, merchant, reserve, and payout
+   destination without browser authority. Use durable implementations of payment state and ledger
+   contracts; in-memory stores are test fixtures only.
+5. **Exercise sandbox transport.** After the founder authenticates the company's provider account
+   and gives fresh confirmation for provider onboarding, connect the Moov sandbox account, merchant
+   wallet, hosted payment method, and exact payout destination through the secret manager and secure
+   provider UI. Run authorization, ambiguous-response recovery, capture observation, settlement,
+   reserve, payout, refund, dispute, and reconciliation tests. HTTP 202, timeouts, and delayed events
+   stay ambiguous until provider recovery proves the result. Do not claim a charge or payout from a
+   simulator or mocked HTTP test.
+6. **Go live only through a later canonical action.** The current route-draft action cannot submit
+   KYB/KYC, accept terms, attach a bank, activate a route, deploy, or enable live charging. If no
+   canonical action exists for the next external step, return the exact blocker instead of operating
+   the provider manually or pretending completion.
 
-1. **Prepare.** Call `prepare_revenue_launch` with that inspected repository profile to resolve the company's current readiness, missing
-   facts, partner requirements, and safest next action. Ask only for a returned fact that changes the
-   path. Unknown beneficial-owner, control-person, business, tax, or bank information stays unknown.
-2. **Create the project.** Use `create_payment_project` only when the canonical action makes it
-   available. The tool creates no hosted state: its integrity-hashed repository manifest is the reviewable
-   technical configuration snapshot, not an authority record. Inspect the returned destination: identical content is a no-op; a reviewed older
-   manifest for the same project is replaced wholesale with the newly returned manifest; an unrelated
-   project/file is a stop. Never merge integrity-hashed JSON field by field. This is not partner onboarding, approval, terms
-   acceptance, bank attachment, or authorization to go live.
-3. **Configure the catalog.** Use `configure_payment_catalog` for the exact products, prices,
-   currencies, billing behavior, and customer-facing access the founder supplies or confirms. The
-   agent derives `productKey`, `priceKey`, `entitlementKeys`, and `providerReferenceEnv`, and maps the
-   already-approved `saas` model to the same catalog category. Digital goods and one-time, mixed, or
-   usage billing remain blocked until their fulfillment/entitlement paths exist. Do not ask the
-   founder for technical identifiers or a tax code. Treat saved catalog work as a reversible draft
-   until canonical state says otherwise. Persist the newly returned integrity-hashed
-   manifest at the same repository path after checking for drift. The hash is not a signature,
-   provider approval, or evidence that a human gate was completed. Any future live automation must
-   require a separately stored, server-authenticated approval bound to the exact manifest hash. Do
-   not infer tax codes, refund policy, or regulated-product eligibility.
-4. **Create the integration bundle.** Use `create_payment_integration_bundle` for the current project
-   and catalog. The tool itself writes nothing; the coding agent should inspect the founder's
-   repository, apply every safe create-only file, deliberately merge collisions, and follow the
-   returned SDK availability exactly. If the package is marked unpublished, build/pack-test it only
-   when its local source is present; otherwise report the publication blocker. Never fabricate or
-   execute a registry install command that the tool returned as unavailable. Preserve the
-   agent-inspected Next.js `basePath` in the browser checkout endpoint, checkout page, and externally
-   registered webhook URL; never assume the app is mounted at the origin root. Then
-   follow the returned structured provider-setup handoff. After the founder authenticates the
-   company's Paddle sandbox, the agent should create/bind the exact sandbox product and prices,
-   least-privilege API/client credentials through the secret manager, approved checkout URL, and
-   signed webhook destination. For every Paddle price, explicitly set `quantity.minimum: 1` and
-   `quantity.maximum: 1`; never accept Paddle's wider default. Map the manifest trial exactly: when
-   `trialDays > 0`, set `trial_period` to `{ interval: "day", frequency: trialDays,
-   requires_payment_method: true, unit_price: null }`; when `trialDays === 0`, set
-   `trial_period: null`. Do not claim `sandbox_checkout` or `webhook_signature` before that evidence
-   exists. Then connect the generated fail-closed seams to existing auth and storage, and run the required checks.
-   The checkout endpoint must accept only an allowlisted local price key. A durable authenticated
-   host seam—not browser input—must issue a bounded stable order/cart attempt, enforce one active
-   attempt and abuse limits, and authorize any restart explicitly. The storage implementation must
-   atomically create/reuse an opaque checkout intent with one
-   short-lived permission to create a provider transaction; consume that permission at most once;
-   make every retry recovery-only after it is consumed; keep the exact attached transaction
-   recoverable and bindable after the provisioning deadline so a slow response or later payment is not stranded;
-   bound provider recovery to the original provisioning window plus small clock skew; accept only
-   API-origin transactions; reconcile provider-returned price ID, quantity, unit amount, currency,
-   cadence, interval count, and trial before checkout opens; bind it once using provider-signed
-   occurrence time to the exact tenant, provider account, environment, transaction, customer,
-   subscription, and commercial terms; enforce global subscription
-   uniqueness before tenant/customer assertions; receipt ignored verified events; and combine lifecycle-event receipt with projection CAS.
-   Subscription access must require current request time, explicit billing-period bounds, and exact
-   amount/currency/cadence/trial reconciliation against the local catalog. Direct provider
-   entitlement snapshots never grant access.
-   Do all ordinary code/test repair autonomously. Pause only for a returned commercial fact, secret
-   entry through the founder's secret manager, provider-controlled verification, a consequential
-   migration/deployment, or another explicit human boundary. Never expose secrets or claim the bundle
-   was installed, deployed, or connected unless repository and test evidence proves that exact outcome.
-5. **Verify and repair.** After the bundle is actually integrated, run every returned check and call
-   `verify_payment_integration` with truthful pass, failure, or `not_run` status—even when the first
-   run is not green. Every passed/failed result includes the exact command and a SHA-256 reference to
-   captured local evidence. The tool checks caller-reported completeness; it does not independently
-   run or attest the commands. Use its canonical failed/missing lists and next action to repair
-   ordinary code autonomously, rerun, and verify again until the evidence set is complete or the work
-   is genuinely human-blocked. A passing software check is not partner KYB/KYC approval, bank verification, production
-   enablement, successful settlement, or a compliance guarantee.
-6. **Refresh.** After every mutation, human handoff, partner result, or verification run, refresh
-   `get_company_briefing` for canonical company identity and facts. Resume payment-project state from
-   the repository's verify-exact `.corply/payments.json`; these tools do not persist a hosted payment
-   project. Do not recreate a project, catalog, or bundle merely because the conversation is new.
+## Legacy integration planner
 
-## Human and partner boundaries
+`prepare_revenue_launch`, `create_payment_project`, `configure_payment_catalog`,
+`create_payment_integration_bundle`, and `verify_payment_integration` belong to the older
+Paddle-based subscription prototype. Do not start that path for a new Corply-controlled payment
+portal. Use it only when the founder explicitly asks to inspect, maintain, or migrate an existing
+legacy manifest, and state that it is a separate migration path.
 
-- **KYB/KYC.** An authorized human supplies and reviews beneficial-owner, control-person, identity,
-  business, and supporting-document information. Never guess, reuse unrelated company data, upload
-  identity evidence without authority, or describe a pending partner review as approved. Obtain fresh
-  confirmation immediately before any submission to a payment partner.
-- **Terms.** Show the partner, documents or links, and practical effect. The authorized human must
-  personally accept provider terms or attestations in the partner's browser flow; an agent must never
-  accept them, synthesize acceptance, or treat earlier blanket permission as acceptance.
-- **Bank and payouts.** Never ask for credentials or expose full account numbers. The authorized human
-  completes the returned secure bank flow. Obtain fresh confirmation before attaching, replacing, or
-  removing a payout account, changing payout destination or schedule, or initiating a payout.
-- **Go-live.** Test-mode configuration and verification are not permission to enable live payments.
-  Before a provider submission or production enablement, summarize the project, selling entity,
-  catalog, currencies, customer-facing identity, partner status, unresolved warnings, and exact effect;
-  then obtain fresh confirmation. Report live only when refreshed canonical state confirms it.
-- **Refunds and money movement.** Before any refund, charge, transfer, or payout, identify the exact
-  transaction, amount, currency, recipient or destination, and effect, then obtain fresh confirmation.
-  These five Corply Pay actions do not themselves authorize a refund or payout; if no canonical action
-  is exposed, return the provider or human path instead of pretending the money moved.
+## Non-negotiable controls
 
-Provider rejection, review, reserve, dispute, payout delay, or account limitation is external state.
-Report it accurately with the returned next step; never promise approval or bypass a partner control.
+- Browser input may choose only allowlisted price keys, quantity within server bounds, and an opaque
+  hosted payment-method token. It never supplies amount, currency, tenant, merchant, fee, reserve,
+  or payout route.
+- Every monetary value is an integer minor-unit amount with an explicit currency.
+- Every journal entry is immutable, exactly replayable, and sums to zero in one currency.
+- Duplicate, delayed, conflicting, and ambiguous provider outcomes recover before retrying; never
+  issue a second charge or payout merely because the first response was lost.
+- A payout cannot exceed settled, available, non-reserved merchant payable. Refunds, disputes,
+  chargebacks, payout returns, and reversals are compensating entries, never edited history.
+- Provider webhooks use exact raw bytes, authenticated signatures, global event identities, and
+  tenant-bound processing before they can change payment or ledger state.
+- Never ask the founder to paste an API key, password, bank number, card number, identity credential,
+  or full provider token into chat or a tool argument.
+
+## Human and provider boundaries
+
+- **KYB/KYC and underwriting.** An authorized human reviews and submits beneficial-owner,
+  control-person, business, and identity material. Obtain fresh confirmation immediately before
+  submission and never describe pending review as approval.
+- **Terms.** Show the provider, documents or links, and practical effect. The authorized human
+  personally accepts provider and commercial terms.
+- **Bank and payouts.** The authorized human uses the secure provider flow. Obtain fresh confirmation
+  before attaching, replacing, or removing a payout account, changing destination or schedule, or
+  initiating an agent-directed payout.
+- **Refunds and money movement.** Before an agent initiates a refund, charge, transfer, or payout,
+  identify the exact transaction, amount, currency, destination, and effect, then obtain fresh
+  confirmation. Normal customer checkout may operate only under a separately approved live policy.
+- **Go-live.** Sandbox configuration and passing tests are not permission to deploy or enable
+  live money. Obtain fresh confirmation bound to the exact route/configuration after all provider,
+  bank, security, reconciliation, refund, dispute, and operational-owner evidence is current.
+
+Provider rejection, reserve, dispute, payout delay, or account limitation is external state. Report
+it accurately with the returned next step; never promise approval or bypass a provider control.

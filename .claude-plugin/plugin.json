@@ -1,7 +1,7 @@
 {
   "name": "corply",
   "description": "A state-first operating partner for forming, running, and preparing a U.S. startup's revenue launch through natural conversation.",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "author": { "name": "Corply", "email": "founders@corply.dev" },
   "homepage": "https://corply.dev",
   "license": "MIT",

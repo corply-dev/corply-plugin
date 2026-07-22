@@ -108,8 +108,8 @@ async function main() {
 
     const embeddedPlugin = JSON.parse(String(archiveFile(stagedFull, "corply/.codex-plugin/plugin.json")));
     const embeddedServer = JSON.parse(String(archiveFile(stagedFull, "corply/server.json")));
-    if (embeddedPlugin.version !== "0.5.0" || embeddedServer.version !== "0.5.0") {
-      throw new Error("Packaged plugin and MCP metadata must both be version 0.5.0.");
+    if (embeddedPlugin.version !== "0.6.0" || embeddedServer.version !== "0.6.0") {
+      throw new Error("Packaged plugin and MCP metadata must both be version 0.6.0.");
     }
 
     await copyFile(stagedSkill, path.join(ROOT, OUTPUTS.skill));

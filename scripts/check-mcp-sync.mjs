@@ -8,8 +8,8 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const PUBLIC_URL = "https://corply.dev/mcp";
 const LIVE_URL = process.env.CORPLY_MCP_URL || PUBLIC_URL;
 const SKIP_LIVE_MCP = /^(1|true)$/i.test(process.env.CORPLY_SKIP_LIVE_MCP || "");
-const EXPECTED_PLUGIN_VERSION = "0.5.0";
-const EXPECTED_MCP_VERSION = "0.5.0";
+const EXPECTED_PLUGIN_VERSION = "0.6.0";
+const EXPECTED_MCP_VERSION = "0.6.0";
 const errors = [];
 
 const REQUIRED_CORE_TOOLS = [
@@ -36,6 +36,8 @@ const REQUIRED_CORE_TOOLS = [
 
 const REQUIRED_CORPLY_PAY_TOOLS = [
   "prepare_revenue_launch",
+  "get_payment_pipeline_status",
+  "create_payment_route_draft",
   "create_payment_project",
   "configure_payment_catalog",
   "create_payment_integration_bundle",
@@ -155,38 +157,37 @@ for (const boundary of [
   }
 }
 if (
-  !normalizedRevenueAndPayments.includes("separate from corply's own incorporation fee") ||
+  !normalizedRevenueAndPayments.includes("customer payments are separate from corply's incorporation fee") ||
   !normalizedRevenueAndPayments.includes("never use `request_payment` or `await_payment`")
 ) {
   errors.push("revenue-and-payments guidance does not separate customer payments from the incorporation fee");
 }
 for (const invariant of [
-  "make zero payment-provider calls",
-  "accept no secrets",
-  "cannot approve an account",
-  "otherwise move money",
+  "makes zero provider calls and moves no money",
+  "cannot accept or store provider credentials",
+  "does not create or activate an external account",
+  "do not claim a charge or payout from a simulator or mocked http test",
 ]) {
   if (!normalizedRevenueAndPayments.includes(invariant)) {
     errors.push(`revenue-and-payments guidance is missing no-side-effect invariant ${invariant}`);
   }
 }
 for (const invariant of [
-  "one short-lived permission to create a provider transaction",
-  "make every retry recovery-only after it is consumed",
-  "recoverable and bindable after the provisioning deadline",
-  "provider-signed occurrence time",
-  "exact amount/currency/cadence/trial reconciliation",
-  "direct provider entitlement snapshots never grant access",
-  "separately stored, server-authenticated approval bound to the exact manifest hash",
+  "integrity-verified catalog and checkout order",
+  "opaque hosted payment-method token",
+  "recover before retrying",
+  "sums to zero in one currency",
+  "provider webhooks use exact raw bytes",
+  "separately approved live policy",
 ]) {
   if (!normalizedRevenueAndPayments.includes(invariant)) {
     errors.push(`revenue-and-payments guidance is missing runtime trust invariant ${invariant}`);
   }
 }
 for (const stateTruth of [
-  ".corply/payments.json",
-  "do not persist a hosted payment project",
-  "structured provider-setup handoff",
+  "get_payment_pipeline_status",
+  "create_payment_route_draft",
+  "in-memory stores are test fixtures only",
 ]) {
   if (!normalizedRevenueAndPayments.includes(stateTruth)) {
     errors.push(`revenue-and-payments guidance is missing payment workflow truth ${stateTruth}`);
@@ -233,7 +234,7 @@ for (const [name, manifest] of [
 }
 const defaultPrompts = codex.interface?.defaultPrompt ?? [];
 if (defaultPrompts.length > 3) errors.push("Codex manifest has more than three default prompts");
-if (!defaultPrompts.some((prompt) => /first[- ]payment/i.test(prompt))) {
+if (!defaultPrompts.some((prompt) => /first[- ]payment|payment route/i.test(prompt))) {
   errors.push("Codex manifest is missing the customer-payment starter prompt");
 }
 
