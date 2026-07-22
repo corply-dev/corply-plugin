@@ -1,8 +1,8 @@
 {
   "name": "corply",
   "displayName": "Corply",
-  "version": "0.4.3",
-  "description": "A state-first corporate operating partner for forming and running a U.S. startup through natural conversation.",
+  "version": "0.5.0",
+  "description": "A state-first operating partner for forming, running, and preparing a U.S. startup's revenue launch through natural conversation.",
   "author": {
     "name": "Corply",
     "email": "founders@corply.dev"
@@ -16,7 +16,10 @@
     "operations",
     "governance",
     "equity",
-    "compliance"
+    "compliance",
+    "payments",
+    "revenue",
+    "checkout"
   ],
   "skills": "./skills/",
   "mcpServers": "./.mcp.json"

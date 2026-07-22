@@ -7,11 +7,12 @@ import { fileURLToPath } from "node:url";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const PUBLIC_URL = "https://corply.dev/mcp";
 const LIVE_URL = process.env.CORPLY_MCP_URL || PUBLIC_URL;
-const EXPECTED_PLUGIN_VERSION = "0.4.3";
-const EXPECTED_MCP_VERSION = "0.4.2";
+const SKIP_LIVE_MCP = /^(1|true)$/i.test(process.env.CORPLY_SKIP_LIVE_MCP || "");
+const EXPECTED_PLUGIN_VERSION = "0.5.0";
+const EXPECTED_MCP_VERSION = "0.5.0";
 const errors = [];
 
-const REQUIRED_PUBLIC_TOOLS = [
+const REQUIRED_CORE_TOOLS = [
   "get_company_briefing",
   "adopt_existing_company",
   "save_application",
@@ -20,6 +21,7 @@ const REQUIRED_PUBLIC_TOOLS = [
   "invite_member",
   "generate_documents",
   "request_payment",
+  "await_payment",
   "request_signature",
   "record_signature",
   "submit_for_formation",
@@ -31,6 +33,16 @@ const REQUIRED_PUBLIC_TOOLS = [
   "get_cap_table",
   "import_cap_table",
 ];
+
+const REQUIRED_CORPLY_PAY_TOOLS = [
+  "prepare_revenue_launch",
+  "create_payment_project",
+  "configure_payment_catalog",
+  "create_payment_integration_bundle",
+  "verify_payment_integration",
+];
+
+const REQUIRED_PUBLIC_TOOLS = [...REQUIRED_CORE_TOOLS, ...REQUIRED_CORPLY_PAY_TOOLS];
 
 const PRIVATE_REVIEWER_TOOLS = [
   "list_operating_fact_evidence_claims",
@@ -89,6 +101,8 @@ const server = readJson("server.json");
 const skill = readText("skills/corply/SKILL.md").replace(/\s+/g, " ");
 const formation = readText("skills/corply/references/formation.md");
 const normalizedFormation = formation.replace(/\s+/g, " ");
+const revenueAndPayments = readText("skills/corply/references/revenue-and-payments.md");
+const normalizedRevenueAndPayments = revenueAndPayments.toLowerCase().replace(/\s+/g, " ");
 const authentication = readText("skills/corply/references/authentication.md");
 const normalizedAuthentication = authentication.toLowerCase().replace(/\s+/g, " ");
 
@@ -121,6 +135,63 @@ if (!normalizedFormation.includes("call `invite_member` for each of them immedia
 if (!normalizedFormation.includes("never block document generation") || formation.includes("Continue only after")) {
   errors.push("formation guidance still treats company-name checking as a document gate");
 }
+if (!skill.includes("[revenue-and-payments.md](references/revenue-and-payments.md)")) {
+  errors.push("Corply skill does not route customer-payment work to revenue-and-payments.md");
+}
+for (const name of REQUIRED_CORPLY_PAY_TOOLS) {
+  if (!revenueAndPayments.includes(`\`${name}\``)) {
+    errors.push(`revenue-and-payments guidance is missing coordinated tool ${name}`);
+  }
+}
+for (const boundary of [
+  "kyb/kyc",
+  "terms",
+  "bank and payouts",
+  "go-live",
+  "refunds and money movement",
+]) {
+  if (!normalizedRevenueAndPayments.includes(boundary)) {
+    errors.push(`revenue-and-payments guidance is missing human boundary ${boundary}`);
+  }
+}
+if (
+  !normalizedRevenueAndPayments.includes("separate from corply's own incorporation fee") ||
+  !normalizedRevenueAndPayments.includes("never use `request_payment` or `await_payment`")
+) {
+  errors.push("revenue-and-payments guidance does not separate customer payments from the incorporation fee");
+}
+for (const invariant of [
+  "make zero payment-provider calls",
+  "accept no secrets",
+  "cannot approve an account",
+  "otherwise move money",
+]) {
+  if (!normalizedRevenueAndPayments.includes(invariant)) {
+    errors.push(`revenue-and-payments guidance is missing no-side-effect invariant ${invariant}`);
+  }
+}
+for (const invariant of [
+  "one short-lived permission to create a provider transaction",
+  "make every retry recovery-only after it is consumed",
+  "recoverable and bindable after the provisioning deadline",
+  "provider-signed occurrence time",
+  "exact amount/currency/cadence/trial reconciliation",
+  "direct provider entitlement snapshots never grant access",
+  "separately stored, server-authenticated approval bound to the exact manifest hash",
+]) {
+  if (!normalizedRevenueAndPayments.includes(invariant)) {
+    errors.push(`revenue-and-payments guidance is missing runtime trust invariant ${invariant}`);
+  }
+}
+for (const stateTruth of [
+  ".corply/payments.json",
+  "do not persist a hosted payment project",
+  "structured provider-setup handoff",
+]) {
+  if (!normalizedRevenueAndPayments.includes(stateTruth)) {
+    errors.push(`revenue-and-payments guidance is missing payment workflow truth ${stateTruth}`);
+  }
+}
 if (!authentication.includes("TERMS_ACCEPTANCE_REQUIRED")) {
   errors.push("authentication guidance is missing current-terms recovery");
 }
@@ -137,41 +208,79 @@ const agentYaml = readText("skills/corply/agents/openai.yaml");
 const yamlUrls = agentYaml.match(/https:\/\/[^\s"']+/g) ?? [];
 checkEqual("Corply skill dependency URL count", yamlUrls.length, 1);
 checkEqual("Corply skill dependency URL", yamlUrls[0], PUBLIC_URL);
+for (const requiredYamlLine of [
+  'display_name: "Corply"',
+  'short_description: "Incorporate, run, and prepare a revenue launch with Corply."',
+  "allow_implicit_invocation: true",
+  '- type: "mcp"',
+  'value: "corply"',
+  'transport: "streamable_http"',
+]) {
+  if (!agentYaml.includes(requiredYamlLine)) {
+    errors.push(`Corply skill agent metadata is missing ${requiredYamlLine}`);
+  }
+}
 
-try {
-  const initialized = await rpc("initialize", {
-    protocolVersion: "2024-11-05",
-    capabilities: {},
-    clientInfo: { name: "corply-plugin-sync-check", version: EXPECTED_PLUGIN_VERSION },
-  });
-  checkEqual("live MCP version", initialized?.serverInfo?.version, EXPECTED_MCP_VERSION);
-  const [{ tools = [] }, { prompts = [] }] = await Promise.all([
-    rpc("tools/list"),
-    rpc("prompts/list"),
-  ]);
-  const toolNames = new Set(tools.map((tool) => tool.name));
-  for (const name of REQUIRED_PUBLIC_TOOLS) {
-    if (!toolNames.has(name)) errors.push(`live MCP is missing required public tool ${name}`);
+for (const [name, manifest] of [
+  ["Codex manifest", codex],
+  ["Claude manifest", claude],
+  ["Cursor manifest", cursor],
+]) {
+  const keywords = new Set(manifest.keywords ?? []);
+  for (const keyword of ["payments", "revenue", "checkout"]) {
+    if (!keywords.has(keyword)) errors.push(`${name} is missing discovery keyword ${keyword}`);
   }
-  for (const name of PRIVATE_REVIEWER_TOOLS) {
-    if (toolNames.has(name)) errors.push(`live MCP exposes private reviewer tool ${name}`);
-  }
-  for (const tool of tools) {
-    const description = String(tool.description ?? "").toLowerCase();
-    for (const label of ["prerequisite:", "canonicality:", "idempotency:", "confirmation boundary:"]) {
-      if (!description.includes(label)) errors.push(`live tool ${tool.name} is missing ${label}`);
+}
+const defaultPrompts = codex.interface?.defaultPrompt ?? [];
+if (defaultPrompts.length > 3) errors.push("Codex manifest has more than three default prompts");
+if (!defaultPrompts.some((prompt) => /first[- ]payment/i.test(prompt))) {
+  errors.push("Codex manifest is missing the customer-payment starter prompt");
+}
+
+if (!SKIP_LIVE_MCP) {
+  try {
+    const initialized = await rpc("initialize", {
+      protocolVersion: "2024-11-05",
+      capabilities: {},
+      clientInfo: { name: "corply-plugin-sync-check", version: EXPECTED_PLUGIN_VERSION },
+    });
+    checkEqual("live MCP version", initialized?.serverInfo?.version, EXPECTED_MCP_VERSION);
+    const [{ tools = [] }, { prompts = [] }] = await Promise.all([
+      rpc("tools/list"),
+      rpc("prompts/list"),
+    ]);
+    const toolNames = new Set(tools.map((tool) => tool.name));
+    for (const name of REQUIRED_PUBLIC_TOOLS) {
+      if (!toolNames.has(name)) errors.push(`live MCP is missing required public tool ${name}`);
     }
+    for (const name of PRIVATE_REVIEWER_TOOLS) {
+      if (toolNames.has(name)) errors.push(`live MCP exposes private reviewer tool ${name}`);
+    }
+    for (const tool of tools) {
+      const description = String(tool.description ?? "").toLowerCase();
+      for (const label of ["prerequisite:", "canonicality:", "idempotency:", "confirmation boundary:"]) {
+        if (!description.includes(label)) errors.push(`live tool ${tool.name} is missing ${label}`);
+      }
+    }
+    checkEqual("live bootstrap prompt count", prompts.length, 1);
+    checkEqual("live bootstrap prompt", prompts[0]?.name, "corply");
+  } catch (error) {
+    errors.push(`could not inspect live MCP at ${LIVE_URL}: ${error.message}`);
   }
-  checkEqual("live bootstrap prompt count", prompts.length, 1);
-  checkEqual("live bootstrap prompt", prompts[0]?.name, "corply");
-} catch (error) {
-  errors.push(`could not inspect live MCP at ${LIVE_URL}: ${error.message}`);
 }
 
 if (errors.length > 0) {
-  console.error("Corply plugin and deployed MCP are out of sync:\n");
+  console.error(
+    SKIP_LIVE_MCP
+      ? "Corply plugin local contract checks failed:\n"
+      : "Corply plugin and deployed MCP are out of sync:\n",
+  );
   for (const error of errors) console.error(`- ${error}`);
   process.exitCode = 1;
+} else if (SKIP_LIVE_MCP) {
+  console.log(
+    `Corply plugin ${EXPECTED_PLUGIN_VERSION} passes local contract checks; live MCP check intentionally skipped.`,
+  );
 } else {
   console.log(
     `Corply plugin ${EXPECTED_PLUGIN_VERSION} matches MCP ${EXPECTED_MCP_VERSION} at ${LIVE_URL}.`,
