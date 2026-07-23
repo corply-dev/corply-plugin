@@ -93,10 +93,17 @@ reconciliation. The first licensed card and bank transport is Moov; Corply remai
 routing, ledger, and agent control plane.
 
 The route-draft and status tools make no provider call, accept no secrets or bank/card data, and move
-no money. An authorized human still completes provider KYB/KYC, accepts terms, connects or changes
-the payout bank, and confirms production go-live. Agent-directed refunds, payouts, and other money
-movement require fresh transaction-specific confirmation. A simulator or passing test is never
-reported as real settlement.
+no money. After fresh confirmation, onboarding creates a secure sandbox provider invitation; the
+authorized human completes KYB/KYC, terms, and payout-bank setup there. Corply then reads the exact
+capability, wallet, and bank evidence and activates only a fully ready sandbox route. Production
+go-live and agent-directed refunds, payouts, and other money movement require fresh, specific
+confirmation. A simulator or passing test is never reported as real settlement.
+
+After activation, Corply establishes a provider-wallet reconciliation baseline and can run one
+freshly confirmed USD 1.00 sandbox probe from a server-configured card source. The recovery worker
+advances it through capture and clearing, then posts settlement only when the completed transfer,
+merchant-wallet credit, provider fee, and evidence hash agree; it reconciles the wallet again after
+settlement. Moving wallet proceeds to the verified bank remains a separate confirmed action.
 
 The current SDK is an unpublished local alpha. In-memory stores and mocked HTTP are test fixtures;
 durable backend state, provider approval and capabilities, hosted payment-method collection, signed

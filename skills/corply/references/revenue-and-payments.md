@@ -25,23 +25,44 @@ facilitator, merchant of record, bank, or money transmitter unless current evide
    a stable idempotency key. This is a reversible local backend save only. It cannot accept or store
    provider credentials, provider IDs, identity documents, bank/card data, terms acceptance, or a
    production setting; it does not create or activate an external account.
-3. **Refresh.** Call `get_payment_pipeline_status` again. Trust its blockers. Do not create a second
-   route merely because the conversation is new.
-4. **Build and verify the host integration.** The coding agent owns repository inspection and uses
-   the local `@corply/payments` package. The server must create an integrity-verified catalog and
-   checkout order, accept only an opaque hosted payment-method token from the browser, resolve the
-   exact server-owned route, and derive amount, currency, tenant, merchant, reserve, and payout
-   destination without browser authority. Use durable implementations of payment state and ledger
-   contracts; in-memory stores are test fixtures only.
-5. **Exercise sandbox transport.** After the founder authenticates the company's provider account
-   and gives fresh confirmation for provider onboarding, connect the Moov sandbox account, merchant
-   wallet, hosted payment method, and exact payout destination through the secret manager and secure
-   provider UI. Run authorization, ambiguous-response recovery, capture observation, settlement,
-   reserve, payout, refund, dispute, and reconciliation tests. HTTP 202, timeouts, and delayed events
-   stay ambiguous until provider recovery proves the result. Do not claim a charge or payout from a
-   simulator or mocked HTTP test.
-6. **Go live only through a later canonical action.** The current route-draft action cannot submit
-   KYB/KYC, accept terms, attach a bank, activate a route, deploy, or enable live charging. If no
+3. **Start provider onboarding.** Call `get_payment_pipeline_status` again. Trust its blockers and do
+   not create a second route merely because the conversation is new. When the canonical next tool is
+   `start_payment_route_onboarding`, summarize that it creates a secure Moov sandbox invitation for
+   the exact company and obtain fresh confirmation. Call it with the exact route and a stable
+   idempotency key, then show the returned onboarding link. The authorized founder—not the agent—uses
+   that provider page for identity/ownership evidence, underwriting questions, terms, and payout-bank
+   setup. Never collect those inputs in chat or claim a pending provider review is approved.
+4. **Refresh provider state.** After the founder completes the secure flow, call
+   `refresh_payment_route_onboarding`. It accepts only company and route identity; provider account,
+   capability, wallet, and bank references stay server-side. Repeat the provider read when the result
+   is waiting or pending. A sandbox route becomes active only when the provider reports all required
+   capabilities enabled, one default wallet, and exactly one verified payout bank. It must suspend if
+   that evidence later regresses. Refresh `get_payment_pipeline_status` after every result.
+5. **Establish the cash baseline.** Call `reconcile_payment_route` after activation. It reads the
+   exact active default wallet and compares it with Corply's immutable route-scoped cash postings.
+   The first read can anchor a pre-existing balance only before any payment or journal activity.
+   A variance or stale reconciliation blocks the probe and all later money movement.
+6. **Exercise the real sandbox pipeline.** Before calling `run_sandbox_payment_probe`, explain that
+   it will charge exactly USD 1.00 in Moov sandbox and obtain fresh confirmation for that exact
+   test-mode movement. The tool accepts no amount, currency, customer, provider, card, bank, fee, or
+   destination override. Its server-configured card source enters the exact merchant wallet through
+   durable authorization. HTTP 202, timeouts, and delayed events remain ambiguous until recovery
+   proves the outcome; never retry by inventing a second idempotency key.
+   Do not claim a charge or payout from a simulator or mocked HTTP test.
+7. **Wait for verified settlement and reconciliation.** Refresh `get_payment_pipeline_status` while
+   the probe is processing. The backend recovery sweep advances capture and clearing, but may post
+   settlement only after the exact completed transfer, merchant-wallet credit, provider-fee debit,
+   and evidence hash agree. It then reconciles the provider wallet against Corply's immutable cash
+   ledger. Do not describe authorization as settlement, or a simulator/mocked HTTP test as a real
+   provider result. Bank payout remains a separate confirmed money movement.
+8. **Build checkout and items after transport is proven.** The coding agent owns repository
+   inspection and uses the local `@corply/payments` package. The server must create an
+   integrity-verified catalog and checkout order, accept only an opaque hosted payment-method token
+   from the browser, resolve the exact server-owned route, and derive amount, currency, tenant,
+   merchant, reserve, and payout destination without browser authority. Use durable implementations
+   of payment state and ledger contracts; in-memory stores are test fixtures only.
+9. **Go live only through a later canonical action.** The sandbox onboarding actions cannot submit
+   KYB/KYC or terms for the founder, deploy, create a production route, or enable live charging. If no
    canonical action exists for the next external step, return the exact blocker instead of operating
    the provider manually or pretending completion.
 
@@ -62,6 +83,8 @@ legacy manifest, and state that it is a separate migration path.
 - Every journal entry is immutable, exactly replayable, and sums to zero in one currency.
 - Duplicate, delayed, conflicting, and ambiguous provider outcomes recover before retrying; never
   issue a second charge or payout merely because the first response was lost.
+- Provider settlement must be bound to a completed transfer, exact merchant-wallet credit, exact
+  provider-fee debit, and a normalized SHA-256 evidence hash before the cash ledger is posted.
 - A payout cannot exceed settled, available, non-reserved merchant payable. Refunds, disputes,
   chargebacks, payout returns, and reversals are compensating entries, never edited history.
 - Provider webhooks use exact raw bytes, authenticated signatures, global event identities, and
