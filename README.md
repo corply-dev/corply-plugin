@@ -103,7 +103,9 @@ After activation, Corply establishes a provider-wallet reconciliation baseline a
 freshly confirmed USD 1.00 sandbox probe from a server-configured card source. The recovery worker
 advances it through capture and clearing, then posts settlement only when the completed transfer,
 merchant-wallet credit, provider fee, and evidence hash agree; it reconciles the wallet again after
-settlement. Moving wallet proceeds to the verified bank remains a separate confirmed action.
+settlement. A second freshly confirmed tool sends exactly USD 0.01 from that payment to the
+server-resolved verified bank; the worker binds the payout fee to exact transfer and wallet evidence
+before post-payout reconciliation can pass.
 
 The current SDK is an unpublished local alpha. In-memory stores and mocked HTTP are test fixtures;
 durable backend state, provider approval and capabilities, hosted payment-method collection, signed

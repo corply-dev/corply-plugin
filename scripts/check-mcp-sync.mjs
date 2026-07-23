@@ -42,6 +42,7 @@ const REQUIRED_CORPLY_PAY_TOOLS = [
   "refresh_payment_route_onboarding",
   "reconcile_payment_route",
   "run_sandbox_payment_probe",
+  "run_sandbox_payout_probe",
   "create_payment_project",
   "configure_payment_catalog",
   "create_payment_integration_bundle",
@@ -195,6 +196,7 @@ for (const stateTruth of [
   "refresh_payment_route_onboarding",
   "reconcile_payment_route",
   "run_sandbox_payment_probe",
+  "run_sandbox_payout_probe",
   "in-memory stores are test fixtures only",
 ]) {
   if (!normalizedRevenueAndPayments.includes(stateTruth)) {

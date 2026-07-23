@@ -54,14 +54,21 @@ facilitator, merchant of record, bank, or money transmitter unless current evide
    settlement only after the exact completed transfer, merchant-wallet credit, provider-fee debit,
    and evidence hash agree. It then reconciles the provider wallet against Corply's immutable cash
    ledger. Do not describe authorization as settlement, or a simulator/mocked HTTP test as a real
-   provider result. Bank payout remains a separate confirmed money movement.
-8. **Build checkout and items after transport is proven.** The coding agent owns repository
+   provider result.
+8. **Exercise the verified bank payout.** When status returns `run_sandbox_payout_probe`, identify
+   the exact settled `paymentKey`, explain that the tool will send exactly USD 0.01 from its merchant
+   wallet to the route's server-resolved verified standard-ACH bank, and obtain fresh confirmation
+   for that exact test-mode movement. Use the literal confirmation
+   `payout USD 0.01 in Moov sandbox`. The destination and amount cannot be overridden. Refresh status
+   while recovery verifies the transfer, bank destination, wallet debit, and provider-fee debit;
+   do not claim the pipeline is balanced until post-payout reconciliation passes.
+9. **Build checkout and items after transport is proven.** The coding agent owns repository
    inspection and uses the local `@corply/payments` package. The server must create an
    integrity-verified catalog and checkout order, accept only an opaque hosted payment-method token
    from the browser, resolve the exact server-owned route, and derive amount, currency, tenant,
    merchant, reserve, and payout destination without browser authority. Use durable implementations
    of payment state and ledger contracts; in-memory stores are test fixtures only.
-9. **Go live only through a later canonical action.** The sandbox onboarding actions cannot submit
+10. **Go live only through a later canonical action.** The sandbox onboarding actions cannot submit
    KYB/KYC or terms for the founder, deploy, create a production route, or enable live charging. If no
    canonical action exists for the next external step, return the exact blocker instead of operating
    the provider manually or pretending completion.
@@ -85,6 +92,8 @@ legacy manifest, and state that it is a separate migration path.
   issue a second charge or payout merely because the first response was lost.
 - Provider settlement must be bound to a completed transfer, exact merchant-wallet credit, exact
   provider-fee debit, and a normalized SHA-256 evidence hash before the cash ledger is posted.
+- Provider payout fees are recorded only from the exact completed bank transfer and matching wallet
+  debit evidence; reconciliation remains blocked while that evidence is pending.
 - A payout cannot exceed settled, available, non-reserved merchant payable. Refunds, disputes,
   chargebacks, payout returns, and reversals are compensating entries, never edited history.
 - Provider webhooks use exact raw bytes, authenticated signatures, global event identities, and
