@@ -17,6 +17,13 @@ For founder restricted stock, keep the Section 83(b) deadline prominent: the 30-
 runs from that founder's actual stock purchase or transfer date. Report its canonical filing and
 evidence state rather than assuming a generated form was filed.
 
+In the standard Corply formation flow, the founder's one disclosed post-incorporation bundle
+signature includes advance authority for Corply to complete and execute the already-elected 83(b)
+when the RSPA fixes that date. Do not ask for a later generation or signature confirmation. The only
+later founder action is entering the SSN/ITIN in Corply's one-time external-browser field; never
+request or repeat it in chat. Corply Ops receives the short-lived encrypted mail-ready PDF, prints
+and mails it, and tracks the workflow. Do not assign mailing to the founder.
+
 For state registrations, tax and EIN work, good standing, payroll, banking, payments, hiring,
 financing, and work authorization, gather only the facts the current briefing requests. Never infer
 work authorization from nationality, visa shorthand, a job title, or physical location. Prepare the
@@ -27,4 +34,5 @@ required. Continue unrelated company work.
 Before a government, bank, provider, or other third-party filing or submission, show what will be
 sent and obtain fresh confirmation under [action-protocol.md](action-protocol.md). Afterward,
 refresh the briefing and distinguish submitted, accepted, rejected, pending review, and canonically
-complete.
+complete. Do not add a new confirmation to the standard 83(b) follow-through already authorized in
+the exact signed bundle.

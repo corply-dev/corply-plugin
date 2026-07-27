@@ -59,10 +59,11 @@ existing-company work, and customer-payment launch. For example:
    reason when a decision is missing.
 3. **Canonical action** — uses the action available for the current company state and asks only for
    the fact that changes what happens next.
-4. **Focused confirmation** — pauses only before immutable document generation, payments,
-   signatures or certifications, invitations, messages or other external sends, filings or
-   government or provider submissions, partner terms, payout-bank changes, production go-live,
-   refunds or money movement, access grants, and destructive cap-table replacement.
+4. **Focused confirmation** — pauses only before immutable document generation, actual payments or
+   money movement, one exact signing act, invitations or messages, filings or provider submissions,
+   partner terms, payout-bank changes, production go-live, access grants, and destructive cap-table
+   replacement. Preparing a checkout or private review link needs no extra approval, and Corply does
+   not re-ask for downstream Section 83(b) work already authorized in the signed bundle.
 5. **State refresh** — verifies the canonical outcome after every change and surfaces only critical
    deadlines or blockers after completing the requested goal.
 
@@ -72,7 +73,9 @@ Corply guides the founder from a persisted application through standard venture-
 document generation, payment, signer-specific review and consent, cofounder coordination, and a
 human-reviewed Delaware filing handoff. Corply never signs for an absent founder, never confuses a
 submission with acceptance, and reports formation only after canonical state contains Delaware's
-accepted result.
+accepted result. After acceptance, one exact post-incorporation bundle act covers its listed
+documents and disclosed automatic Section 83(b) authority. The founder later enters the TIN only in
+a secure browser field; Corply Ops prepares, prints, mails, and tracks the election.
 
 ## Existing companies
 

@@ -8,8 +8,8 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const PUBLIC_URL = "https://corply.dev/mcp";
 const LIVE_URL = process.env.CORPLY_MCP_URL || PUBLIC_URL;
 const SKIP_LIVE_MCP = /^(1|true)$/i.test(process.env.CORPLY_SKIP_LIVE_MCP || "");
-const EXPECTED_PLUGIN_VERSION = "0.6.0";
-const EXPECTED_MCP_VERSION = "0.6.0";
+const EXPECTED_PLUGIN_VERSION = "0.6.1";
+const EXPECTED_MCP_VERSION = "0.8.0";
 const errors = [];
 
 const REQUIRED_CORE_TOOLS = [
@@ -23,7 +23,8 @@ const REQUIRED_CORE_TOOLS = [
   "request_payment",
   "await_payment",
   "request_signature",
-  "record_signature",
+  "sign_bundle",
+  "prepare_83b_tin_input",
   "submit_for_formation",
   "get_status",
   "resolve_company_plan",
@@ -108,6 +109,8 @@ const server = readJson("server.json");
 const skill = readText("skills/corply/SKILL.md").replace(/\s+/g, " ");
 const formation = readText("skills/corply/references/formation.md");
 const normalizedFormation = formation.replace(/\s+/g, " ");
+const actionProtocol = readText("skills/corply/references/action-protocol.md");
+const normalizedActionProtocol = actionProtocol.toLowerCase().replace(/\s+/g, " ");
 const revenueAndPayments = readText("skills/corply/references/revenue-and-payments.md");
 const normalizedRevenueAndPayments = revenueAndPayments.toLowerCase().replace(/\s+/g, " ");
 const authentication = readText("skills/corply/references/authentication.md");
@@ -141,6 +144,28 @@ if (!normalizedFormation.includes("call `invite_member` for each of them immedia
 }
 if (!normalizedFormation.includes("never block document generation") || formation.includes("Continue only after")) {
   errors.push("formation guidance still treats company-name checking as a document gate");
+}
+for (const invariant of [
+  "call `request_payment` without another confirmation",
+  "call `request_signature` without another confirmation",
+  "`sign_bundle`",
+  "the only signature or confirmation",
+  "`prepare_83b_tin_input`",
+  "corply ops receives the short-lived encrypted mail-ready pdf, prints and mails the election",
+]) {
+  if (!normalizedFormation.toLowerCase().includes(invariant)) {
+    errors.push(`formation guidance is missing low-friction signing invariant ${invariant}`);
+  }
+}
+for (const invariant of [
+  "creating or reusing an incorporation-fee checkout link",
+  "preparing or reusing a private signing bundle and review link",
+  "never loop over individual signature rows",
+  "corply ops then prints and mails it without another chat confirmation",
+]) {
+  if (!normalizedActionProtocol.includes(invariant)) {
+    errors.push(`action protocol is missing low-friction invariant ${invariant}`);
+  }
 }
 if (!skill.includes("[revenue-and-payments.md](references/revenue-and-payments.md)")) {
   errors.push("Corply skill does not route customer-payment work to revenue-and-payments.md");
@@ -266,6 +291,9 @@ if (!SKIP_LIVE_MCP) {
     }
     for (const name of PRIVATE_REVIEWER_TOOLS) {
       if (toolNames.has(name)) errors.push(`live MCP exposes private reviewer tool ${name}`);
+    }
+    if (toolNames.has("record_signature")) {
+      errors.push("live MCP still exposes removed per-document record_signature");
     }
     for (const tool of tools) {
       const description = String(tool.description ?? "").toLowerCase();

@@ -6,7 +6,7 @@
     {
       "name": "corply",
       "description": "Form, run, and build a Corply-controlled customer-payment pipeline through natural conversation grounded in canonical company state.",
-      "version": "0.6.0",
+      "version": "0.6.1",
       "source": "./",
       "author": { "name": "Corply", "email": "founders@corply.dev" }
     }

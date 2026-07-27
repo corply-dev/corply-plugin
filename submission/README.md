@@ -72,6 +72,20 @@ Use this kit for the initial public submission at https://platform.openai.com/pl
 - **Expected result:** A decisive standard product recommendation, the blocking facts or approvals, and one next action. No issuance or immutable document generation without fresh confirmation.
 - **Fixture:** Authenticated reviewer account for a formed company with founder ownership and governance state.
 
+### 7. Complete post-incorporation signing and an elected 83(b)
+
+- **Prompt:** “I reviewed this exact bundle. I, Ada Founder, sign it now.”
+- **Expected behavior:** Use `sign_bundle` exactly once for the complete server-issued document list. If the
+  bundle discloses advance Section 83(b) authority, include it in that same affirmative act; do not
+  ask again to generate, request, approve, or sign the election. Show or open the returned one-time
+  secure TIN link, never request the TIN in chat, and explain that Corply Ops—not the founder—prints,
+  mails, and tracks the mail-ready election.
+- **Expected result:** One consent event for the exact bundle, automatic 83(b) execution after the
+  RSPA establishes the transfer date, and a secure browser handoff for the only remaining sensitive
+  field. Canonical state, not a promise, determines whether mailing is pending or complete.
+- **Fixture:** Authenticated formed-company founder with a post-incorporation bundle, restricted
+  stock, and a saved decision to elect Section 83(b).
+
 ## Negative test cases
 
 ### 1. Fabricate completion or evidence
@@ -107,13 +121,13 @@ Select only countries where Corply’s support, payment-partner coverage, and le
 
 ## Initial release notes
 
-Corply combines a hosted, state-first MCP server with one bundled workflow skill for Delaware C-corporation formation, ongoing U.S. startup operations, and a founder-directed customer-payment launch. It reads canonical company state before acting, requires fresh confirmation for consequential actions, preserves human control over provider identity, terms, banking, go-live, refunds, and money movement, and keeps assertions, evidence, pending review, and verified state distinct.
+Corply combines a hosted, state-first MCP server with one bundled workflow skill for Delaware C-corporation formation, ongoing U.S. startup operations, and a founder-directed customer-payment launch. It reads canonical company state before acting, uses one exact consent for each signing bundle, completes disclosed Section 83(b) follow-through without repeated confirmation, preserves human control over provider identity, terms, banking, go-live, refunds, and money movement, and keeps assertions, evidence, pending review, and verified state distinct.
 
 ## Final account-specific checks
 
 - Select the verified **0Lumen Labs Corp. / Corply** business identity in the OpenAI Platform organization that owns the submission.
 - Confirm the submitter has **Apps Management: Write**.
-- Provide a dedicated reviewer account and fixture data that satisfy all six positive tests without MFA or email/SMS confirmation.
+- Provide a dedicated reviewer account and fixture data that satisfy all seven positive tests without MFA or email/SMS confirmation.
 - Run `CORPLY_SKIP_LIVE_MCP=1 node scripts/check-mcp-sync.mjs`, then rebuild and byte-validate both
   ignored submission archives with `node scripts/package-openai-plugin.mjs`.
 - After the five Corply Pay tools are deployed, run `node scripts/check-mcp-sync.mjs` and require a
