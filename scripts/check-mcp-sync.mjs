@@ -6,7 +6,10 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const PUBLIC_URL = "https://corply.dev/mcp";
+const OPENAI_DIRECTORY_URL = "https://corply.dev/mcp/openai";
 const LIVE_URL = process.env.CORPLY_MCP_URL || PUBLIC_URL;
+const LIVE_OPENAI_DIRECTORY_URL =
+  process.env.CORPLY_OPENAI_MCP_URL || new URL("/mcp/openai", LIVE_URL).toString();
 const SKIP_LIVE_MCP = /^(1|true)$/i.test(process.env.CORPLY_SKIP_LIVE_MCP || "");
 const EXPECTED_PLUGIN_VERSION = "0.6.1";
 const EXPECTED_MCP_VERSION = "0.8.0";
@@ -94,6 +97,26 @@ const REQUIRED_PUBLIC_TOOLS = [
   ...REQUIRED_OPERATING_TOOLS,
 ];
 
+const REQUIRED_OPENAI_DIRECTORY_TOOLS = [
+  "get_company_briefing",
+  "adopt_existing_company",
+  "whoami",
+  "get_org",
+  "get_status",
+  "get_cap_table",
+  "import_cap_table",
+  "save_application",
+  "validate_application",
+  "check_company_names",
+  "generate_documents",
+  "remember",
+  "recall",
+  "invite_member",
+  "redeem_invite",
+  "mark_task_done",
+  ...REQUIRED_OPERATING_TOOLS,
+];
+
 const PRIVATE_REVIEWER_TOOLS = [
   "list_operating_fact_evidence_claims",
   "review_operating_fact_evidence",
@@ -120,8 +143,8 @@ function checkEqual(label, actual, expected) {
   }
 }
 
-async function rpc(method, params) {
-  const response = await fetch(LIVE_URL, {
+async function rpc(url, method, params) {
+  const response = await fetch(url, {
     method: "POST",
     headers: {
       accept: "application/json, text/event-stream",
@@ -157,6 +180,7 @@ const revenueAndPayments = readText("skills/corply/references/revenue-and-paymen
 const normalizedRevenueAndPayments = revenueAndPayments.toLowerCase().replace(/\s+/g, " ");
 const authentication = readText("skills/corply/references/authentication.md");
 const normalizedAuthentication = authentication.toLowerCase().replace(/\s+/g, " ");
+const submission = readText("submission/README.md");
 
 checkEqual(".mcp.json corply type", mcp.mcpServers?.corply?.type, "http");
 checkEqual(".mcp.json corply URL", mcp.mcpServers?.corply?.url, PUBLIC_URL);
@@ -177,6 +201,9 @@ checkEqual("MCP Registry version", server.version, EXPECTED_MCP_VERSION);
 const remoteUrls = Array.isArray(server.remotes) ? server.remotes.map((remote) => remote.url) : [];
 checkEqual("MCP Registry remote count", remoteUrls.length, 1);
 checkEqual("MCP Registry remote URL", remoteUrls[0], PUBLIC_URL);
+if (!submission.includes(`- **MCP server:** ${OPENAI_DIRECTORY_URL}`)) {
+  errors.push("OpenAI submission kit is not using the restricted directory MCP endpoint");
+}
 
 if (!skill.includes("Before we start: Corply is software, not a law firm, and does not provide legal, tax, or accounting advice.")) {
   errors.push("Corply skill is missing the required pre-intake notice");
@@ -317,15 +344,15 @@ if (!defaultPrompts.some((prompt) => /first[- ]payment|payment route/i.test(prom
 
 if (!SKIP_LIVE_MCP) {
   try {
-    const initialized = await rpc("initialize", {
+    const initialized = await rpc(LIVE_URL, "initialize", {
       protocolVersion: "2024-11-05",
       capabilities: {},
       clientInfo: { name: "corply-plugin-sync-check", version: EXPECTED_PLUGIN_VERSION },
     });
     checkEqual("live MCP version", initialized?.serverInfo?.version, EXPECTED_MCP_VERSION);
     const [{ tools = [] }, { prompts = [] }] = await Promise.all([
-      rpc("tools/list"),
-      rpc("prompts/list"),
+      rpc(LIVE_URL, "tools/list"),
+      rpc(LIVE_URL, "prompts/list"),
     ]);
     const toolNames = new Set(tools.map((tool) => tool.name));
     checkEqual("live public tool count", toolNames.size, REQUIRED_PUBLIC_TOOLS.length);
@@ -351,6 +378,46 @@ if (!SKIP_LIVE_MCP) {
     checkEqual("live bootstrap prompt", prompts[0]?.name, "corply");
   } catch (error) {
     errors.push(`could not inspect live MCP at ${LIVE_URL}: ${error.message}`);
+  }
+  try {
+    const initialized = await rpc(LIVE_OPENAI_DIRECTORY_URL, "initialize", {
+      protocolVersion: "2024-11-05",
+      capabilities: {},
+      clientInfo: { name: "corply-openai-directory-sync-check", version: EXPECTED_PLUGIN_VERSION },
+    });
+    checkEqual("OpenAI directory MCP version", initialized?.serverInfo?.version, EXPECTED_MCP_VERSION);
+    const [{ tools = [] }, { prompts = [] }] = await Promise.all([
+      rpc(LIVE_OPENAI_DIRECTORY_URL, "tools/list"),
+      rpc(LIVE_OPENAI_DIRECTORY_URL, "prompts/list"),
+    ]);
+    const toolNames = new Set(tools.map((tool) => tool.name));
+    checkEqual(
+      "OpenAI directory public tool count",
+      toolNames.size,
+      REQUIRED_OPENAI_DIRECTORY_TOOLS.length,
+    );
+    for (const name of REQUIRED_OPENAI_DIRECTORY_TOOLS) {
+      if (!toolNames.has(name)) errors.push(`OpenAI directory MCP is missing required tool ${name}`);
+    }
+    for (const name of toolNames) {
+      if (!REQUIRED_OPENAI_DIRECTORY_TOOLS.includes(name)) {
+        errors.push(`OpenAI directory MCP exposes unexpected tool ${name}`);
+      }
+    }
+    for (const tool of tools) {
+      const description = String(tool.description ?? "").toLowerCase();
+      for (const label of ["prerequisite:", "canonicality:", "idempotency:", "confirmation boundary:"]) {
+        if (!description.includes(label)) {
+          errors.push(`OpenAI directory tool ${tool.name} is missing ${label}`);
+        }
+      }
+    }
+    checkEqual("OpenAI directory bootstrap prompt count", prompts.length, 1);
+    checkEqual("OpenAI directory bootstrap prompt", prompts[0]?.name, "corply");
+  } catch (error) {
+    errors.push(
+      `could not inspect OpenAI directory MCP at ${LIVE_OPENAI_DIRECTORY_URL}: ${error.message}`,
+    );
   }
 }
 

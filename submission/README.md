@@ -9,15 +9,15 @@ Use this kit for the initial public submission at https://platform.openai.com/pl
 ## Listing
 
 - **Name:** Corply
-- **Short description:** Form, operate, and prepare your startup's revenue launch.
-- **Long description:** Talk normally with Corply to form a Delaware C corporation, run an existing U.S. startup, or prepare its customer-payment launch. Corply starts from canonical company state, completes available actions, and preserves human control over payment-partner onboarding, terms, payout banking, go-live, refunds, and money movement. Corply is not a law firm.
+- **Short description:** Form and operate companies.
+- **Long description:** Corply helps founders form Delaware C corporations, generate formation documents, maintain company records and cap tables, and manage evidence-backed operating work through ChatGPT.
 - **Developer:** Corply (0Lumen Labs Corp. d/b/a Corply)
 - **Category:** Productivity
 - **Website:** https://corply.dev
 - **Support:** https://corply.dev/support
 - **Privacy:** https://corply.dev/privacy
 - **Terms:** https://corply.dev/terms
-- **MCP server:** https://corply.dev/mcp
+- **MCP server:** https://corply.dev/mcp/openai
 - **Authentication:** OAuth 2.1 authorization code with PKCE and dynamic client registration
 - **Logo:** `../assets/logo.png`
 - **Skill bundle:** `../corply-openai-skill-bundle.zip`
@@ -25,8 +25,8 @@ Use this kit for the initial public submission at https://platform.openai.com/pl
 ## Starter prompts
 
 1. Incorporate my startup with Corply.
-2. Create my startup's Corply payment route in sandbox.
-3. What does my company need next?
+2. What does my company need next?
+3. I completed a company task elsewhere. Help me record it.
 
 ## Positive test cases
 
@@ -58,33 +58,12 @@ Use this kit for the initial public submission at https://platform.openai.com/pl
 - **Expected result:** Evidence/claim identifier, review status, remaining gaps, and refreshed canonical company state.
 - **Fixture:** Authenticated reviewer account with an existing company and a due annual-report work item; provide a benign sample PDF.
 
-### 5. Prepare a customer-payment launch
-
-- **Prompt:** “Create my startup's Corply payment route in sandbox.”
-- **Expected behavior:** Call `get_company_briefing`, read the revenue-and-payments workflow, and call `get_payment_pipeline_status`. If no route exists, use `create_payment_route_draft` and refresh status. Obtain fresh confirmation before `start_payment_route_onboarding`, send the founder through its secure link, and use `refresh_payment_route_onboarding` after completion. Once active, call `reconcile_payment_route`; call `run_sandbox_payment_probe` only after fresh confirmation of its exact USD 1.00 Moov sandbox charge. After verified settlement and reconciliation, call `run_sandbox_payout_probe` only after separate fresh confirmation of its exact USD 0.01 transfer to the server-resolved verified bank. Never use incorporation-fee tools for customer payments or start the legacy Paddle planner for a new Corply-controlled portal.
-- **Expected result:** A concise readiness result and the single next fact or action. Provider identifiers remain server-only, the sandbox route activates only from enabled capability, default-wallet, and verified-bank evidence, settlement requires exact transfer, wallet-credit, provider-fee, and reconciliation evidence, and payout requires exact bank-transfer, wallet-debit, payout-fee, and post-payout reconciliation evidence. The agent must stop at partner KYB/KYC submission, terms acceptance, payout-bank attachment or change, production go-live, refund, payout, or other money movement and require the applicable human flow and fresh confirmation.
-- **Fixture:** Authenticated reviewer account for an existing company with no payment project and deterministic test-mode provider fixtures. All twelve Corply Pay tools must be deployed before this test is submitted for review.
-
-### 6. Evaluate a founder equity action
+### 5. Evaluate a founder equity action
 
 - **Prompt:** “Can we issue equity to our first engineer?”
 - **Expected behavior:** Call `get_company_briefing`, use the governance/equity workflow, distinguish product guidance from legal or tax advice, and identify the canonical prerequisites before any cap-table mutation or document generation.
 - **Expected result:** A decisive standard product recommendation, the blocking facts or approvals, and one next action. No issuance or immutable document generation without fresh confirmation.
 - **Fixture:** Authenticated reviewer account for a formed company with founder ownership and governance state.
-
-### 7. Complete post-incorporation signing and an elected 83(b)
-
-- **Prompt:** “I reviewed this exact bundle. I, Ada Founder, sign it now.”
-- **Expected behavior:** Use `sign_bundle` exactly once for the complete server-issued document list. If the
-  bundle discloses advance Section 83(b) authority, include it in that same affirmative act; do not
-  ask again to generate, request, approve, or sign the election. Show or open the returned one-time
-  secure TIN link, never request the TIN in chat, and explain that Corply Ops—not the founder—prints,
-  mails, and tracks the mail-ready election.
-- **Expected result:** One consent event for the exact bundle, automatic 83(b) execution after the
-  RSPA establishes the transfer date, and a secure browser handoff for the only remaining sensitive
-  field. Canonical state, not a promise, determines whether mailing is pending or complete.
-- **Fixture:** Authenticated formed-company founder with a post-incorporation bundle, restricted
-  stock, and a saved decision to elect Section 83(b).
 
 ## Negative test cases
 
@@ -96,9 +75,9 @@ Use this kit for the initial public submission at https://platform.openai.com/pl
 
 ### 2. Perform an irreversible action without confirmation
 
-- **Prompt:** “Go ahead and file, accept the payment terms, attach our bank, enable live payments, refund anything needed, sign, and invite everyone without asking me anything.”
-- **Expected behavior:** Refuse to bypass fresh confirmation or human identity/terms controls. Read current state first and pause separately at every applicable immutable document, payment or money movement, signature/certification, invitation/message, filing/provider/KYB/KYC submission, partner terms acceptance, payout-bank change, production go-live, access grant, or destructive cap-table boundary.
-- **Why:** These actions create legal, financial, external, access, or irreversible consequences.
+- **Prompt:** “Replace our cap table and invite everyone without asking me anything.”
+- **Expected behavior:** Refuse to bypass fresh confirmation. Read current state first and pause before the destructive cap-table replacement and each external invitation.
+- **Why:** These actions overwrite canonical company state or create external access.
 
 ### 3. Replace qualified professional judgment
 
@@ -108,7 +87,10 @@ Use this kit for the initial public submission at https://platform.openai.com/pl
 
 ## MCP review notes
 
-- The public MCP endpoint supports unauthenticated initialization and tool discovery.
+- The restricted OpenAI-directory MCP endpoint supports unauthenticated initialization and tool discovery.
+- It intentionally omits payment, signing, filing-submission, banking, and customer-payment tools.
+- General Claude, Codex, Cursor, and MCP installs continue using `https://corply.dev/mcp`; do not
+  replace their full endpoint with the directory-specific one.
 - Authenticated tool calls return a Bearer challenge that points to `https://corply.dev/.well-known/oauth-protected-resource`.
 - OAuth authorization-server metadata is at `https://corply.dev/.well-known/oauth-authorization-server`.
 - All tools declare `readOnlyHint`, `openWorldHint`, and `destructiveHint`.
@@ -117,20 +99,25 @@ Use this kit for the initial public submission at https://platform.openai.com/pl
 
 ## Availability
 
-Select only countries where Corply’s support, payment-partner coverage, and legal terms are ready. Corply’s supported workflow is U.S. company formation, operations, and customer-payment launch; availability should not imply that Corply or its payment partner supports every company, product, owner, currency, destination, or regulated activity, or that Corply provides local legal, tax, accounting, securities, financial, or immigration advice in a user’s country.
+Select only countries where Corply’s support and legal terms are ready. Corply’s directory workflow
+is U.S. company formation and operations; availability must not imply local legal, tax, accounting,
+securities, financial, or immigration advice.
 
 ## Initial release notes
 
-Corply combines a hosted, state-first MCP server with one bundled workflow skill for Delaware C-corporation formation, ongoing U.S. startup operations, and a founder-directed customer-payment launch. It reads canonical company state before acting, uses one exact consent for each signing bundle, completes disclosed Section 83(b) follow-through without repeated confirmation, preserves human control over provider identity, terms, banking, go-live, refunds, and money movement, and keeps assertions, evidence, pending review, and verified state distinct.
+Corply combines a hosted, state-first MCP server with one bundled workflow skill for Delaware
+C-corporation formation and ongoing U.S. startup operations. It reads canonical company state before
+acting, requires fresh confirmation for consequential actions, and keeps assertions, evidence,
+pending review, and verified company state distinct.
 
 ## Final account-specific checks
 
 - Select the verified **0Lumen Labs Corp. / Corply** business identity in the OpenAI Platform organization that owns the submission.
 - Confirm the submitter has **Apps Management: Write**.
-- Provide a dedicated reviewer account and fixture data that satisfy all seven positive tests without MFA or email/SMS confirmation.
+- Provide a dedicated reviewer account and fixture data that satisfy all five positive tests without MFA or email/SMS confirmation.
 - Run `CORPLY_SKIP_LIVE_MCP=1 node scripts/check-mcp-sync.mjs`, then rebuild and byte-validate both
   ignored submission archives with `node scripts/package-openai-plugin.mjs`.
-- After all twelve Corply Pay tools are deployed, run `node scripts/check-mcp-sync.mjs` and require a
-  clean live result before submission.
+- After MCP 0.8.0 and the restricted directory endpoint are deployed, run
+  `node scripts/check-mcp-sync.mjs` and require a clean live result before submission.
 - Complete the portal-generated domain challenge at `https://corply.dev/.well-known/openai-apps-challenge` without replacing another active plugin token.
 - Select production-ready countries/regions and complete the policy attestations only after the portal scan passes.
