@@ -1,7 +1,7 @@
 {
   "name": "corply",
-  "version": "0.4.3",
-  "description": "A state-first corporate operating partner for forming and running a U.S. startup through Corply.",
+  "version": "0.6.1",
+  "description": "A state-first operating partner for forming, running, and preparing a U.S. startup's revenue launch through Corply.",
   "author": {
     "name": "Corply",
     "email": "founders@corply.dev",
@@ -18,14 +18,17 @@
     "equity",
     "delaware",
     "c-corp",
-    "compliance"
+    "compliance",
+    "payments",
+    "revenue",
+    "checkout"
   ],
   "skills": "./skills/",
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Corply",
-    "shortDescription": "Your state-first corporate operating partner.",
-    "longDescription": "Talk normally with Corply to form a Delaware C corporation or run an existing U.S. startup. Corply starts from canonical company state, recommends standard choices with clear reasons, completes available actions, and keeps evidence and pending review distinct from verified company state. Corply is not a law firm.",
+    "shortDescription": "Form, operate, and prepare your startup's revenue launch.",
+    "longDescription": "Talk normally with Corply to form a Delaware C corporation, run an existing U.S. startup, or build and inspect its customer-payment pipeline. Corply starts from canonical company state, controls server-priced orders, merchant routes, payment lifecycle, ledger and reconciliation, and preserves human control over provider onboarding, terms, payout banking, go-live, refunds, and money movement. Corply is not a law firm.",
     "developerName": "Corply",
     "category": "Productivity",
     "capabilities": [
@@ -37,8 +40,8 @@
     "termsOfServiceURL": "https://corply.dev/terms",
     "defaultPrompt": [
       "Incorporate my startup with Corply.",
-      "What does my company need next?",
-      "I completed a company task elsewhere. Help me record it."
+      "Create my startup's Corply payment route in sandbox.",
+      "What does my company need next?"
     ],
     "brandColor": "#10A37F",
     "composerIcon": "./assets/icon.svg",

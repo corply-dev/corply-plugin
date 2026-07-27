@@ -20,13 +20,17 @@ never create a duplicate application or replay a completed stage because the con
 4. **Immutable packet.** Summarize the frozen inputs and obtain fresh confirmation under
    [action-protocol.md](action-protocol.md). Generate only through the current canonical action,
    then summarize the packet Corply actually returned. Do not invent documents or review links.
-5. **Payment.** Explain the amount and effect, confirm immediately before payment or checkout
-   creation, and follow the returned payment state. Do not create duplicate charges. Only report
-   payment complete when the refreshed briefing confirms it.
-6. **Review and signatures.** Surface the live signer's disclaimer, exact document list, and
-   signer-specific review link. Apply the signature boundary in
-   [action-protocol.md](action-protocol.md). Each named signer signs only the documents currently
-   assigned to them.
+5. **Payment.** Explain the amount and effect, then call `request_payment` without another
+   confirmation: it only creates or reuses a checkout link and cannot charge the founder. Present
+   the link so the founder can choose whether to pay in the external browser, then follow the
+   returned payment state. Do not create duplicate charges. Only report payment complete when the
+   refreshed briefing confirms it.
+6. **Review and signatures.** Call `request_signature` without another confirmation: it only
+   prepares or reuses the live signer's exact private bundle and review link, and sends no message.
+   Surface the disclaimer, exact document list, any Section 83(b) authorization disclosure, and the
+   signer-specific review link. Then apply the one signature boundary in
+   [action-protocol.md](action-protocol.md) immediately before `sign_bundle`. Each named signer signs
+   only the documents currently assigned to them.
 7. **Cofounders.** Once cofounder emails are saved, use the briefing's invitation status to identify
    anyone who has not been invited. Ask once to invite the named emails, then on confirmation call
    `invite_member` for each of them immediately; do not wait for name checking, documents, payment,
@@ -42,13 +46,24 @@ never create a duplicate application or replay a completed stage because the con
 10. **Post-acceptance packet.** Use the same phase-aware `generate_documents` action only when the
     refreshed briefing makes it available. It generates the returned post-incorporation packet
     using the accepted formation date; it does not retroactively change the separate founder stock
-    purchase or transfer date that controls the 83(b) deadline. Confirm before immutable generation,
-    refresh the briefing, then obtain a separate fresh confirmation before `request_signature`
-    creates or sends the named signers' private requests. When a founder's RSPA is fully executed,
-    refresh again: Corply records that founder's actual stock-purchase date and issuance. If the
-    briefing then offers an 83(b) election, separately confirm its generation and later its signature
-    request. Never collapse acceptance, document generation, signature delivery, stock issuance, or
-    83(b) filing into one implied transition.
+    purchase or transfer date that controls the 83(b) deadline. Confirm once before immutable
+    generation, refresh the briefing, then call `request_signature` without another confirmation to
+    prepare the exact private bundle and review link.
+
+    For an eligible founder who already elected Section 83(b), the bundle's disclosed `sign_bundle`
+    act also grants scoped advance authority for Corply to complete and execute that election
+    automatically when the RSPA establishes the actual stock-transfer date. That one bundle consent
+    is the only signature or confirmation: do not later ask to generate, request, approve, or sign
+    the 83(b) again.
+
+    After execution, immediately show or open the returned one-time external-browser TIN link. If it
+    is missing or expired and the briefing offers `prepare_83b_tin_input`, call it without another
+    confirmation. The founder enters the SSN/ITIN only in that secure browser field; never ask for,
+    accept, repeat, or store it in chat. Corply does not retain it as a database field. Corply Ops
+    receives the short-lived encrypted mail-ready PDF, prints and mails the election, and tracks the
+    workflow. Do not tell the founder to print or mail it themselves. Refresh the briefing after the
+    secure handoff and report the canonical prepared, executed, TIN-required, mailed, and evidence
+    states without inventing completion.
 
 ## Joining as an invited cofounder
 

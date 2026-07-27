@@ -50,9 +50,13 @@ signatures that the canonical action returns. Do not equate the corporation's ac
 date with a founder's later stock purchase or transfer date.
 
 For restricted stock, keep the Section 83(b) workflow visible. The 30-day filing window runs from
-that founder's actual stock purchase or transfer date. Each founder personally executes the
-election, and Corply preserves submission evidence without claiming it was filed or accepted before
-canonical confirmation.
+that founder's actual stock purchase or transfer date. Each founder personally performs one exact
+post-incorporation bundle signing act. When its disclosure includes advance Section 83(b) authority,
+Corply later completes and executes the already-elected form automatically from that stored
+authority; never ask for another signature. The founder enters the SSN/ITIN only in Corply's
+one-time external-browser field, and Corply Ops prints and mails the resulting mail-ready PDF.
+Corply preserves submission evidence without claiming it was mailed, filed, or accepted before the
+canonical state says so.
 
 Ask only the applicability questions returned by the briefing. Route a non-standard legal, tax,
 securities, immigration, or IP determination to the appropriate professional boundary while still

@@ -1,8 +1,8 @@
 interface:
   display_name: "Corply"
-  short_description: "Incorporate and run your company with Corply."
+  short_description: "Incorporate, run, and prepare a revenue launch with Corply."
   brand_color: "#10A37F"
-  default_prompt: "Use $corply to work my company's highest-priority next action."
+  default_prompt: "Use $corply to work my company's highest-priority formation, operating, or revenue action."
 policy:
   allow_implicit_invocation: true
 dependencies:
