@@ -15,24 +15,42 @@ const errors = [];
 const REQUIRED_CORE_TOOLS = [
   "get_company_briefing",
   "adopt_existing_company",
+  "whoami",
+  "get_org",
+  "get_status",
+  "prepare_83b_tin_input",
+  "get_cap_table",
+  "import_cap_table",
   "save_application",
+  "amend_frozen_application",
   "validate_application",
   "check_company_names",
-  "invite_member",
   "generate_documents",
   "request_payment",
   "await_payment",
   "request_signature",
   "sign_bundle",
-  "prepare_83b_tin_input",
   "submit_for_formation",
-  "get_status",
+  "remember",
+  "recall",
+  "invite_member",
+  "redeem_invite",
+  "invite_cofounders",
+  "nudge_signer",
+  "mark_task_done",
+];
+
+const REQUIRED_OPERATING_TOOLS = [
   "resolve_company_plan",
+  "upsert_operating_subject",
+  "manage_operating_access_grant",
   "record_operating_fact",
+  "record_operating_event",
   "upload_operating_evidence",
+  "record_operating_evidence",
+  "submit_operating_fact_evidence",
   "record_existing_completion",
-  "get_cap_table",
-  "import_cap_table",
+  "transition_operating_work_item",
 ];
 
 const REQUIRED_CORPLY_PAY_TOOLS = [
@@ -50,7 +68,31 @@ const REQUIRED_CORPLY_PAY_TOOLS = [
   "verify_payment_integration",
 ];
 
-const REQUIRED_PUBLIC_TOOLS = [...REQUIRED_CORE_TOOLS, ...REQUIRED_CORPLY_PAY_TOOLS];
+const REQUIRED_BANK_TOOLS = [
+  "open_bank_account",
+  "bank_transfer",
+  "get_bank_overview",
+  "issue_card",
+  "create_agent_wallet",
+  "update_agent_wallet",
+  "wallet_spend",
+  "respond_to_approval",
+  "list_bank_activity",
+];
+
+const REQUIRED_HOSTED_PAYMENT_TOOLS = [
+  "create_payment_portal",
+  "create_payment_link",
+  "list_portal_payments",
+];
+
+const REQUIRED_PUBLIC_TOOLS = [
+  ...REQUIRED_CORE_TOOLS,
+  ...REQUIRED_CORPLY_PAY_TOOLS,
+  ...REQUIRED_BANK_TOOLS,
+  ...REQUIRED_HOSTED_PAYMENT_TOOLS,
+  ...REQUIRED_OPERATING_TOOLS,
+];
 
 const PRIVATE_REVIEWER_TOOLS = [
   "list_operating_fact_evidence_claims",
@@ -286,8 +328,12 @@ if (!SKIP_LIVE_MCP) {
       rpc("prompts/list"),
     ]);
     const toolNames = new Set(tools.map((tool) => tool.name));
+    checkEqual("live public tool count", toolNames.size, REQUIRED_PUBLIC_TOOLS.length);
     for (const name of REQUIRED_PUBLIC_TOOLS) {
       if (!toolNames.has(name)) errors.push(`live MCP is missing required public tool ${name}`);
+    }
+    for (const name of toolNames) {
+      if (!REQUIRED_PUBLIC_TOOLS.includes(name)) errors.push(`live MCP exposes unexpected public tool ${name}`);
     }
     for (const name of PRIVATE_REVIEWER_TOOLS) {
       if (toolNames.has(name)) errors.push(`live MCP exposes private reviewer tool ${name}`);

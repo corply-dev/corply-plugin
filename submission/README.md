@@ -130,7 +130,7 @@ Corply combines a hosted, state-first MCP server with one bundled workflow skill
 - Provide a dedicated reviewer account and fixture data that satisfy all seven positive tests without MFA or email/SMS confirmation.
 - Run `CORPLY_SKIP_LIVE_MCP=1 node scripts/check-mcp-sync.mjs`, then rebuild and byte-validate both
   ignored submission archives with `node scripts/package-openai-plugin.mjs`.
-- After the five Corply Pay tools are deployed, run `node scripts/check-mcp-sync.mjs` and require a
+- After all twelve Corply Pay tools are deployed, run `node scripts/check-mcp-sync.mjs` and require a
   clean live result before submission.
 - Complete the portal-generated domain challenge at `https://corply.dev/.well-known/openai-apps-challenge` without replacing another active plugin token.
 - Select production-ready countries/regions and complete the policy attestations only after the portal scan passes.
