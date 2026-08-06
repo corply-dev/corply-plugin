@@ -1,5 +1,7 @@
 # Corply — your corporate operating partner
 
+[![MCP Queen operational grade](https://mcpqueen.com/badge/io.github.corply-dev/corply.svg)](https://mcpqueen.com/s/io.github.corply-dev/corply)
+
 Corply helps founders form, run, and prepare a U.S. startup's revenue launch from their AI agent. Speak
 normally: Corply starts from canonical company state, recommends a standard choice with a short
 business reason, completes the available action, and refreshes the state before reporting the result.
