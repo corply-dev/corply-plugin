@@ -5,8 +5,8 @@
   "plugins": [
     {
       "name": "corply",
-      "description": "Form, run, and build a Corply-controlled customer-payment pipeline through natural conversation grounded in canonical company state.",
-      "version": "0.6.1",
+      "description": "Form, run, prepare Mercury banking, and build a Corply-controlled customer-payment pipeline through natural conversation grounded in canonical company state.",
+      "version": "0.7.0",
       "source": "./",
       "author": { "name": "Corply", "email": "founders@corply.dev" }
     }

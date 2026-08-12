@@ -1,8 +1,8 @@
 {
   "name": "corply",
   "displayName": "Corply",
-  "version": "0.6.1",
-  "description": "A state-first operating partner for forming, running, and preparing a U.S. startup's revenue launch through natural conversation.",
+  "version": "0.7.0",
+  "description": "A context-guided operating partner for forming, running, preparing banking, and preparing a U.S. startup's revenue launch through natural conversation.",
   "author": {
     "name": "Corply",
     "email": "founders@corply.dev"
@@ -17,6 +17,8 @@
     "governance",
     "equity",
     "compliance",
+    "banking",
+    "mercury",
     "payments",
     "revenue",
     "checkout"

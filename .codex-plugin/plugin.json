@@ -1,6 +1,6 @@
 {
   "name": "corply",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "description": "A state-first operating partner for forming, running, and preparing a U.S. startup's revenue launch through Corply.",
   "author": {
     "name": "Corply",
@@ -19,6 +19,8 @@
     "delaware",
     "c-corp",
     "compliance",
+    "banking",
+    "mercury",
     "payments",
     "revenue",
     "checkout"
@@ -27,8 +29,8 @@
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Corply",
-    "shortDescription": "Form, operate, and prepare your startup's revenue launch.",
-    "longDescription": "Talk normally with Corply to form a Delaware C corporation, run an existing U.S. startup, or build and inspect its customer-payment pipeline. Corply starts from canonical company state, controls server-priced orders, merchant routes, payment lifecycle, ledger and reconciliation, and preserves human control over provider onboarding, terms, payout banking, go-live, refunds, and money movement. Corply is not a law firm.",
+    "shortDescription": "Form, operate, prepare banking, and launch startup revenue.",
+    "longDescription": "Talk normally with Corply to form a Delaware C corporation, run an existing U.S. startup, prepare a Mercury bank-account handoff, or build and inspect its customer-payment pipeline. Every MCP result carries canonical output and trusted next-step context while preserving human control over identity checks, provider terms, final submissions, go-live, refunds, and money movement. Corply is not a law firm.",
     "developerName": "Corply",
     "category": "Productivity",
     "capabilities": [
@@ -41,7 +43,7 @@
     "defaultPrompt": [
       "Incorporate my startup with Corply.",
       "Create my startup's Corply payment route in sandbox.",
-      "What does my company need next?"
+      "Prepare our Mercury bank application handoff."
     ],
     "brandColor": "#10A37F",
     "composerIcon": "./assets/icon.svg",

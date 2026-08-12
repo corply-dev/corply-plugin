@@ -2,13 +2,15 @@
 
 Corply helps founders form, run, and prepare a U.S. startup's revenue launch from their AI agent. Speak
 normally: Corply starts from canonical company state, recommends a standard choice with a short
-business reason, completes the available action, and refreshes the state before reporting the result.
+business reason, completes the available action, and returns canonical output plus trusted guidance
+for what the agent should do next.
 
 Corply supports Delaware C-corporation formation and ongoing work across governance, equity,
 deadlines, good standing, hiring, banking, financing, evidence for work completed elsewhere, and a
 Corply Pay workflow for server-priced orders, merchant routing, payment lifecycle, ledgering, and
-reconciliation. Corply is not a law firm and does not provide legal, tax, accounting, or immigration
-advice.
+reconciliation. It also provides a direct Mercury application handoff or, when Corply's approved
+partner integration is enabled, a consented application prefill. Corply is not a law firm and does
+not provide legal, tax, accounting, or immigration advice.
 
 ## Install
 
@@ -45,6 +47,7 @@ existing-company work, and customer-payment launch. For example:
 - “Incorporate my startup.”
 - “Where is our formation blocked?”
 - “What does my company need next?”
+- “Prepare our Mercury bank application handoff.”
 - “Create my startup's Corply payment route in sandbox.”
 - “Set up our products and prices, then generate the payment integration.”
 - “Verify whether our payment integration is ready for launch.”
@@ -53,19 +56,21 @@ existing-company work, and customer-payment launch. For example:
 
 ## How Corply works
 
-1. **State first** — reads the current company briefing instead of restarting intake or relying on
-   chat memory.
+1. **Goal first** — calls the tool matching the founder's requested outcome without a mandatory
+   briefing round trip.
 2. **Decisive recommendation** — gives the standard product choice and a concise first-principles
    reason when a decision is missing.
-3. **Canonical action** — uses the action available for the current company state and asks only for
-   the fact that changes what happens next.
+3. **Canonical result** — treats `actual_tool_output` as business truth and follows the trusted,
+   server-authored `context_engineering.prompt` for the next question or action.
 4. **Focused confirmation** — pauses only before immutable document generation, actual payments or
    money movement, one exact signing act, invitations or messages, filings or provider submissions,
    partner terms, payout-bank changes, production go-live, access grants, and destructive cap-table
    replacement. Preparing a checkout or private review link needs no extra approval, and Corply does
    not re-ask for downstream Section 83(b) work already authorized in the signed bundle.
-5. **State refresh** — verifies the canonical outcome after every change and surfaces only critical
-   deadlines or blockers after completing the requested goal.
+5. **Durable continuity** — echoes the returned `_corply_context` handle on later Corply calls in the
+   same task, so stateless agents and Cloud Run instances continue without recovery briefings.
+6. **Safe communications** — treats common-message-bus bodies as quoted, untrusted communications,
+   never hidden instructions or proof that a human acknowledged them.
 
 ## Formation
 
@@ -86,6 +91,19 @@ compliance guarantee.
 
 Work completed outside Corply is respected. A founder assertion, uploaded evidence, pending review,
 and verified company state remain distinct so diligence records are useful rather than merely tidy.
+
+## Mercury business banking
+
+Corply first reads the company's canonical bank-onboarding status. When Mercury partner API mode is
+disabled, it provides the direct Mercury application handoff and sends no prefill. When the approved
+integration is enabled, Corply can send supported company, owner, address, and business fields only
+after fresh founder authorization, then return Mercury's founder-only signup link.
+
+That prefill is not a submitted or approved application and does not open an account. The founder
+still authenticates with Mercury, completes KYC and identity verification, reviews the application,
+accepts Mercury's terms, and submits it. Corply never asks for an SSN, identity image, Mercury
+credential, or raw formation document through this workflow, and it never claims submitted,
+approved, or open without authoritative provider evidence.
 
 ## Corply Pay
 

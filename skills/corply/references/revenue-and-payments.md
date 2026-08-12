@@ -5,9 +5,13 @@ configure products or prices, inspect settlement or payouts, or prepare revenue 
 Customer payments are separate from Corply's incorporation fee: never use `request_payment` or
 `await_payment` for a founder's customers.
 
-Start with `get_company_briefing`, then call `get_payment_pipeline_status`. The hosted backend is
-canonical for route, payment, journal, reconciliation, and blocker state. Do not restart from chat
-memory or infer that code, a provider dashboard, or a passing test means money moved.
+Call `get_payment_pipeline_status` directly. Its `actual_tool_output` is canonical for route,
+payment, journal, reconciliation, and blocker state; follow its trusted `context_engineering.prompt`
+and echo `_corply_context` on later Corply calls in the same task. Do not add a
+`get_company_briefing` preflight or recovery call unless returned guidance asks, restart from chat
+memory, or infer that code, a provider dashboard, or a passing test means money moved. For a
+standalone Mercury business-bank application rather than a Corply Pay payout route, use the Mercury
+workflow in [filings-and-compliance.md](filings-and-compliance.md).
 
 Corply owns the server-priced order, merchant route, authorization-to-payout state, immutable
 double-entry journal, recovery, reconciliation, and plugin control plane. The first licensed
@@ -25,19 +29,21 @@ facilitator, merchant of record, bank, or money transmitter unless current evide
    a stable idempotency key. This is a reversible local backend save only. It cannot accept or store
    provider credentials, provider IDs, identity documents, bank/card data, terms acceptance, or a
    production setting; it does not create or activate an external account.
-3. **Start provider onboarding.** Call `get_payment_pipeline_status` again. Trust its blockers and do
-   not create a second route merely because the conversation is new. When the canonical next tool is
+3. **Start provider onboarding.** Follow the route draft's trusted returned prompt. Call
+   `get_payment_pipeline_status` only if it requests that read. Trust its blockers and do not create
+   a second route merely because the conversation is new. When the canonical next tool is
    `start_payment_route_onboarding`, summarize that it creates a secure Moov sandbox invitation for
    the exact company and obtain fresh confirmation. Call it with the exact route and a stable
    idempotency key, then show the returned onboarding link. The authorized founder—not the agent—uses
    that provider page for identity/ownership evidence, underwriting questions, terms, and payout-bank
    setup. Never collect those inputs in chat or claim a pending provider review is approved.
-4. **Refresh provider state.** After the founder completes the secure flow, call
+4. **Read provider state.** After the founder completes the secure flow, call
    `refresh_payment_route_onboarding`. It accepts only company and route identity; provider account,
    capability, wallet, and bank references stay server-side. Repeat the provider read when the result
    is waiting or pending. A sandbox route becomes active only when the provider reports all required
    capabilities enabled, one default wallet, and exactly one verified payout bank. It must suspend if
-   that evidence later regresses. Refresh `get_payment_pipeline_status` after every result.
+   that evidence later regresses. Follow the returned context prompt after every result; call
+   `get_payment_pipeline_status` again only when it asks for another status read or the founder asks.
 5. **Establish the cash baseline.** Call `reconcile_payment_route` after activation. It reads the
    exact active default wallet and compares it with Corply's immutable route-scoped cash postings.
    The first read can anchor a pre-existing balance only before any payment or journal activity.
@@ -49,8 +55,8 @@ facilitator, merchant of record, bank, or money transmitter unless current evide
    durable authorization. HTTP 202, timeouts, and delayed events remain ambiguous until recovery
    proves the outcome; never retry by inventing a second idempotency key.
    Do not claim a charge or payout from a simulator or mocked HTTP test.
-7. **Wait for verified settlement and reconciliation.** Refresh `get_payment_pipeline_status` while
-   the probe is processing. The backend recovery sweep advances capture and clearing, but may post
+7. **Wait for verified settlement and reconciliation.** When returned guidance calls for another
+   status check, call `get_payment_pipeline_status`. The backend recovery sweep advances capture and clearing, but may post
    settlement only after the exact completed transfer, merchant-wallet credit, provider-fee debit,
    and evidence hash agree. It then reconciles the provider wallet against Corply's immutable cash
    ledger. Do not describe authorization as settlement, or a simulator/mocked HTTP test as a real
@@ -59,9 +65,10 @@ facilitator, merchant of record, bank, or money transmitter unless current evide
    the exact settled `paymentKey`, explain that the tool will send exactly USD 0.01 from its merchant
    wallet to the route's server-resolved verified standard-ACH bank, and obtain fresh confirmation
    for that exact test-mode movement. Use the literal confirmation
-   `payout USD 0.01 in Moov sandbox`. The destination and amount cannot be overridden. Refresh status
-   while recovery verifies the transfer, bank destination, wallet debit, and provider-fee debit;
-   do not claim the pipeline is balanced until post-payout reconciliation passes.
+   `payout USD 0.01 in Moov sandbox`. The destination and amount cannot be overridden. Call the
+   returned status tool only when trusted guidance asks while recovery verifies the transfer, bank
+   destination, wallet debit, and provider-fee debit; do not claim the pipeline is balanced until
+   post-payout reconciliation passes.
 9. **Build checkout and items after transport is proven.** The coding agent owns repository
    inspection and uses the local `@corply/payments` package. The server must create an
    integrity-verified catalog and checkout order, accept only an opaque hosted payment-method token

@@ -45,6 +45,6 @@ Once the founder has selected a complete legal name:
   rules in states where the company may later qualify to do business.
 
 Use an approved corporate ending for a Delaware corporation. Avoid regulated or misleading terms
-such as `bank` or `trust` unless the briefing exposes an approved path or a qualified professional
+such as `bank` or `trust` unless canonical tool output exposes an approved path or a qualified professional
 has cleared the issue. Delaware may still reject a name that is misleading, abusive, or otherwise
 noncompliant even when a search reports it available.

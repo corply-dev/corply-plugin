@@ -8,23 +8,24 @@ not force the founder to repeat it through Corply.
 - **Assertion:** the founder says something happened.
 - **Evidence:** Corply stored the exact supplied artifact and its integrity metadata.
 - **Pending review:** the assertion and evidence are waiting for the required review.
-- **Canonical state:** Corply accepted the outcome and refreshed the company's applicable plan.
+- **Canonical state:** Corply accepted the outcome and returned the company's updated applicable plan.
 
 Uploading a file proves only that those bytes were stored. A filename, hash, founder statement, or
 submission receipt does not by itself prove the underlying work or mark it complete.
 
 ## Reconcile external work
 
-1. Refresh `get_company_briefing` and identify the exact current action or occurrence. If the
-   outside event is not materialized yet, use the briefing's canonical subject and explicit-fact
-   actions to record only supplied assertions, resolve again, and obtain the server-created
-   occurrence. Never invent identifiers.
+1. Call the evidence or completion tool that matches the founder's goal and follow its trusted
+   `context_engineering.prompt`. If the outside event is not materialized yet, use the returned
+   canonical subject and explicit-fact actions to record only supplied assertions and obtain the
+   server-created occurrence. Never invent identifiers.
 2. Upload the artifact the founder actually supplied. Never manufacture or alter proof.
 3. Use the canonical evidence or existing-completion action with the returned company, person,
    occurrence, and coverage context. Preserve the founder's attestation accurately.
 4. Treat the result as pending unless Corply explicitly promotes it to canonical state.
 5. Report any missing artifact, uncovered outcome fact, reviewer boundary, or rejection plainly.
-6. Refresh the briefing after submission or review.
+6. Report the returned canonical state after submission or review and carry `_corply_context` into
+   the next Corply call in this task.
 
 Do not let founders approve their own claims or relabel founder evidence as operator- or
 professional-confirmed. Do not expose private reviewer queues, internal decision rules, or temporary

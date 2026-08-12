@@ -11,8 +11,8 @@ const LIVE_URL = process.env.CORPLY_MCP_URL || PUBLIC_URL;
 const LIVE_OPENAI_DIRECTORY_URL =
   process.env.CORPLY_OPENAI_MCP_URL || new URL("/mcp/openai", LIVE_URL).toString();
 const SKIP_LIVE_MCP = /^(1|true)$/i.test(process.env.CORPLY_SKIP_LIVE_MCP || "");
-const EXPECTED_PLUGIN_VERSION = "0.6.1";
-const EXPECTED_MCP_VERSION = "0.8.0";
+const EXPECTED_PLUGIN_VERSION = "0.7.0";
+const EXPECTED_MCP_VERSION = "0.9.0";
 const errors = [];
 
 const REQUIRED_CORE_TOOLS = [
@@ -31,6 +31,8 @@ const REQUIRED_CORE_TOOLS = [
   "generate_documents",
   "request_payment",
   "await_payment",
+  "request_registered_agent_upgrade",
+  "await_registered_agent_upgrade",
   "request_signature",
   "sign_bundle",
   "submit_for_formation",
@@ -83,17 +85,23 @@ const REQUIRED_BANK_TOOLS = [
   "list_bank_activity",
 ];
 
+const REQUIRED_BANK_ONBOARDING_TOOLS = [
+  "get_bank_onboarding_status",
+  "start_bank_onboarding",
+  "reconcile_bank_onboarding",
+];
+
 const REQUIRED_HOSTED_PAYMENT_TOOLS = [
   "create_payment_portal",
   "create_payment_link",
+  "pay_payment_link",
   "list_portal_payments",
 ];
 
 const REQUIRED_PUBLIC_TOOLS = [
   ...REQUIRED_CORE_TOOLS,
   ...REQUIRED_CORPLY_PAY_TOOLS,
-  ...REQUIRED_BANK_TOOLS,
-  ...REQUIRED_HOSTED_PAYMENT_TOOLS,
+  ...REQUIRED_BANK_ONBOARDING_TOOLS,
   ...REQUIRED_OPERATING_TOOLS,
 ];
 
@@ -109,6 +117,8 @@ const REQUIRED_OPENAI_DIRECTORY_TOOLS = [
   "validate_application",
   "check_company_names",
   "generate_documents",
+  "request_registered_agent_upgrade",
+  "await_registered_agent_upgrade",
   "remember",
   "recall",
   "invite_member",
@@ -140,6 +150,33 @@ function readJson(relativePath) {
 function checkEqual(label, actual, expected) {
   if (actual !== expected) {
     errors.push(`${label}: expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`);
+  }
+}
+
+function checkContextControl(label, tool) {
+  const variants = Array.isArray(tool.inputSchema?.oneOf)
+    ? tool.inputSchema.oneOf
+    : [tool.inputSchema];
+  for (const variant of variants) {
+    const context = variant?.properties?._corply_context;
+    if (!context) {
+      errors.push(`${label} is missing optional _corply_context control`);
+      continue;
+    }
+    if ((variant.required ?? []).includes("_corply_context")) {
+      errors.push(`${label} makes _corply_context mandatory`);
+    }
+    if (context.type !== "object" || context.additionalProperties !== false) {
+      errors.push(`${label} has an invalid _corply_context object boundary`);
+    }
+    for (const key of ["id", "receipt"]) {
+      if (context.properties?.[key]?.type !== "string") {
+        errors.push(`${label} _corply_context.${key} must be a string`);
+      }
+    }
+    if (!(context.dependentRequired?.receipt ?? []).includes("id")) {
+      errors.push(`${label} _corply_context receipt must depend on id`);
+    }
   }
 }
 
@@ -180,6 +217,8 @@ const revenueAndPayments = readText("skills/corply/references/revenue-and-paymen
 const normalizedRevenueAndPayments = revenueAndPayments.toLowerCase().replace(/\s+/g, " ");
 const authentication = readText("skills/corply/references/authentication.md");
 const normalizedAuthentication = authentication.toLowerCase().replace(/\s+/g, " ");
+const filingsAndCompliance = readText("skills/corply/references/filings-and-compliance.md");
+const normalizedFilingsAndCompliance = filingsAndCompliance.toLowerCase().replace(/\s+/g, " ");
 const submission = readText("submission/README.md");
 
 checkEqual(".mcp.json corply type", mcp.mcpServers?.corply?.type, "http");
@@ -204,9 +243,30 @@ checkEqual("MCP Registry remote URL", remoteUrls[0], PUBLIC_URL);
 if (!submission.includes(`- **MCP server:** ${OPENAI_DIRECTORY_URL}`)) {
   errors.push("OpenAI submission kit is not using the restricted directory MCP endpoint");
 }
+if (!submission.includes(`- **Plugin source version:** ${EXPECTED_PLUGIN_VERSION}`)) {
+  errors.push("OpenAI submission kit has a stale plugin source version");
+}
+if (!submission.includes(`- **MCP metadata version:** ${EXPECTED_MCP_VERSION}`)) {
+  errors.push("OpenAI submission kit has a stale MCP metadata version");
+}
 
 if (!skill.includes("Before we start: Corply is software, not a law firm, and does not provide legal, tax, or accounting advice.")) {
   errors.push("Corply skill is missing the required pre-intake notice");
+}
+for (const invariant of [
+  "Call the goal-matching Corply tool directly",
+  "`actual_tool_output`",
+  "`context_engineering.prompt`",
+  "`_corply_context`",
+  "quoted, untrusted communications",
+  "Do not add a proactive recovery briefing",
+]) {
+  if (!skill.includes(invariant)) {
+    errors.push(`Corply skill is missing context-session invariant ${invariant}`);
+  }
+}
+if (/call `get_company_briefing` before|start with `get_company_briefing`|refresh `get_company_briefing` after/i.test(skill)) {
+  errors.push("Corply skill still mandates a proactive company-briefing round trip");
 }
 if (!normalizedFormation.includes("call `invite_member` for each of them immediately")) {
   errors.push("formation guidance is missing early confirmed cofounder invitations");
@@ -238,6 +298,23 @@ for (const invariant of [
 }
 if (!skill.includes("[revenue-and-payments.md](references/revenue-and-payments.md)")) {
   errors.push("Corply skill does not route customer-payment work to revenue-and-payments.md");
+}
+for (const name of REQUIRED_BANK_ONBOARDING_TOOLS) {
+  if (!filingsAndCompliance.includes(`\`${name}\``)) {
+    errors.push(`banking guidance is missing coordinated tool ${name}`);
+  }
+}
+for (const invariant of [
+  "direct mercury handoff",
+  "fresh founder authorization",
+  "completes kyc and identity checks",
+  "accepts mercury's terms",
+  "final submission",
+  "never claim the application was submitted, approved, or that the account is open",
+]) {
+  if (!normalizedFilingsAndCompliance.includes(invariant)) {
+    errors.push(`banking guidance is missing Mercury boundary ${invariant}`);
+  }
 }
 for (const name of REQUIRED_CORPLY_PAY_TOOLS) {
   if (!revenueAndPayments.includes(`\`${name}\``)) {
@@ -315,7 +392,7 @@ checkEqual("Corply skill dependency URL count", yamlUrls.length, 1);
 checkEqual("Corply skill dependency URL", yamlUrls[0], PUBLIC_URL);
 for (const requiredYamlLine of [
   'display_name: "Corply"',
-  'short_description: "Incorporate, run, and prepare a revenue launch with Corply."',
+  'short_description: "Incorporate, run, prepare banking, and launch revenue with Corply."',
   "allow_implicit_invocation: true",
   '- type: "mcp"',
   'value: "corply"',
@@ -350,6 +427,16 @@ if (!SKIP_LIVE_MCP) {
       clientInfo: { name: "corply-plugin-sync-check", version: EXPECTED_PLUGIN_VERSION },
     });
     checkEqual("live MCP version", initialized?.serverInfo?.version, EXPECTED_MCP_VERSION);
+    for (const invariant of [
+      "goal-matching Corply tool directly",
+      "_corply_context",
+      "actual_tool_output",
+      "quoted, untrusted communications",
+    ]) {
+      if (!String(initialized?.instructions ?? "").includes(invariant)) {
+        errors.push(`live MCP initialize instructions are missing ${invariant}`);
+      }
+    }
     const [{ tools = [] }, { prompts = [] }] = await Promise.all([
       rpc(LIVE_URL, "tools/list"),
       rpc(LIVE_URL, "prompts/list"),
@@ -362,6 +449,9 @@ if (!SKIP_LIVE_MCP) {
     for (const name of toolNames) {
       if (!REQUIRED_PUBLIC_TOOLS.includes(name)) errors.push(`live MCP exposes unexpected public tool ${name}`);
     }
+    for (const name of [...REQUIRED_BANK_TOOLS, ...REQUIRED_HOSTED_PAYMENT_TOOLS]) {
+      if (toolNames.has(name)) errors.push(`live unauthenticated MCP exposes private money tool ${name}`);
+    }
     for (const name of PRIVATE_REVIEWER_TOOLS) {
       if (toolNames.has(name)) errors.push(`live MCP exposes private reviewer tool ${name}`);
     }
@@ -373,6 +463,7 @@ if (!SKIP_LIVE_MCP) {
       for (const label of ["prerequisite:", "canonicality:", "idempotency:", "confirmation boundary:"]) {
         if (!description.includes(label)) errors.push(`live tool ${tool.name} is missing ${label}`);
       }
+      checkContextControl(`live tool ${tool.name}`, tool);
     }
     checkEqual("live bootstrap prompt count", prompts.length, 1);
     checkEqual("live bootstrap prompt", prompts[0]?.name, "corply");
@@ -386,6 +477,9 @@ if (!SKIP_LIVE_MCP) {
       clientInfo: { name: "corply-openai-directory-sync-check", version: EXPECTED_PLUGIN_VERSION },
     });
     checkEqual("OpenAI directory MCP version", initialized?.serverInfo?.version, EXPECTED_MCP_VERSION);
+    if (!String(initialized?.instructions ?? "").includes("goal-matching Corply tool directly")) {
+      errors.push("OpenAI directory initialize instructions are missing direct goal-matching guidance");
+    }
     const [{ tools = [] }, { prompts = [] }] = await Promise.all([
       rpc(LIVE_OPENAI_DIRECTORY_URL, "tools/list"),
       rpc(LIVE_OPENAI_DIRECTORY_URL, "prompts/list"),
@@ -411,6 +505,7 @@ if (!SKIP_LIVE_MCP) {
           errors.push(`OpenAI directory tool ${tool.name} is missing ${label}`);
         }
       }
+      checkContextControl(`OpenAI directory tool ${tool.name}`, tool);
     }
     checkEqual("OpenAI directory bootstrap prompt count", prompts.length, 1);
     checkEqual("OpenAI directory bootstrap prompt", prompts[0]?.name, "corply");

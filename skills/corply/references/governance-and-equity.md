@@ -1,7 +1,9 @@
 # Governance and equity
 
-Use the applicable standard configuration and explanations returned by
-`get_company_briefing`. Those server-returned values are the product authority. Do not replace them
+Use the applicable standard configuration and explanations in the goal-matching tool's
+`actual_tool_output` and trusted `context_engineering.prompt`. Those server-returned values are the
+product authority. Use `get_company_briefing` only for a broad briefing, company disambiguation, or
+when returned guidance asks. Do not replace them
 with generic startup advice, silently infer a different default, or maintain a second set of
 capitalization, vesting, acceleration, director, officer, or tax defaults in this public skill.
 
@@ -22,7 +24,7 @@ capitalization, vesting, acceleration, director, officer, or tax defaults in thi
   protected-document terms.
 - **Directors and officers:** keep director status, corporate offices, and ordinary job titles
   distinct. Present the returned incorporator, initial-director, Secretary, and President/CEO
-  recommendations as separate decisions wherever the briefing requires separate confirmation.
+  recommendations as separate decisions wherever returned guidance requires separate confirmation.
 - **Advanced structures:** special share classes, super-voting rights, preferred stock, negotiated
   control rights, stock plans, investor issuances, and later equity pools are later or bespoke
   actions. Do not smuggle them into a standard founder issuance.
@@ -32,7 +34,7 @@ useful reason, then let the founder decide the genuine economic or control quest
 
 ## Employee grants and later equity
 
-For an employee option or other later grant, start from the refreshed company briefing. Verify that
+For an employee option or other later grant, call the goal-matching equity tool and verify that
 the canonical state shows an adopted stock plan and sufficient reserved shares before describing an
 option as grantable. If either is missing, prepare the returned plan-adoption, reservation, approval,
 and grant sequence; do not relabel generic unissued shares as a pool.
@@ -58,7 +60,7 @@ one-time external-browser field, and Corply Ops prints and mails the resulting m
 Corply preserves submission evidence without claiming it was mailed, filed, or accepted before the
 canonical state says so.
 
-Ask only the applicability questions returned by the briefing. Route a non-standard legal, tax,
+Ask only the applicability questions returned by canonical tool output. Route a non-standard legal, tax,
 securities, immigration, or IP determination to the appropriate professional boundary while still
 preparing the known facts, documents, and business blocker.
 

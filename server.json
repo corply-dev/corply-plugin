@@ -1,12 +1,12 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.corply-dev/corply",
-  "description": "State-first formation and company operations through Corply's hosted MCP server.",
+  "description": "Context-guided formation, company operations, and Mercury banking handoff through Corply's hosted MCP server.",
   "repository": {
     "url": "https://github.com/corply-dev/corply-plugin",
     "source": "github"
   },
-  "version": "0.8.0",
+  "version": "0.9.0",
   "websiteUrl": "https://corply.dev",
   "remotes": [
     {

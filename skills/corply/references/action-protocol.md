@@ -1,7 +1,10 @@
 # Action protocol
 
-Use Corply's current briefing and canonical action as the authority for what can happen next. Keep
-the founder moving: do not ask for permission to read, advise, or make an ordinary reversible save.
+Use the goal-matching tool's `actual_tool_output` and trusted `context_engineering.prompt` as the
+authority for what can happen next. Keep the founder moving: do not ask for permission to read,
+advise, or make an ordinary reversible save. Carry the latest `_corply_context` into later Corply
+calls in the same task; do not insert a `get_company_briefing` recovery call unless returned guidance
+asks for it.
 
 ## Actions that do not need another confirmation
 
@@ -20,7 +23,7 @@ Proceed when the action is in scope and Corply exposes it:
   live configuration, bank change, or money movement;
 - recording a fact the founder explicitly supplied or confirmed;
 - evidence upload and evidence-claim submission;
-- plan or briefing refreshes.
+- plan or status reads requested by the founder or returned guidance.
 
 An explicit answer to a focused question is sufficient authority to record that answer. Do not add
 an extra "are you sure?" unless the resulting action is in the consequential list below.
@@ -71,6 +74,7 @@ recipient's message as their signature.
 
 ## After an action
 
-Trust the returned result. Do not repeat a consequential call merely because the response was slow;
-use the returned idempotency, retry, or next-action guidance. Refresh `get_company_briefing` and say
-what is canonically complete, pending, rejected, or still blocked.
+Trust `actual_tool_output`. Do not repeat a consequential call merely because the response was slow;
+use the returned idempotency, retry, or `context_engineering.prompt` guidance. Say what is
+canonically complete, pending, rejected, or still blocked. Echo the latest context ID and receipt on
+the next Corply call in this task; do not proactively refresh `get_company_briefing`.
