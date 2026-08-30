@@ -11,8 +11,8 @@ const LIVE_URL = process.env.CORPLY_MCP_URL || PUBLIC_URL;
 const LIVE_OPENAI_DIRECTORY_URL =
   process.env.CORPLY_OPENAI_MCP_URL || new URL("/mcp/openai", LIVE_URL).toString();
 const SKIP_LIVE_MCP = /^(1|true)$/i.test(process.env.CORPLY_SKIP_LIVE_MCP || "");
-const EXPECTED_PLUGIN_VERSION = "0.7.0";
-const EXPECTED_MCP_VERSION = "0.9.0";
+const EXPECTED_PLUGIN_VERSION = "0.7.1";
+const EXPECTED_MCP_VERSION = "0.10.0";
 const errors = [];
 
 const REQUIRED_CORE_TOOLS = [
@@ -96,6 +96,20 @@ const REQUIRED_HOSTED_PAYMENT_TOOLS = [
   "create_payment_link",
   "pay_payment_link",
   "list_portal_payments",
+];
+
+// Corply Mail is a commercially gated product surface. Production discovery must
+// expose either this complete lifecycle or none of it—never a partial mailbox.
+const GATED_CORPLY_MAIL_TOOLS = [
+  "get_corply_mail",
+  "request_corply_mail",
+  "manage_corply_mail_billing",
+  "start_corply_mail_activation",
+  "list_mail",
+  "get_mail_item",
+  "request_mail_scan",
+  "request_mail_forward",
+  "request_mail_shred",
 ];
 
 const REQUIRED_PUBLIC_TOOLS = [
@@ -442,12 +456,21 @@ if (!SKIP_LIVE_MCP) {
       rpc(LIVE_URL, "prompts/list"),
     ]);
     const toolNames = new Set(tools.map((tool) => tool.name));
-    checkEqual("live public tool count", toolNames.size, REQUIRED_PUBLIC_TOOLS.length);
-    for (const name of REQUIRED_PUBLIC_TOOLS) {
+    const exposedMailTools = GATED_CORPLY_MAIL_TOOLS.filter((name) => toolNames.has(name));
+    if (exposedMailTools.length !== 0 && exposedMailTools.length !== GATED_CORPLY_MAIL_TOOLS.length) {
+      errors.push(
+        `live MCP exposes a partial Corply Mail lifecycle (${exposedMailTools.length}/${GATED_CORPLY_MAIL_TOOLS.length})`,
+      );
+    }
+    const expectedPublicTools = exposedMailTools.length === GATED_CORPLY_MAIL_TOOLS.length
+      ? [...REQUIRED_PUBLIC_TOOLS, ...GATED_CORPLY_MAIL_TOOLS]
+      : REQUIRED_PUBLIC_TOOLS;
+    checkEqual("live public tool count", toolNames.size, expectedPublicTools.length);
+    for (const name of expectedPublicTools) {
       if (!toolNames.has(name)) errors.push(`live MCP is missing required public tool ${name}`);
     }
     for (const name of toolNames) {
-      if (!REQUIRED_PUBLIC_TOOLS.includes(name)) errors.push(`live MCP exposes unexpected public tool ${name}`);
+      if (!expectedPublicTools.includes(name)) errors.push(`live MCP exposes unexpected public tool ${name}`);
     }
     for (const name of [...REQUIRED_BANK_TOOLS, ...REQUIRED_HOSTED_PAYMENT_TOOLS]) {
       if (toolNames.has(name)) errors.push(`live unauthenticated MCP exposes private money tool ${name}`);

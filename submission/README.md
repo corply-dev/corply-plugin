@@ -18,8 +18,8 @@ Use this kit for the initial public submission at https://platform.openai.com/pl
 - **Privacy:** https://corply.dev/privacy
 - **Terms:** https://corply.dev/terms
 - **MCP server:** https://corply.dev/mcp/openai
-- **Plugin source version:** 0.7.0
-- **MCP metadata version:** 0.9.0
+- **Plugin source version:** 0.7.1
+- **MCP metadata version:** 0.10.0
 - **Authentication:** OAuth 2.1 authorization code with PKCE and dynamic client registration
 - **Logo:** `../assets/logo.png`
 - **Skill bundle:** `../corply-openai-skill-bundle.zip`
@@ -90,7 +90,7 @@ Use this kit for the initial public submission at https://platform.openai.com/pl
 ## MCP review notes
 
 - The restricted OpenAI-directory MCP endpoint supports unauthenticated initialization and tool discovery.
-- It intentionally omits payment, signing, filing-submission, banking, and customer-payment tools.
+- It intentionally omits payment, signing, filing-submission, banking, customer-payment, and mailbox tools.
 - General Claude, Codex, Cursor, and MCP installs continue using `https://corply.dev/mcp`; do not
   replace their full endpoint with the directory-specific one.
 - Authenticated tool calls return a Bearer challenge that points to `https://corply.dev/.well-known/oauth-protected-resource`.
@@ -126,7 +126,7 @@ assertions, evidence, pending review, and verified company state distinct.
 - Provide a dedicated reviewer account and fixture data that satisfy all five positive tests without MFA or email/SMS confirmation.
 - Run `CORPLY_SKIP_LIVE_MCP=1 node scripts/check-mcp-sync.mjs`, then rebuild and byte-validate both
   ignored submission archives with `node scripts/package-openai-plugin.mjs`.
-- After MCP 0.9.0 and the restricted directory endpoint are deployed, run
+- After MCP 0.10.0 and the restricted directory endpoint are deployed, run
   `node scripts/check-mcp-sync.mjs` and require a clean live result before submission.
 - Complete the portal-generated domain challenge at `https://corply.dev/.well-known/openai-apps-challenge` without replacing another active plugin token.
 - Select production-ready countries/regions and complete the policy attestations only after the portal scan passes.

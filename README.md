@@ -155,8 +155,8 @@ CORPLY_SKIP_LIVE_MCP=1 node scripts/check-mcp-sync.mjs
 ```
 
 After the backend is deployed, run `node scripts/check-mcp-sync.mjs`. The full check intentionally
-fails if the deployed MCP version, required public tools, tool metadata, or bootstrap prompt does not
-match this bundle. Rebuild and byte-validate both ignored submission archives with
+fails if the deployed MCP version, required public tools, gated Corply Mail surface, tool metadata,
+or bootstrap prompt does not match this bundle. Rebuild and byte-validate both ignored submission archives with
 `node scripts/package-openai-plugin.mjs`. Do not publish the updated plugin until the full check
 passes.
 
