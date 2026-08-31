@@ -18,7 +18,7 @@ Use this kit for the initial public submission at https://platform.openai.com/pl
 - **Privacy:** https://corply.dev/privacy
 - **Terms:** https://corply.dev/terms
 - **MCP server:** https://corply.dev/mcp/openai
-- **Plugin source version:** 0.7.1
+- **Plugin source version:** 0.7.2
 - **MCP metadata version:** 0.10.0
 - **Authentication:** OAuth 2.1 authorization code with PKCE and dynamic client registration
 - **Logo:** `../assets/logo.png`

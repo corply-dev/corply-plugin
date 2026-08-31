@@ -1,7 +1,7 @@
 {
   "name": "corply",
   "description": "A context-guided operating partner for forming, running, preparing banking, and preparing a U.S. startup's revenue launch through natural conversation.",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "author": { "name": "Corply", "email": "founders@corply.dev" },
   "homepage": "https://corply.dev",
   "license": "MIT",

@@ -4,8 +4,8 @@ Use the applicable standard configuration and explanations in the goal-matching 
 `actual_tool_output` and trusted `context_engineering.prompt`. Those server-returned values are the
 product authority. Use `get_company_briefing` only for a broad briefing, company disambiguation, or
 when returned guidance asks. Do not replace them
-with generic startup advice, silently infer a different default, or maintain a second set of
-capitalization, vesting, acceleration, director, officer, or tax defaults in this public skill.
+with generic startup advice or silently infer a different default. The numeric anti-drift guard
+below mirrors the current server contract; a returned canonical configuration remains authoritative.
 
 ## Founder decisions
 
@@ -15,6 +15,10 @@ capitalization, vesting, acceleration, director, officer, or tax defaults in thi
   contribution gap as a reason to discuss a deviation—not as permission for the agent to choose.
   An organizer may enter a proposed split but cannot impersonate another founder's agreement; use
   the canonical founder-specific confirmation or signature boundary before their issuance is final.
+- **Standard capitalization:** Corply's current server-authoritative standard is 10,000,000 shares
+  authorized, 8,000,000 issued collectively to the founders in the exact ratio they confirm, and
+  2,000,000 authorized but unissued. Never substitute a generic 9,000,000/1,000,000 or 90/10
+  recommendation. If a returned canonical configuration changes, follow that returned configuration.
 - **Authorized versus issued shares:** distinguish founder-issued shares from authorized but
   unissued shares. Never call unissued shares an option pool or stock plan unless the canonical
   company state shows that one was actually adopted.

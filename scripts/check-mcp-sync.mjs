@@ -11,7 +11,7 @@ const LIVE_URL = process.env.CORPLY_MCP_URL || PUBLIC_URL;
 const LIVE_OPENAI_DIRECTORY_URL =
   process.env.CORPLY_OPENAI_MCP_URL || new URL("/mcp/openai", LIVE_URL).toString();
 const SKIP_LIVE_MCP = /^(1|true)$/i.test(process.env.CORPLY_SKIP_LIVE_MCP || "");
-const EXPECTED_PLUGIN_VERSION = "0.7.1";
+const EXPECTED_PLUGIN_VERSION = "0.7.2";
 const EXPECTED_MCP_VERSION = "0.10.0";
 const errors = [];
 
@@ -233,6 +233,8 @@ const authentication = readText("skills/corply/references/authentication.md");
 const normalizedAuthentication = authentication.toLowerCase().replace(/\s+/g, " ");
 const filingsAndCompliance = readText("skills/corply/references/filings-and-compliance.md");
 const normalizedFilingsAndCompliance = filingsAndCompliance.toLowerCase().replace(/\s+/g, " ");
+const governanceAndEquity = readText("skills/corply/references/governance-and-equity.md");
+const normalizedGovernanceAndEquity = governanceAndEquity.toLowerCase().replace(/\s+/g, " ");
 const submission = readText("submission/README.md");
 
 checkEqual(".mcp.json corply type", mcp.mcpServers?.corply?.type, "http");
@@ -287,6 +289,16 @@ if (!normalizedFormation.includes("call `invite_member` for each of them immedia
 }
 if (!normalizedFormation.includes("never block document generation") || formation.includes("Continue only after")) {
   errors.push("formation guidance still treats company-name checking as a document gate");
+}
+for (const invariant of [
+  "10,000,000 shares authorized",
+  "8,000,000 issued collectively to the founders",
+  "2,000,000 authorized but unissued",
+  "never substitute a generic 9,000,000/1,000,000 or 90/10 recommendation",
+]) {
+  if (!normalizedGovernanceAndEquity.includes(invariant)) {
+    errors.push(`governance guidance is missing standard-capitalization invariant ${invariant}`);
+  }
 }
 for (const invariant of [
   "call `request_payment` without another confirmation",
