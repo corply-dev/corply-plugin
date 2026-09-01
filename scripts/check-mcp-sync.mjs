@@ -11,7 +11,7 @@ const LIVE_URL = process.env.CORPLY_MCP_URL || PUBLIC_URL;
 const LIVE_OPENAI_DIRECTORY_URL =
   process.env.CORPLY_OPENAI_MCP_URL || new URL("/mcp/openai", LIVE_URL).toString();
 const SKIP_LIVE_MCP = /^(1|true)$/i.test(process.env.CORPLY_SKIP_LIVE_MCP || "");
-const EXPECTED_PLUGIN_VERSION = "0.7.2";
+const EXPECTED_PLUGIN_VERSION = "0.7.3";
 const EXPECTED_MCP_VERSION = "0.10.0";
 const errors = [];
 
@@ -295,6 +295,9 @@ for (const invariant of [
   "8,000,000 issued collectively to the founders",
   "2,000,000 authorized but unissued",
   "never substitute a generic 9,000,000/1,000,000 or 90/10 recommendation",
+  "a `standard_founder_shares_total` issue means the submitted allocation was saved but is invalid",
+  "use `kind: missing` only to collect an absent input and `kind: invalid` only to correct a saved value",
+  "never call it missing data or a persistence failure",
 ]) {
   if (!normalizedGovernanceAndEquity.includes(invariant)) {
     errors.push(`governance guidance is missing standard-capitalization invariant ${invariant}`);

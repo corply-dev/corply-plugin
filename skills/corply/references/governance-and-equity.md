@@ -19,6 +19,11 @@ below mirrors the current server contract; a returned canonical configuration re
   authorized, 8,000,000 issued collectively to the founders in the exact ratio they confirm, and
   2,000,000 authorized but unissued. Never substitute a generic 9,000,000/1,000,000 or 90/10
   recommendation. If a returned canonical configuration changes, follow that returned configuration.
+- **Validation:** when `validate_application` returns `validationIssues`, treat those structured
+  records as authoritative. Use `kind: missing` only to collect an absent input and `kind: invalid`
+  only to correct a saved value. A `standard_founder_shares_total` issue means the submitted
+  allocation was saved but is invalid; correct it to the returned expected total and never call it
+  missing data or a persistence failure.
 - **Authorized versus issued shares:** distinguish founder-issued shares from authorized but
   unissued shares. Never call unissued shares an option pool or stock plan unless the canonical
   company state shows that one was actually adopted.
