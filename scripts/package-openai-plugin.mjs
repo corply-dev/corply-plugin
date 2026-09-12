@@ -13,7 +13,8 @@ const OUTPUTS = {
   skill: "corply-openai-skill-bundle.zip",
   full: "corply-openai-plugin-full.zip",
 };
-const ROOT_EXCLUDES = new Set([".git", "node_modules", ".DS_Store", ...Object.values(OUTPUTS)]);
+const DISTRIBUTED_PATHS = [".codex-plugin", ".claude-plugin", ".cursor-plugin",
+  ".agents/plugins", ".mcp.json", "server.json", "LICENSE", "README.md", "assets", "skills/corply"];
 
 function run(command, args, options = {}) {
   const result = spawnSync(command, args, {
@@ -28,11 +29,11 @@ function run(command, args, options = {}) {
   return result.stdout;
 }
 
-async function collectFiles(directory = ROOT, prefix = "") {
+async function collectFiles(directory, prefix) {
   const files = [];
   const entries = await readdir(directory, { withFileTypes: true });
   for (const entry of entries.sort((left, right) => left.name.localeCompare(right.name))) {
-    if ((!prefix && ROOT_EXCLUDES.has(entry.name)) || entry.name === ".DS_Store") continue;
+    if (entry.name === ".DS_Store") continue;
     const relative = prefix ? `${prefix}/${entry.name}` : entry.name;
     const absolute = path.join(directory, entry.name);
     if (entry.isDirectory()) files.push(...await collectFiles(absolute, relative));
@@ -42,21 +43,36 @@ async function collectFiles(directory = ROOT, prefix = "") {
   return files;
 }
 
+export async function packageMappings() {
+  const sources = [];
+  for (const relative of DISTRIBUTED_PATHS) {
+    const absolute = path.join(ROOT, relative);
+    if ((await stat(absolute)).isDirectory()) sources.push(...await collectFiles(absolute, relative));
+    else sources.push(relative);
+  }
+  const directoryRoot = "submission/openai/skills/corply";
+  const directorySources = await collectFiles(path.join(ROOT, directoryRoot), directoryRoot);
+  return {
+    skill: new Map(directorySources.map((source) => [source.replace("submission/openai/", ""), source])),
+    full: new Map(sources.map((source) => [`corply/${source}`, source])),
+  };
+}
+
 function digest(value) {
   return createHash("sha256").update(value).digest("hex");
 }
 
-function archiveEntries(archive) {
+export function archiveEntries(archive) {
   return String(run("unzip", ["-Z1", archive]))
     .split(/\r?\n/)
     .filter(Boolean);
 }
 
-function archiveFile(archive, entry) {
+export function archiveFile(archive, entry) {
   return run("unzip", ["-p", archive, entry], { binary: true });
 }
 
-async function validateArchive(archive, mapping) {
+export async function validateArchive(archive, mapping) {
   const expectedEntries = [...mapping.keys()].sort();
   const actualEntries = archiveEntries(archive).sort();
   if (JSON.stringify(actualEntries) !== JSON.stringify(expectedEntries)) {
@@ -73,7 +89,7 @@ async function validateArchive(archive, mapping) {
   }
 }
 
-async function buildArchive(stagingRoot, archive, mapping) {
+export async function buildArchive(stagingRoot, archive, mapping) {
   for (const [entry, source] of mapping) {
     const target = path.join(stagingRoot, entry);
     await mkdir(path.dirname(target), { recursive: true });
@@ -91,14 +107,7 @@ async function buildArchive(stagingRoot, archive, mapping) {
 }
 
 async function main() {
-  const sources = await collectFiles();
-  const skillSources = sources.filter((file) => file.startsWith("skills/corply/"));
-  if (!skillSources.includes("skills/corply/references/revenue-and-payments.md")) {
-    throw new Error("Revenue-and-payments guidance is missing from the skill source set.");
-  }
-
-  const skillMapping = new Map(skillSources.map((source) => [source, source]));
-  const fullMapping = new Map(sources.map((source) => [`corply/${source}`, source]));
+  const { skill: skillMapping, full: fullMapping } = await packageMappings();
   const temporary = await mkdtemp(path.join(tmpdir(), "corply-plugin-package-"));
   try {
     const stagedSkill = path.join(temporary, OUTPUTS.skill);
@@ -108,8 +117,10 @@ async function main() {
 
     const embeddedPlugin = JSON.parse(String(archiveFile(stagedFull, "corply/.codex-plugin/plugin.json")));
     const embeddedServer = JSON.parse(String(archiveFile(stagedFull, "corply/server.json")));
-    if (embeddedPlugin.version !== "0.7.3" || embeddedServer.version !== "0.10.0") {
-      throw new Error("Packaged plugin must be version 0.7.3 and MCP metadata version 0.10.0.");
+    const sourcePlugin = JSON.parse(await readFile(path.join(ROOT, ".codex-plugin/plugin.json"), "utf8"));
+    const sourceServer = JSON.parse(await readFile(path.join(ROOT, "server.json"), "utf8"));
+    if (embeddedPlugin.version !== sourcePlugin.version || embeddedServer.version !== sourceServer.version) {
+      throw new Error("Packaged versions differ from current source manifests.");
     }
 
     await copyFile(stagedSkill, path.join(ROOT, OUTPUTS.skill));
@@ -123,7 +134,7 @@ async function main() {
   }
 }
 
-main().catch((error) => {
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main().catch((error) => {
   console.error(error instanceof Error ? error.message : String(error));
   process.exitCode = 1;
 });

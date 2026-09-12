@@ -1,77 +1,31 @@
-# Governance and equity
+# Formation ownership and roles
 
-Use the applicable standard configuration and explanations in the goal-matching tool's
-`actual_tool_output` and trusted `context_engineering.prompt`. Those server-returned values are the
-product authority. Use `get_company_briefing` only for a broad briefing, company disambiguation, or
-when returned guidance asks. Do not replace them
-with generic startup advice or silently infer a different default. The numeric anti-drift guard
-below mirrors the current server contract; a returned canonical configuration remains authoritative.
+Use the live `standardConfiguration`, validation issues, and trusted context prompt. Explain
+returned defaults with a short business reason. Preserve confirmed founder choices; never
+substitute generic capitalization numbers or infer a stock-plan reserve from unissued shares.
 
-## Founder decisions
+Distinguish authorized shares, founder-issued shares, and authorized but unissued shares.
+Use `kind: missing` to collect absent inputs and `kind: invalid` to correct saved values.
+A saved invalid allocation is not a persistence failure.
 
-- **Founder allocation:** lead with the returned standard recommendation and its first-principles
-  explanation, show the exact share and ownership result, and require founders to confirm the exact
-  allocation. Treat a materially lower continuing time commitment or a fundamental, durable
-  contribution gap as a reason to discuss a deviation—not as permission for the agent to choose.
-  An organizer may enter a proposed split but cannot impersonate another founder's agreement; use
-  the canonical founder-specific confirmation or signature boundary before their issuance is final.
-- **Standard capitalization:** Corply's current server-authoritative standard is 10,000,000 shares
-  authorized, 8,000,000 issued collectively to the founders in the exact ratio they confirm, and
-  2,000,000 authorized but unissued. Never substitute a generic 9,000,000/1,000,000 or 90/10
-  recommendation. If a returned canonical configuration changes, follow that returned configuration.
-- **Validation:** when `validate_application` returns `validationIssues`, treat those structured
-  records as authoritative. Use `kind: missing` only to collect an absent input and `kind: invalid`
-  only to correct a saved value. A `standard_founder_shares_total` issue means the submitted
-  allocation was saved but is invalid; correct it to the returned expected total and never call it
-  missing data or a persistence failure.
-- **Authorized versus issued shares:** distinguish founder-issued shares from authorized but
-  unissued shares. Never call unissued shares an option pool or stock plan unless the canonical
-  company state shows that one was actually adopted.
-- **Vesting:** explain that continued contribution earns equity, the cliff protects the company and
-  other founders from an early departure, and vesting prevents dead equity. Use the commencement
-  date and acceleration terms returned for the current company; do not casually offer alternative
-  protected-document terms.
-- **Directors and officers:** keep director status, corporate offices, and ordinary job titles
-  distinct. Present the returned incorporator, initial-director, Secretary, and President/CEO
-  recommendations as separate decisions wherever returned guidance requires separate confirmation.
-- **Advanced structures:** special share classes, super-voting rights, preferred stock, negotiated
-  control rights, stock plans, investor issuances, and later equity pools are later or bespoke
-  actions. Do not smuggle them into a standard founder issuance.
+Show the exact founder allocation and obtain their confirmation. An organizer may propose a
+split but cannot impersonate another founder's agreement. Keep incorporator, director, corporate
+officer, and ordinary job titles distinct; follow the returned confirmation boundaries.
 
-These are product and market-practice recommendations, not legal conclusions. Give the shortest
-useful reason, then let the founder decide the genuine economic or control question.
+Recommend the vesting, purchase, director, incorporator, and officer choices actually returned
+for this company. Offer alternative equity treatments only when the live schema and workflow
+support them. The current live schema supports per-founder `equityTreatment=fully_vested`:
+offer it alongside the recommended vesting treatment, never infer the choice from zero months,
+and follow its returned SPA/no-83(b) path. Teams may mix treatments. Do not describe a
+development-branch feature as available. Initial founder-stock
+work is distinct from later employee grants, financing, or bespoke corporate actions.
 
-## Employee grants and later equity
+The corporation's acceptance date is not necessarily the founder's stock-transfer date.
+For applicable 83(b) work, use the returned transfer date and authority. The current standard
+pre-filing Founder Formation Authorization covers the enumerated automatic post-acceptance
+records; do not request a second signature. Follow legacy exceptions only when returned.
+The taxpayer enters any required SSN/ITIN in the secure browser; Corply Ops handles mailing.
 
-For an employee option or other later grant, call the goal-matching equity tool and verify that
-the canonical state shows an adopted stock plan and sufficient reserved shares before describing an
-option as grantable. If either is missing, prepare the returned plan-adoption, reservation, approval,
-and grant sequence; do not relabel generic unissued shares as a pool.
-
-Gather only the grant facts the current action requires, show the recipient and capitalization
-effect, and let the agent prepare recommendations or reversible drafts. Never report a plan as
-adopted, a board action as approved, or securities as issued merely because a draft or cap-table
-scenario exists. The effective action must pass through its returned immutable-document, named
-human approval or signature, and external-submission boundaries.
-
-## Issuance and deadline hygiene
-
-Founder shares require the consideration, approvals, purchase or transfer date, documents, and
-signatures that the canonical action returns. Do not equate the corporation's accepted formation
-date with a founder's later stock purchase or transfer date.
-
-For restricted stock, keep the Section 83(b) workflow visible. The 30-day filing window runs from
-that founder's actual stock purchase or transfer date. Each founder personally performs one exact
-post-incorporation bundle signing act. When its disclosure includes advance Section 83(b) authority,
-Corply later completes and executes the already-elected form automatically from that stored
-authority; never ask for another signature. The founder enters the SSN/ITIN only in Corply's
-one-time external-browser field, and Corply Ops prints and mails the resulting mail-ready PDF.
-Corply preserves submission evidence without claiming it was mailed, filed, or accepted before the
-canonical state says so.
-
-Ask only the applicability questions returned by canonical tool output. Route a non-standard legal, tax,
-securities, immigration, or IP determination to the appropriate professional boundary while still
-preparing the known facts, documents, and business blocker.
-
-Follow [action-protocol.md](action-protocol.md) before immutable documents, signatures, external
-submissions, access grants, or destructive cap-table replacement.
+Do not guarantee legal or tax outcomes. Identify professional determinations when the actual
+formation facts require them, and continue independent steps. Follow
+[action-protocol.md](action-protocol.md) for documents, signatures, invitations, and record changes.

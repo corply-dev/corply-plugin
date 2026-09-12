@@ -1,49 +1,41 @@
 # Authentication
 
-Use this only when Corply tools are unavailable or report that authentication is missing. Never ask
-for an access token, cookie, credential, or private backend URL.
+Corply needs only its hosted MCP connection. Reuse the installed connection and its configured
+name. A separate plugin or skill is not required. The current setup and recovery guide is
+[corply.dev/skills.md](https://corply.dev/skills.md); use it for version-specific setup details.
 
-If Corply reports expired, missing, invalid, or revoked authentication—or
-`TERMS_ACCEPTANCE_REQUIRED`—reconnect using the surface-specific flow below, complete any required
-browser step, then retry the blocked read once. Do not try to bypass or record terms acceptance
-through ordinary company tools.
+Use the client's native OAuth flow. The client owns PKCE, callbacks, token storage, and refresh.
+The founder chooses the intended account and accepts current terms personally in the browser.
 
-## Claude Code plugin
+- ChatGPT on the web: use ChatGPT's native **Connect** or **Reconnect** flow for the enabled
+  Corply plugin. An authentication-required tool result lets ChatGPT offer account linking.
+  The founder signs in on Corply's authorization page, then returns to this conversation.
+  Never ask a ChatGPT user to install a CLI, run a terminal command, or paste credentials.
+  If Corply is not enabled, direct them to the host's plugin connection control; a pasted
+  website or setup prompt alone does not install an MCP connection.
+- Claude Code: open `/mcp`, select the existing Corply connection, and choose **Authenticate**.
+  This is an in-session control, not a shell command. Do not invent a CLI login command.
+- Direct Codex MCP: run `codex mcp login corply` using the actual configured server name.
+- OpenCode 1.x: run `opencode mcp auth corply` using the actual configured server name.
+- Marketplace connections: use the host's **Connect** or **Reconnect** control for Corply.
 
-For expired, missing, invalid, or revoked authentication, briefly tell the founder: "Your Corply
-login has expired. I’m reopening sign-in now—finish Google sign-in in the browser." For
-`TERMS_ACCEPTANCE_REQUIRED`, say instead: "Corply needs you to accept the current terms. I’m
-reopening sign-in now—review them in the browser."
+After setup, reconnect, or account switching, call protected `whoami` through this same MCP
+connection. Verify its email and organization before resuming the founder's original goal.
+A configured server or browser/CLI success message does not prove usable authentication.
+Preserve the endpoint already attached to this connection. Never replace `/mcp/openai` with
+`/mcp` to recover authentication or obtain a tool the directory connection does not expose.
 
-Immediately run this command yourself with Claude Code's normal Bash tool and background execution
-enabled:
+For missing, invalid, expired, or revoked credentials, allow native refresh and make one native
+sign-in attempt if needed. For `TERMS_ACCEPTANCE_REQUIRED`, reconnect so the founder can review
+and accept the current terms in the browser. `ACCOUNT_DENIED` requires Corply support;
+`MEMBERSHIP_INACTIVE` requires an authorized workspace. Do not loop through sign-in for those
+access failures. `AUTH_SERVICE_UNAVAILABLE`, network failures, and 5xx errors call for a later
+retry without clearing credentials. If the founder cancels, stop until they resume.
 
-```bash
-claude mcp login plugin:corply:corply
-```
+If tools remain stale after sign-in, reload/reconnect once or start a fresh task carrying the
+original goal, then retry `whoami`. If it still fails, report the client version, sanitized
+error code, and setup link. Do not repeat authorization indefinitely.
 
-Do not ask the founder to type the command or ask whether you should run it. Let Claude Code display
-its normal shell-approval prompt when the current permission mode requires one. Do not wrap the
-command in `script`, `nohup`, shell control operators, or another pseudo-terminal command. Monitor
-the background command and retry the blocked Corply read once it succeeds.
-
-Only after the automatic attempt fails may you show the founder the command to run manually. If the
-failure proves that `claude mcp login` is unavailable on an older Claude Code version, direct them
-to `/mcp`, choose **corply**, and complete browser sign-in.
-
-## Codex or ChatGPT plugin
-
-Ask the founder to open **Plugins**, choose **Corply**, and select **Connect** or **Reconnect**. If
-the current task still cannot see the connected tools, start a new task after connecting.
-
-## Direct Codex CLI MCP setup
-
-Briefly explain that Corply needs to reconnect, then run this yourself:
-
-```bash
-codex mcp login corply
-```
-
-After authentication, retry the blocked read once. If the active process still does not see the
-connection, explain that a fresh agent session is required; do not restart the company workflow or
-create duplicate state.
+Never improvise PKCE or OAuth exchanges, guess API-key pages, add token headers as a workaround,
+read or write credential files, or request tokens, codes, or callback URLs in chat. Do not create
+a company or perform business mutations to test authentication.

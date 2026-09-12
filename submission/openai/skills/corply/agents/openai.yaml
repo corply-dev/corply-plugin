@@ -1,0 +1,13 @@
+interface:
+  display_name: "Corply"
+  short_description: "Prepare incorporation and track formation status."
+  default_prompt: "Use $corply to continue my incorporation application."
+policy:
+  allow_implicit_invocation: true
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "corply"
+      description: "Corply incorporation directory connection"
+      transport: "streamable_http"
+      url: "https://corply.dev/mcp/openai"

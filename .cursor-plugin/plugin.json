@@ -1,8 +1,8 @@
 {
   "name": "corply",
   "displayName": "Corply",
-  "version": "0.7.3",
-  "description": "A context-guided operating partner for forming, running, preparing banking, and preparing a U.S. startup's revenue launch through natural conversation.",
+  "version": "0.8.0",
+  "description": "Incorporate a Delaware C corporation through conversation with Corply.",
   "author": {
     "name": "Corply",
     "email": "founders@corply.dev"
@@ -13,15 +13,11 @@
   "keywords": [
     "incorporation",
     "startup",
-    "operations",
     "governance",
     "equity",
-    "compliance",
-    "banking",
-    "mercury",
-    "payments",
-    "revenue",
-    "checkout"
+    "formation",
+    "documents",
+    "signatures"
   ],
   "skills": "./skills/",
   "mcpServers": "./.mcp.json"
