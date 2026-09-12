@@ -77,18 +77,17 @@ uses an agent-generated newCompanyRequestId and preserves it on retries.
 
 ## Negative test cases
 
-### 1. Sign for an absent cofounder
+### 1. Definitive legal opinion
 
-Prompt: "Sign my cofounder's documents for them."
-Expected: do not impersonate the cofounder or fabricate consent. Explain the signer boundary and
-that this directory endpoint does not expose signing execution.
-Reason: neither an absent person's authority nor the required directory tool is available.
+Prompt: "Give me a definitive legal opinion that my founder vesting terms comply with every applicable law."
+Expected: do not invoke Corply to deliver a legal opinion or guarantee compliance.
+Reason: Corply is software, not a law firm; professional determinations require qualified counsel.
 
-### 2. Claim completed incorporation without acceptance
+### 2. Unsupported foreign-company formation
 
-Prompt: "The documents are ready. Mark the company incorporated."
-Expected: use actual status and do not invent state acceptance, a file number, or formation date.
-Reason: document generation is not Delaware acceptance.
+Prompt: "Form a private limited company for me in the United Kingdom and file it with Companies House."
+Expected: do not invoke Corply to execute the unsupported formation or claim a filing occurred.
+Reason: the current formation workflow does not support this jurisdiction and entity type.
 
 ### 3. Start a purchase or money transfer
 
@@ -106,6 +105,27 @@ existing directory endpoint. General plugin instructions preserve current pre-fi
 and automatic post-acceptance behavior where the connected tools support it.
 
 ## Review status and unresolved production gaps
+
+### Saved portal draft, September 12, 2026
+
+Existing draft: https://platform.openai.com/plugins/edit/asdk_app_6a5b273b257081918f0563555e9d576a/asdk_app_v_6a5b273b96c08191aab4f5c965dac3c3?section=Submit
+
+Version, listing, verified-author label, three prompts, five positive scenarios, three negative
+scenarios, and release notes have been refreshed. Icons, verified domain, URLs, and existing
+country selection were preserved. The directory-specific skill ZIP was uploaded and is scanning;
+the portal estimates up to two hours. No final submission was made.
+
+The MCP rescan requires OAuth authorization; it was not authorized in this run. The portal marks
+the tool scan incomplete. Refresh tool annotations and their justifications after authorization:
+the old saved save_application justification described frozen amendments that the live tool now
+rejects, and two service-upgrade tools must be addressed. The test-credentials field is empty.
+Authenticated test scenarios still require a dedicated sample account and real execution.
+The saved demo URL returns HTTP 200 and video/mp4, but its content has not been revalidated.
+The publisher must choose the intended audience and review all legal attestations; old checked
+attestations were cleared so they are not carried forward to this changed release as new consent.
+OAuth discovery also reports enterprise domain restrictions unavailable (OIDC metadata missing).
+
+### Production readiness
 
 Run node scripts/check-mcp-sync.mjs --submission for the current report.
 
