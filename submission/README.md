@@ -1,4 +1,4 @@
-# Corply OpenAI submission draft
+# Corply OpenAI directory submission
 
 Source release: 0.8.0. Based on production MCP discovery, not development branches.
 Portal: https://platform.openai.com/plugins
@@ -37,8 +37,9 @@ represent unavailable signing, filing, banking, or payment actions as completed.
 The dedicated reviewer workspace now contains two synthetic intake companies: Corply Review
 Orbit DEMO, Inc. and Corply Review Harbor DEMO, Inc. Browser password OAuth, S256 PKCE, and the
 authenticated server operations below were exercised against production on September 12, 2026.
-Conversational Developer Mode testing and a real demo recording are still pending. Exact account
-credentials and record IDs belong in the private portal, never this repository.
+Native ChatGPT Developer Mode OAuth and all five positive conversational tests also completed
+on September 12, 2026. Exact account credentials and record IDs belong in the private portal,
+never this repository.
 
 ### 1. Connect and identify the account
 
@@ -106,6 +107,19 @@ Expected: do not call checkout/upgrade or money-movement tools or show transacti
 Explain the plugin's incorporation preparation/status scope and any current entitlement limitation.
 Reason: service checkout and money-movement tools are excluded from the directory endpoint.
 
+### Observed conversational boundaries
+
+The legal-opinion and UK-formation requests were exercised with equivalent wording in the same
+ChatGPT conversation. ChatGPT declined a definitive legal opinion and did not execute a UK filing.
+The exact upgrade/transfer prompt did not call Corply financial or checkout tools; ChatGPT searched
+the plugin catalog and said it could not move funds. Its response still offered registered-agent
+help and asked for transaction details too broadly. This is not a clean scope-wording pass, even
+though no unsupported Corply operation or financial transaction occurred.
+
+ChatGPT displayed per-call confirmation warnings for save, name check, and validation. The warnings
+flagged tool-description confirmation/canonicality instructions and the opaque `_corply_context`
+receipt. Individual sample-only calls were approved; no global approval protection was disabled.
+
 ## Release notes
 
 Refreshed for Corply 0.8.0: incorporation preparation and saved formation status, native ChatGPT
@@ -113,9 +127,13 @@ OAuth, multiple-company continuity, and directory-specific instructions that res
 
 ## Review status and unresolved production gaps
 
-### Saved portal draft, September 12, 2026
+### Submitted for review, September 12, 2026
 
-Existing draft: https://platform.openai.com/plugins/edit/asdk_app_6a5b273b257081918f0563555e9d576a/asdk_app_v_6a5b273b96c08191aab4f5c965dac3c3?section=Submit
+Submitted version: https://platform.openai.com/plugins/edit/asdk_app_6a5b273b257081918f0563555e9d576a/asdk_app_v_6a5b273b96c08191aab4f5c965dac3c3?section=Submit
+
+The portal confirmed "Corply submitted for review" and "We'll notify you when a decision is made."
+The versions list shows Corply 0.8.0 with status **Review**. Its fields are locked as the review
+version. This is a submitted application, not OpenAI approval or a public directory listing.
 
 Version, listing, verified-author label, publisher-authored prompts, five positive scenarios, three
 negative scenarios, and release notes are saved. Existing icons and country selection are preserved.
@@ -130,12 +148,22 @@ authenticated identity, saves, validation, advisory names, and independent compa
 Credentials and exact sample IDs are saved in the portal and private local storage, not Git.
 
 The publisher personally checked the seven policy attestations and selected the non-adult audience.
-The form's remaining validation blocker is the required Demo Recording URL. The previous video was
-inspected and found to be a text slideshow rather than an actual Developer Mode demonstration; its
-URL was removed from the draft. ChatGPT Developer Mode is currently off and was left unchanged
-pending specific approval to enable it, connect the isolated reviewer workspace, and record the demo.
-No final submission was made. Enterprise domain restrictions remain unavailable (OIDC metadata
-missing); ordinary OAuth and the OpenAI scanner authorization both work.
+ChatGPT Developer Mode was enabled with the owner's specific approval, and the private Corply Review
+connection authenticated only the isolated reviewer workspace. All five positive prompts and three
+negative scenarios were exercised. The real screen recording replaces the earlier text slideshow;
+it is cropped to ChatGPT content, has no audio, and trims idle time without fabricating tool results.
+It shows authenticated identity, sample intake, advisory name checks, validation, and the actual
+per-call confirmation UI. The independent second-company result was also checked in conversation.
+
+Demo URL: https://corply.dev/openai-plugin-demo.mp4?review=20260912-c89f88bb
+The 155-second, 1600x912 H.264 recording was pushed in Corply main commit c89f88bb through the normal
+GitHub-triggered pipeline. Cloud Build 00111e6c-49f9-4755-985b-b056e5a1bd66 passed in 6m 10s;
+the live demo's SHA-256 matches the verified local video. The URL and updated conversational
+verification notes are saved in the portal. Enterprise domain restrictions remain unavailable
+(OIDC metadata missing); ordinary OAuth and scanner authorization both work.
+
+Build check: https://github.com/varun-ahlawat/corply/runs/103652837600
+Demo SHA-256: d92097e444e01ad13293400c5b21c03e439460f710cc754243618750c4d8bb1b
 
 ### Production readiness
 
@@ -163,5 +191,5 @@ References:
 
 The production OAuth routes and the normal /mcp profile were left unchanged. Preserve the existing
 domain-verification token, publisher identity, regional selections, and dedicated credentials.
-Finish the real Developer Mode demo, then submit the reviewed draft. Do not label submission as
-approval or public listing: OpenAI review and a later publish action are separate steps.
+The next external step is OpenAI's review decision. After approval, complete the portal's publish
+action. Do not label submission as approval or public listing; these are separate steps.
