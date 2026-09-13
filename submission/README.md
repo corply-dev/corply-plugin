@@ -23,15 +23,22 @@ Portal: https://platform.openai.com/plugins
 
 ## Starter prompts
 
-1. Help me prepare my incorporation application.
-2. Where is my incorporation blocked?
-3. Check the proposed names for my company.
+The publisher authored these prompts in the portal; preserve their outcome-oriented intent.
+
+1. file 83(b) for me and my cofounders.
+2. Incorporate our C Corp. Me and my cofounders decided on a equity 60:40 split.
+3. open a company and a corporate bank account for me to accept my customer payment.
+
+These goals exceed the current directory endpoint's preparation/status capabilities. Do not
+represent unavailable signing, filing, banking, or payment actions as completed.
 
 ## Positive test cases
 
-These are reviewer scenarios, not claims that authenticated workflows were exercised in this release.
-Use a dedicated reviewer organization with realistic non-sensitive sample data and browser login
-without MFA, SMS, or email confirmation. Keep credentials in the portal, never this repository.
+The dedicated reviewer workspace now contains two synthetic intake companies: Corply Review
+Orbit DEMO, Inc. and Corply Review Harbor DEMO, Inc. Browser password OAuth, S256 PKCE, and the
+authenticated server operations below were exercised against production on September 12, 2026.
+Conversational Developer Mode testing and a real demo recording are still pending. Exact account
+credentials and record IDs belong in the private portal, never this repository.
 
 ### 1. Connect and identify the account
 
@@ -43,35 +50,38 @@ Fixture: dedicated reviewer login, initially unlinked ChatGPT connection.
 
 ### 2. Start or resume incorporation intake
 
-Prompt: "Help me prepare my incorporation application."
-Expected: show the one-time software/not-a-law-firm notice, use the goal-matching available tool,
-ask the next missing fact, and save explicit answers. Preserve context and existing application.
-Result: formation/company identity, saved stage, validation or next-step guidance.
-Fixture: reviewer organization with a draft or no formation. Never claim filing complete.
+Prompt: "For Corply Review Orbit DEMO, Inc., save this description: Synthetic OpenAI directory
+review fixture. Not a real company or filing request. Then tell me what is still needed."
+Expected: save the supplied description without replacing other fields or the Harbor company;
+validate and ask only the next missing fact. Preserve the returned company identity and context.
+Result: ready=false with missing founder, exact share-split confirmation, and governance fields.
+Fixture: the existing Orbit intake application. Never claim filing complete.
 
 ### 3. Check proposed names
 
-Prompt: "Check Acme Orbit, Inc. and Acme Orbit Labs, Inc. for my application."
+Prompt: "Check Corply Review Orbit DEMO, Inc. and the alternative Corply Review Orbit Labs DEMO,
+Inc. for my saved Orbit application."
 Expected: resolve the intended saved application, use check_company_names, preserve result order,
 and distinguish available, unavailable, and provider-unavailable. Checks remain advisory.
-Result: actual name-check outcomes; no guarantee of state acceptance or trademark clearance.
-Fixture: draft application with a selected name saved.
+Result: both returned available=true during verification; future availability may differ or
+be null during a provider outage. No guarantee of state acceptance or trademark clearance.
+Fixture: Orbit's selected name is saved and matches the request.
 
-### 4. Validate and generate a packet after review
+### 4. Validate an incomplete draft before legal-document generation
 
-Prompt: "Validate my application and show me what is needed before generating documents."
-Expected: call validate_application, distinguish missing from invalid values, summarize the current
-inputs and stop for confirmation before immutable generation. After confirmation generate only
-the available packet, and report an unavailable subsequent directory action accurately.
-Result: validation issues or generated document metadata and actual next step.
-Fixture: completed but not frozen reviewer application; the reviewer confirms generation separately.
+Prompt: "Validate the Corply Review Orbit DEMO, Inc. application and tell me what is needed before
+generating documents."
+Expected: validate the saved Orbit formation, report exact missing facts, and ask the next needed
+question. Do not invent founder identity, approve governance choices, or generate from missing data.
+Result: ready=false with structured missing founder, share-split confirmation, and governance fields.
+Fixture: intentionally incomplete Orbit application. No real signatures, payments, or filings.
 
 ### 5. Resume another company without overwriting the first
 
-Prompt: "Show my companies, then continue the other incorporation."
+Prompt: "Show my companies, then show the status of Corply Review Harbor DEMO, Inc."
 Expected: call get_org, clarify company identity if necessary, switch to its own context and status.
 Do not copy private facts or overwrite an application to create another business.
-Result: selected company identity and its canonical formation state.
+Result: Harbor is in intake, unpaid, without a certificate, signatures, or filing; Orbit is unchanged.
 Fixture: two separate companies in the reviewer organization. An explicit new-company request
 uses an agent-generated newCompanyRequestId and preserves it on retries.
 
@@ -94,15 +104,12 @@ Reason: the current formation workflow does not support this jurisdiction and en
 Prompt: "Upgrade my registered agent and transfer money to my company."
 Expected: do not call checkout/upgrade or money-movement tools or show transactional links.
 Explain the plugin's incorporation preparation/status scope and any current entitlement limitation.
-Reason: the directory skill does not initiate purchases or financial transactions.
+Reason: service checkout and money-movement tools are excluded from the directory endpoint.
 
 ## Release notes
 
-Initial submission draft refreshed for Corply 0.8.0. Focused on incorporation preparation and
-saved formation status, native ChatGPT OAuth, multiple-company continuity, and truthful tool
-availability. Removed obsolete agentic-finance promotion. Uploaded skills are specific to the
-existing directory endpoint. General plugin instructions preserve current pre-filing authorization
-and automatic post-acceptance behavior where the connected tools support it.
+Refreshed for Corply 0.8.0: incorporation preparation and saved formation status, native ChatGPT
+OAuth, multiple-company continuity, and directory-specific instructions that respect available tools.
 
 ## Review status and unresolved production gaps
 
@@ -110,33 +117,40 @@ and automatic post-acceptance behavior where the connected tools support it.
 
 Existing draft: https://platform.openai.com/plugins/edit/asdk_app_6a5b273b257081918f0563555e9d576a/asdk_app_v_6a5b273b96c08191aab4f5c965dac3c3?section=Submit
 
-Version, listing, verified-author label, three prompts, five positive scenarios, three negative
-scenarios, and release notes have been refreshed. Icons, verified domain, URLs, and existing
-country selection were preserved. The directory-specific skill ZIP was uploaded and is scanning;
-the portal estimates up to two hours. No final submission was made.
+Version, listing, verified-author label, publisher-authored prompts, five positive scenarios, three
+negative scenarios, and release notes are saved. Existing icons and country selection are preserved.
+The directory-specific skill scan completed. Domain verification is complete. All tool justifications
+are filled, including corrected reversible-save behavior. The latest MCP scan completed successfully
+after native OAuth with the dedicated reviewer account and reflects the current 26-tool endpoint.
 
-The MCP rescan requires OAuth authorization; it was not authorized in this run. The portal marks
-the tool scan incomplete. Refresh tool annotations and their justifications after authorization:
-the old saved save_application justification described frozen amendments that the live tool now
-rejects, and two service-upgrade tools must be addressed. The test-credentials field is empty.
-Authenticated test scenarios still require a dedicated sample account and real execution.
-The saved demo URL returns HTTP 200 and video/mp4, but its content has not been revalidated.
-The publisher must choose the intended audience and review all legal attestations; old checked
-attestations were cleared so they are not carried forward to this changed release as new consent.
-OAuth discovery also reports enterprise domain restrictions unavailable (OIDC metadata missing).
+The dedicated email/password reviewer account is provisioned, approved, email-confirmed, and limited
+to its own synthetic workspace. It requires no MFA, SMS, mailbox, or social account. Current Corply
+terms were accepted with the owner's explicit authorization. Complete browser OAuth, PKCE exchange,
+authenticated identity, saves, validation, advisory names, and independent company status passed.
+Credentials and exact sample IDs are saved in the portal and private local storage, not Git.
+
+The publisher personally checked the seven policy attestations and selected the non-adult audience.
+The form's remaining validation blocker is the required Demo Recording URL. The previous video was
+inspected and found to be a text slideshow rather than an actual Developer Mode demonstration; its
+URL was removed from the draft. ChatGPT Developer Mode is currently off and was left unchanged
+pending specific approval to enable it, connect the isolated reviewer workspace, and record the demo.
+No final submission was made. Enterprise domain restrictions remain unavailable (OIDC metadata
+missing); ordinary OAuth and the OpenAI scanner authorization both work.
 
 ### Production readiness
 
 Run node scripts/check-mcp-sync.mjs --submission for the current report.
 
-Production discovery on 2026-09-12 exposed 58 tools on /mcp and 28 on /mcp/openai.
+Production discovery after release fe95f4bb exposed 58 tools on /mcp and 26 on /mcp/openai.
 The general endpoint still advertises revenue/payment tools. This repository update neither
 removes them nor verifies whether their authenticated financial execution is enabled.
 
-The directory endpoint still exposes request_registered_agent_upgrade and
-await_registered_agent_upgrade. The former advertises a service-upgrade checkout link.
-Current OpenAI guidelines prohibit service checkout and upgrade flows. Restrictive skill text
-does not remove server tools and is not proof of directory compliance.
+Corply main commit fe95f4bb removes request_registered_agent_upgrade and await_registered_agent_upgrade
+from the OpenAI profile only. The scoped change and submission inventory passed 22 focused tests.
+It was pushed to main through the normal GitHub-triggered pipeline; no manual deployment was used.
+Live discovery and authenticated invocation both confirm the directory rejects these tools, while
+the general MCP retains them. Direct Cloud Build status inspection requires refreshing the owner's
+expired Google Cloud login; the changed production behavior itself has been verified.
 
 The directory endpoint also omits signing, formation-fee checkout, secure 83(b) TIN preparation,
 signature-email resolution, and filing handoff. A shared server next step can name an omitted tool.
@@ -147,7 +161,7 @@ References:
 - https://developers.openai.com/plugins/app-guidelines#commerce-and-monetization
 - https://developers.openai.com/plugins/deploy/submission/
 
-Corply's backend was intentionally left unchanged. These gaps require publisher review, not a
-false attestation. Keep final submission pending. Verify reviewer access and actual workflows
-in ChatGPT before signing the final attestations. Preserve the existing domain-verification token,
-publisher identity, regional selections, and credentials unless the owner changes them.
+The production OAuth routes and the normal /mcp profile were left unchanged. Preserve the existing
+domain-verification token, publisher identity, regional selections, and dedicated credentials.
+Finish the real Developer Mode demo, then submit the reviewed draft. Do not label submission as
+approval or public listing: OpenAI review and a later publish action are separate steps.
