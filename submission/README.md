@@ -1,6 +1,6 @@
 # Corply OpenAI directory submission
 
-Source release: 0.8.0. Based on production MCP discovery, not development branches.
+Source release: 0.8.1. Based on production MCP discovery, not development branches.
 Portal: https://platform.openai.com/plugins
 
 ## Listing
@@ -15,7 +15,7 @@ Portal: https://platform.openai.com/plugins
 - **Privacy:** https://corply.dev/privacy
 - **Terms:** https://corply.dev/terms
 - **MCP server:** https://corply.dev/mcp/openai
-- **Plugin source version:** 0.8.0
+- **Plugin source version:** 0.8.1
 - **MCP metadata version:** 0.10.0
 - **Authentication:** OAuth authorization code with PKCE S256 and dynamic client registration.
 - **Logo:** ../assets/logo.png

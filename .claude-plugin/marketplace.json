@@ -6,7 +6,7 @@
     {
       "name": "corply",
       "description": "Prepare formation documents, coordinate founder signatures, and track human-reviewed Delaware incorporation.",
-      "version": "0.8.0",
+      "version": "0.8.1",
       "source": "./",
       "author": { "name": "Corply", "email": "founders@corply.dev" }
     }

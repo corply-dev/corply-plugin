@@ -1,6 +1,6 @@
 {
   "name": "corply",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Incorporate a Delaware C corporation through conversation with Corply.",
   "author": {
     "name": "Corply",
@@ -9,7 +9,7 @@
   },
   "homepage": "https://corply.dev",
   "repository": "https://github.com/corply-dev/corply-plugin",
-  "license": "MIT",
+  "license": "BUSL-1.1",
   "keywords": [
     "incorporation",
     "startup",

@@ -81,3 +81,10 @@ and byte-validates both. The full general plugin is not a substitute for the dir
 
 More: [Corply](https://corply.dev) · [Setup](https://corply.dev/skills.md) ·
 [Security](https://corply.dev/security) · [Support](https://corply.dev/support)
+
+## License
+
+Source-available under the [Business Source License 1.1](LICENSE). Production use is not granted.
+Each version converts to the Apache License 2.0 four years after that version is first publicly
+distributed. The license grants no rights to Corply trademarks or logos. Commercial-license
+inquiries: [founders@corply.dev](mailto:founders@corply.dev).

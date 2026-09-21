@@ -1,10 +1,10 @@
 {
   "name": "corply",
   "description": "Incorporate a Delaware C corporation through conversation with Corply.",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "author": { "name": "Corply", "email": "founders@corply.dev" },
   "homepage": "https://corply.dev",
-  "license": "MIT",
+  "license": "BUSL-1.1",
   "keywords": ["incorporation", "startup", "formation", "governance", "equity", "delaware", "c-corp", "documents", "signatures"],
   "mcpServers": "./.mcp.json"
 }
