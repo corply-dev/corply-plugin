@@ -1,0 +1,40 @@
+name: Publish MCP directory metadata
+on:
+  push:
+    branches: [main]
+    paths: [server.json, .github/workflows/publish-mcp.yml, scripts/check-registry.mjs]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: mcp-registry-publish
+  cancel-in-progress: false
+jobs:
+  publish:
+    if: github.repository == 'corply-dev/corply-plugin' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - name: Install pinned official registry publisher
+        run: |
+          curl -fsSL https://github.com/modelcontextprotocol/registry/releases/download/v1.8.1/mcp-publisher_linux_amd64.tar.gz -o publisher.tar.gz
+          echo 'a06c9096dcb9727c13555b6be26c7effa707b01f06a4c561ba7a3635443cf2cc  publisher.tar.gz' | sha256sum --check
+          tar xzf publisher.tar.gz mcp-publisher
+      - name: Validate metadata
+        run: ./mcp-publisher validate server.json
+      - name: Check whether this version is already current
+        id: registry
+        run: node scripts/check-registry.mjs --prepare
+      - name: Authenticate using this repository's identity
+        if: steps.registry.outputs.publish == 'true'
+        run: ./mcp-publisher login github-oidc
+      - name: Publish
+        if: steps.registry.outputs.publish == 'true'
+        run: ./mcp-publisher publish server.json
+      - name: Verify the public latest record
+        run: node scripts/check-registry.mjs
