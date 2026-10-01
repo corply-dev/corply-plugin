@@ -1,7 +1,12 @@
 # Corply
 
+![Corply](https://corply.dev/brand/weaverbird-avatar-256.png)
+
+**Start here: [Corply agent setup](https://corply.dev/setup.md).** The live guide covers direct MCP installation, native sign-in, account verification, and continuing when tools are missing from the current chat. No marketplace plugin is required.
+
 Incorporate your company through conversation. Corply connects the AI interface you use to your
-saved application, formation documents, founder signatures, and human-reviewed Delaware filing.
+saved application, formation documents, founder signatures, and human-reviewed filing for Delaware C-Corps and member-managed Florida LLCs.
+After formation, manage company documents, equity and compliance through the same connection.
 
 This is the cross-agent plugin wrapper. Company state and execution live on Corply's hosted MCP
 server. Corply is software, not a law firm.
@@ -34,7 +39,7 @@ claude plugin install corply@corply
 
 In Claude Code, open `/mcp`, select Corply, and choose **Authenticate**. Other marketplace hosts use
 their available **Connect** or **Reconnect** control. Direct MCP setup remains available through
-the [current setup guide](https://corply.dev/skills.md). After linking, verify email and organization
+the [current setup guide](https://corply.dev/setup.md). After linking, verify email and organization
 through the connected `whoami`.
 
 ## Just ask
@@ -79,7 +84,7 @@ The packager creates `corply-openai-skill-bundle.zip` for the portal and
 `corply-openai-plugin-full.zip` for general cross-agent inspection. It uses explicit inventories
 and byte-validates both. The full general plugin is not a substitute for the directory skill.
 
-More: [Corply](https://corply.dev) · [Setup](https://corply.dev/skills.md) ·
+More: [Corply](https://corply.dev) · [Setup](https://corply.dev/setup.md) ·
 [Security](https://corply.dev/security) · [Support](https://corply.dev/support)
 
 ## License

@@ -1,18 +1,27 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.corply-dev/corply",
-  "title": "Corply — AI-agent company formation",
-  "description": "Incorporate a Delaware C-Corp from AI agents: documents, e-signatures, human-reviewed filing.",
+  "title": "Corply \u2014 Start and run your company",
+  "description": "Form Delaware C-Corps or Florida LLCs; manage companies. Setup: https://corply.dev/setup.md",
   "repository": {
     "url": "https://github.com/corply-dev/corply-plugin",
     "source": "github"
   },
-  "version": "0.10.0",
-  "websiteUrl": "https://corply.dev",
+  "version": "0.11.0",
+  "websiteUrl": "https://corply.dev/setup.md",
   "remotes": [
     {
       "type": "streamable-http",
       "url": "https://corply.dev/mcp"
+    }
+  ],
+  "icons": [
+    {
+      "src": "https://corply.dev/brand/weaverbird-avatar-256.png",
+      "mimeType": "image/png",
+      "sizes": [
+        "256x256"
+      ]
     }
   ]
 }
