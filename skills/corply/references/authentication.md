@@ -1,49 +1,60 @@
 # Authentication
 
-Corply needs only its hosted MCP connection. Reuse the installed connection and its configured
-name. A separate plugin or skill is not required. The current setup and recovery guide is
-[corply.dev/skills.md](https://corply.dev/skills.md); use it for version-specific setup details.
+Corply needs only its hosted MCP connection, which this plugin declares. Reuse the installed
+connection and its configured name; do not add a second Corply connection.
 
-Use the client's native OAuth flow. The client owns PKCE, callbacks, token storage, and refresh.
+Use the client's native OAuth flow. The client owns PKCE, callbacks, token storage and refresh.
 The founder chooses the intended account and accepts current terms personally in the browser.
 
-- ChatGPT on the web: use ChatGPT's native **Connect** or **Reconnect** flow for the enabled
+- **Claude Code:** in the session, open `/mcp`, select the Corply server and choose
+  **Authenticate**. From a terminal, the founder can run `claude mcp login` with the server name
+  that `claude mcp list` shows for this plugin.
+- **Claude apps and Cowork:** use the **Connect** control for Corply in the connector or plugin
+  settings, sign in on Corply's page, then return to the conversation.
+- **ChatGPT on the web:** use ChatGPT's native **Connect** or **Reconnect** flow for the enabled
   Corply plugin. An authentication-required tool result lets ChatGPT offer account linking.
   The founder signs in on Corply's authorization page, then returns to this conversation.
-  Never ask a ChatGPT user to install a CLI, run a terminal command, or paste credentials.
+  Never ask a ChatGPT user to install a CLI, run a terminal command or paste credentials.
   If Corply is not enabled, direct them to the host's plugin connection control; a pasted
   website or setup prompt alone does not install an MCP connection.
-- Claude Code agents: read the complete short [Claude setup guide](https://corply.dev/setup/claude-code.md)
-  and use its helper. Keep the returned sessionId; the helper owns native login and same-chat
-  recovery. A person setting up interactively may use `/mcp` and **Authenticate** instead.
-- Direct Codex MCP: run `codex mcp login corply` using the actual configured server name.
-- OpenCode 1.x: run `opencode mcp auth corply` using the actual configured server name.
-- Marketplace connections: use the host's **Connect** or **Reconnect** control for Corply.
+- **Codex:** run `codex mcp login corply` with the actual configured server name.
+- **OpenCode 1.x:** run `opencode mcp auth corply` with the actual configured server name.
+- **Other marketplace hosts:** use the host's **Connect** or **Reconnect** control for Corply.
 
-After setup, reconnect, or account switching, call protected `whoami` through this same MCP
-connection, or reuse the helper's verified `whoami` result. Report the connected email once;
-pause only for a mismatch with an email/company the founder explicitly requested, never the
-coding host's account email. Resume the original goal without an extra account-confirmation question.
-A configured server or browser/CLI success message does not prove usable authentication.
+After sign-in, reconnection or an account switch, call protected `whoami` through this same
+connection. Report the connected email once. Pause only when it differs from an email or company
+the founder explicitly requested, never because it differs from the coding host's own account
+email; then report both. Otherwise resume the original goal without an extra account
+confirmation question. A configured server or a browser success page does not prove usable
+authentication.
+
 Preserve the endpoint already attached to this connection. Never replace `/mcp/openai` with
-`/mcp` to recover authentication or obtain a tool the directory connection does not expose.
+`/mcp` to recover authentication or to obtain a tool the directory connection does not expose.
 
-For missing, invalid, expired, or revoked credentials, allow native refresh and make one native
-sign-in attempt if needed. For `TERMS_ACCEPTANCE_REQUIRED`, reconnect so the founder can review
-and accept the current terms in the browser. `ACCOUNT_DENIED` requires Corply support;
-`MEMBERSHIP_INACTIVE` requires an authorized workspace. Do not loop through sign-in for those
-access failures. `AUTH_SERVICE_UNAVAILABLE`, network failures, and 5xx errors call for a later
-retry without clearing credentials. If the founder cancels, stop until they resume.
+## Waiting for sign-in
 
-Start OAuth once. While it is pending, wait on the same process/session; a timeout is not a
-failure or permission to open another page. Never run diagnostic logins or kill a waiting login.
-Cancellation, expiry, or failure needs an explicit user retry request.
+Start OAuth once and let it open the browser. While it is pending, wait on the same process or
+session; a wait timeout is not a failure and not permission to open another page. Never run
+diagnostic logins or stop a waiting login. Do not start authenticated work while it is pending.
+Cancellation, expiry or failure needs the founder's explicit request before another attempt.
 
-Missing tools after successful sign-in do not mean failed authentication. In Claude Code use
-the guide's session relay; in Codex use its native setup helper's relay. Do not restart login
-or require a new conversation. Preserve the current context receipt. For other hosts use their
-supported tool refresh, and report a sanitized blocker when no recovery is available.
+## Errors
 
-Never improvise PKCE or OAuth exchanges, guess API-key pages, add token headers as a workaround,
-read or write credential files, or request tokens, codes, or callback URLs in chat. Do not create
-a company or perform business mutations to test authentication.
+- `AUTH_REQUIRED`, `INVALID_TOKEN`, `TOKEN_EXPIRED`, `TOKEN_REVOKED`: allow native refresh and
+  make one native sign-in attempt if needed.
+- `TERMS_ACCEPTANCE_REQUIRED`: reconnect so the founder reviews and accepts the current terms in
+  the browser.
+- `ACCOUNT_DENIED`: the founder needs [Corply support](https://corply.dev/support).
+- `MEMBERSHIP_INACTIVE`: select a company the founder still belongs to.
+- `AUTH_SERVICE_UNAVAILABLE`, network failures and 5xx errors: retry later without clearing
+  credentials.
+
+Missing or stale tools after a successful sign-in do not mean authentication failed, so do not
+restart sign-in. Use the host's supported tool refresh: in Claude Code, reconnect Corply from
+`/mcp`; in Codex, use the relay of Corply's native setup helper when it is installed. Preserve
+the current context receipt. If nothing restores the tools, report the client version and the
+sanitized error code, and share [Corply setup](https://corply.dev/setup) with the founder.
+
+Never improvise PKCE or OAuth exchanges, add token headers as a workaround, read or write
+credential files, or request tokens, codes or callback URLs in chat. Do not create a company or
+perform business actions to test authentication.

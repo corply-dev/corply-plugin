@@ -14,6 +14,8 @@ test("directory upload is isolated from general plugin instructions", async () =
   assert.ok(full.has("corply/.claude-plugin/plugin.json"));
   assert.ok(full.has("corply/.cursor-plugin/plugin.json"));
   assert.ok(full.has("corply/skills/corply/references/formation.md"));
+  assert.ok(full.has("corply/skills/corply/references/company-import.md"));
+  assert.ok(full.has("corply/skills/corply/references/company-workspace.md"));
   for (const entry of full.keys()) {
     assert.doesNotMatch(entry, /(?:submission|scripts|\.git\/|\.env|revenue-and-payments|existing-company\.md)/);
   }
@@ -27,14 +29,17 @@ test("general plugin consistently ships the BUSL-1.1 license", async () => {
   assert.match(license, /^Additional Use Grant:\s+None$/m);
   assert.match(license, /^Change License:\s+Apache License, Version 2\.0$/m);
 
+  const { version } = JSON.parse(await readFile(path.join(root, ".codex-plugin/plugin.json"), "utf8"));
+  assert.match(version, /^\d+\.\d+\.\d+$/);
+  assert.ok(version.localeCompare("0.8.1", undefined, { numeric: true }) >= 0, "versions before 0.8.1 predate BUSL-1.1");
   for (const manifest of [".codex-plugin/plugin.json", ".claude-plugin/plugin.json", ".cursor-plugin/plugin.json"]) {
     const contents = JSON.parse(await readFile(path.join(root, manifest), "utf8"));
-    assert.equal(contents.version, "0.8.2", `${manifest} must identify the current release`);
+    assert.equal(contents.version, version, `${manifest} must identify the current release`);
     assert.equal(contents.license, "BUSL-1.1", `${manifest} must not advertise a permissive license`);
   }
 
   const marketplace = JSON.parse(await readFile(path.join(root, ".claude-plugin/marketplace.json"), "utf8"));
-  assert.equal(marketplace.plugins[0].version, "0.8.2");
+  assert.equal(marketplace.plugins[0].version, version);
 
   const { skill, full } = await packageMappings();
   assert.ok(!skill.has("LICENSE"), "the OpenAI directory skill must remain an instructions-only upload");

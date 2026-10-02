@@ -1,14 +1,14 @@
 interface:
   display_name: "Corply"
-  short_description: "Incorporate your company through conversation."
+  short_description: "Form and run your company through conversation."
   brand_color: "#10A37F"
-  default_prompt: "Use $corply to continue my company's incorporation."
+  default_prompt: "Use $corply to help me start a company with my cofounder."
 policy:
   allow_implicit_invocation: true
 dependencies:
   tools:
     - type: "mcp"
       value: "corply"
-      description: "Corply company incorporation MCP server"
+      description: "Corply company formation and management MCP server"
       transport: "streamable_http"
       url: "https://corply.dev/mcp"

@@ -2,91 +2,105 @@
 
 ![Corply](https://corply.dev/brand/weaverbird-avatar-256.png)
 
-**Start here: [Corply agent setup](https://corply.dev/setup.md).** The live guide covers direct MCP installation, native sign-in, account verification, and continuing when tools are missing from the current chat. No marketplace plugin is required.
+Form and run your company through conversation. Corply connects the AI client you use to your
+saved company: formation of Delaware C-Corps and member-managed Florida LLCs, founder documents
+and signatures, human-reviewed state filing, import of companies formed elsewhere, cap tables,
+governance actions, EIN and 83(b) follow-through, Delaware annual reports and other ongoing
+company obligations.
 
-Incorporate your company through conversation. Corply connects the AI interface you use to your
-saved application, formation documents, founder signatures, and human-reviewed filing for Delaware C-Corps and member-managed Florida LLCs.
-After formation, manage company documents, equity and compliance through the same connection.
+This repository is the cross-agent plugin: a skill plus the connection to Corply's hosted MCP
+server. Company state and execution live on that server. Corply is software, not a law firm,
+and does not provide legal, tax or accounting advice.
 
-This is the cross-agent plugin wrapper. Company state and execution live on Corply's hosted MCP
-server. Corply is software, not a law firm.
+## What this plugin connects to
 
-## ChatGPT on the web
+- **One remote MCP server:** `https://corply.dev/mcp`, declared in [.mcp.json](.mcp.json) and
+  operated by Corply (0Lumen Labs Corp. d/b/a Corply). The plugin runs no local code, hooks
+  or package installs; `scripts/` holds maintainer checks that installs never execute.
+- **Data sent:** what the founder asks the agent to save or do in Corply, such as company and
+  founder details, addresses, ownership, documents the founder supplies and answers to filing
+  questions, plus the OAuth access token the client obtains. Data goes only to that server.
+- **Sign-in:** standard OAuth 2.0 with PKCE and dynamic client registration on corply.dev. The
+  client stores and refreshes credentials. The skill never asks for passwords, tokens, SSNs or
+  ITINs in chat; taxpayer numbers are entered only on Corply's secure browser page.
+- **Links shown to the founder:** Corply pages for review, signing, uploads, checkout, terms and
+  support, all on corply.dev. Founders pay any Corply fee themselves on Corply's checkout page;
+  the plugin never pays, transfers money or enters card or bank details.
 
-The intended public experience is: enable Corply in ChatGPT, choose **Connect**, sign in and
-authorize on Corply's page, then return to the conversation. ChatGPT handles OAuth credentials;
-no CLI or local agent installation is needed.
+Privacy policy: [corply.dev/privacy](https://corply.dev/privacy). Terms:
+[corply.dev/terms](https://corply.dev/terms). Security: [corply.dev/security](https://corply.dev/security).
 
-Directory availability requires OpenAI review and publication. A public repository does not itself
-make Corply searchable in ChatGPT. The draft uses `https://corply.dev/mcp/openai`, whose capabilities
-are narrower than general MCP. See [submission status and review notes](https://github.com/corply-dev/corply-plugin/blob/main/submission/README.md).
+## Install
 
-## Claude, Codex, Cursor, and other MCP clients
-
-Reuse an existing installation and its native authentication control; do not duplicate connections.
-The general endpoint is:
-
-```text
-https://corply.dev/mcp
-```
-
-For a Claude marketplace installation:
+**Claude Code:**
 
 ```bash
 claude plugin marketplace add corply-dev/corply-plugin
 claude plugin install corply@corply
 ```
 
-For an agent completing setup in Claude Code, follow the complete [short helper guide](https://corply.dev/setup/claude-code.md).
-It keeps one browser sign-in active and continues in the same conversation when tools are stale.
-For manual interactive setup, open `/mcp`, select Corply, and choose **Authenticate**. Other marketplace hosts use
-their available **Connect** or **Reconnect** control. Direct MCP setup remains available through
-the [current setup guide](https://corply.dev/setup.md). After linking, verify email and organization
-through the connected `whoami`.
+Then open `/mcp`, select Corply and choose **Authenticate**, or run `claude mcp login` with the
+server name `claude mcp list` shows. Codex, Cursor and other marketplace hosts use their
+**Connect** or **Reconnect** control. After linking, the agent verifies your email and company
+through `whoami`.
+
+**ChatGPT on the web:** enable Corply in ChatGPT, choose **Connect**, sign in on Corply's page
+and return to the conversation. The ChatGPT directory listing uses
+`https://corply.dev/mcp/openai`, a narrower profile than the general server. Directory
+availability requires OpenAI review and publication; see
+[submission status](submission/README.md).
+
+**Any other MCP client:** add a remote Streamable HTTP server at `https://corply.dev/mcp` and
+authenticate with the client's native control. The [setup guide](https://corply.dev/setup)
+covers each client. To connect Claude Code directly, without this plugin, Corply's
+[Claude Code guide](https://corply.dev/setup/claude-code.md) provides a sign-in helper you can
+inspect before running. The plugin itself never downloads or runs that helper.
 
 ## Just ask
 
-- "Incorporate my startup."
-- "Where is my incorporation blocked?"
-- "Help me review my Corply formation documents."
+- "Incorporate our startup. My cofounder and I want a 60/40 split."
+- "Form a Florida LLC for my consulting business."
+- "Import my existing Delaware company into Corply from its documents."
+- "Show our cap table and what the company needs to do next."
 
-The agent asks for the next relevant fact, saves progress, and follows canonical results. It never
-invents signatures, payment, filing acceptance, or deadlines. Each founder acts as themselves.
-A new conversation does not mean starting a duplicate application.
+The agent asks for the next relevant fact, saves progress and follows Corply's canonical results.
+It never invents signatures, payments, filing acceptance or deadlines. Each founder reviews and
+signs as themselves, and a new conversation resumes the saved company instead of starting over.
 
-The standard flow records disclosed pre-filing authority for enumerated automatic post-acceptance
-work. Secure identity fields stay in the browser. Corply Ops handles applicable 83(b) mailing.
+Not included: customer-payment processing, banking, payouts and other money movement. The
+general server may advertise such tools; this plugin's skill does not use them.
 
 ## Distribution
 
-- General plugin: `skills/corply/`, Claude/Codex/Cursor manifests, and `.mcp.json`.
+- General plugin: `skills/corply/`, the Claude, Codex and Cursor manifests, and `.mcp.json`.
 - OpenAI directory skill: `submission/openai/skills/corply/`, bound to `/mcp/openai`.
-- Registry metadata: `server.json`, independently versioned from the plugin.
-- No company data, credentials, backend code, or private workflow catalog belongs here.
+- Claude directory packet: [submission/anthropic/README.md](submission/anthropic/README.md).
+- Registry metadata: `server.json`, versioned independently of the plugin.
+- No company data, credentials, backend code or private workflow catalog belongs here.
 
-The server owns schemas and business state. Plugin instructions are snapshots; updates require
-the client's plugin update/reinstall mechanism. OpenAI uploads require a reviewed snapshot.
-A GitHub push does not publish an OpenAI listing or replace its previously imported skills.
+The server owns schemas and business state. Plugin instructions are snapshots: installed copies
+update through each client's plugin update mechanism. A GitHub push does not publish an OpenAI
+listing, and the Claude directory publishes only versions that pass its checks.
 
 ## Validation and packaging
 
 ```bash
 CORPLY_SKIP_LIVE_MCP=1 node scripts/check-mcp-sync.mjs
 node scripts/check-mcp-sync.mjs
+node scripts/check-mcp-sync.mjs --submission=openai
+node scripts/check-mcp-sync.mjs --submission=anthropic
 node --test scripts/package-openai-plugin.test.mjs
 node scripts/package-openai-plugin.mjs
-node scripts/check-mcp-sync.mjs --submission
+claude plugin validate .
 ```
 
-Ordinary checks verify formation requirements and live OAuth/discovery without business mutations.
-Extra server tools are reported, not misrepresented as removed. The submission check separately
-reports directory blockers and must pass before final submission.
+Ordinary checks verify manifests, skill links and tool references, and live OAuth and discovery
+without business mutations. The submission checks report directory blockers for each target and
+fail until they are resolved. The packager builds `corply-openai-skill-bundle.zip` for the OpenAI
+portal and `corply-openai-plugin-full.zip` for inspection, from explicit inventories, and
+byte-validates both.
 
-The packager creates `corply-openai-skill-bundle.zip` for the portal and
-`corply-openai-plugin-full.zip` for general cross-agent inspection. It uses explicit inventories
-and byte-validates both. The full general plugin is not a substitute for the directory skill.
-
-More: [Corply](https://corply.dev) · [Setup](https://corply.dev/setup.md) ·
+More: [Corply](https://corply.dev) · [Setup](https://corply.dev/setup) ·
 [Security](https://corply.dev/security) · [Support](https://corply.dev/support)
 
 ## License

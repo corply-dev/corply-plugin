@@ -9,7 +9,7 @@ make a clear recommendation rather than prolonging low-value debate.
 
 When generating new names:
 
-1. Generate at least 20 base names before adding `Inc.` or another approved corporate ending.
+1. Generate at least 20 base names before adding `Inc.`, `LLC` or another approved entity ending.
 2. Prefer names that are 6–8 letters, easy to hear, spell, pronounce, and remember.
 3. Favor pronounceable CVCV, CVCC, or VCCV structures and invented names over descriptive English
    words when the founder has no strong naming direction.
@@ -21,16 +21,18 @@ When generating new names:
    Explain the recommendation in one sentence per finalist.
 
 Prefer the exact `.com` when reasonably obtainable. If it is unavailable, test a natural `Labs`
-variant before accepting a confusing spelling. Check domains live through
-[Instant Domain Search](https://instantdomainsearch.com/) or another current registrar source;
-never infer availability from memory. Buying or registering a domain is an external purchase and
-requires fresh confirmation under [action-protocol.md](action-protocol.md).
+variant before accepting a confusing spelling. Check domains only with live results: when the
+connection exposes `search_company_domains`, use it and show each returned price exactly;
+otherwise tell the founder that domain availability was not checked and suggest they confirm it
+with a registrar of their choice. Never infer availability from memory. Registering a domain
+is a purchase the founder completes personally; see
+[company-workspace.md](company-workspace.md) and [action-protocol.md](action-protocol.md).
 
 ## Check the legal name
 
 Once the founder has selected a complete legal name:
 
-- Build up to five strong alternatives when useful. Include the founder's chosen corporate ending
+- Build up to five strong alternatives when useful. Include the founder's chosen entity ending
   in every complete name.
 - Call `check_company_names` once with the saved `formationId`, the exact selected name, and those
   alternatives in recommendation order.
@@ -40,11 +42,13 @@ Once the founder has selected a complete legal name:
   saving another name. If it is `null`, explain the provider failure. Neither result blocks document
   generation after the founder confirms that immutable action, and do not loop on retries.
 - Do not send the founder through a separate manual pre-document name check. Corply operations makes
-  the final Delaware portal decision immediately before filing.
+  the final state check immediately before filing.
 - Keep entity-name availability separate from trademark clearance, domain availability, and naming
   rules in states where the company may later qualify to do business.
 
-Use an approved corporate ending for a Delaware corporation. Avoid regulated or misleading terms
-such as `bank` or `trust` unless canonical tool output exposes an approved path or a qualified professional
-has cleared the issue. Delaware may still reject a name that is misleading, abusive, or otherwise
-noncompliant even when a search reports it available.
+Use an approved ending for the entity: a corporate ending such as `Inc.` for a Delaware
+corporation, or `LLC` or `L.L.C.` for a Florida LLC. Avoid regulated or misleading terms such
+as `bank` or `trust` unless canonical tool output exposes an approved path or a qualified
+professional has cleared the issue. The state may still reject a name that is misleading,
+abusive or otherwise noncompliant even when a search reports it available. For Florida LLCs,
+availability stays unknown until Corply operations checks Sunbiz before filing.
