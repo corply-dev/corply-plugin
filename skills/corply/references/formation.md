@@ -33,10 +33,16 @@ when available, after explaining superseded documents/signatures and obtaining c
 
 ## Formation fee and signatures
 
-On general MCP connections, call `request_payment` without another confirmation after the founder
-selects the applicable returned option: it prepares a link and cannot charge them. Show the actual
-returned amount and terms; the founder personally pays in the browser. Use `await_payment` when
-exposed and report payment only from confirmed state.
+On general MCP connections, honor the founder's renewal preference. `annualRenewal=none` buys
+the first year without recurring enrollment or a payment method saved for future charges. If
+unspecified, offer the returned renewal choices as one host-UI preference question. Read
+`get_status` with that choice, show its exact `payment.founderSummary`, then obtain separate
+plain-text acceptance before `request_payment`. A changed preference requires matching terms
+and fresh acceptance. Amendment balances preserve existing renewal settings; follow their
+returned disclosure without asking for a new renewal choice. Do not send an old checkout link
+with different terms. If the required summary is still absent after one status read, report the
+blocker instead of inventing terms or looping. The founder pays in the browser. Use
+`await_payment` when exposed and report payment only from confirmed state.
 
 On OpenAI directory connections, do not initiate service purchases or upgrades, present
 transactional links, or change connections to obtain checkout tools. Explain returned entitlement

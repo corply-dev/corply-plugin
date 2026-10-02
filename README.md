@@ -37,7 +37,9 @@ claude plugin marketplace add corply-dev/corply-plugin
 claude plugin install corply@corply
 ```
 
-In Claude Code, open `/mcp`, select Corply, and choose **Authenticate**. Other marketplace hosts use
+For an agent completing setup in Claude Code, follow the complete [short helper guide](https://corply.dev/setup/claude-code.md).
+It keeps one browser sign-in active and continues in the same conversation when tools are stale.
+For manual interactive setup, open `/mcp`, select Corply, and choose **Authenticate**. Other marketplace hosts use
 their available **Connect** or **Reconnect** control. Direct MCP setup remains available through
 the [current setup guide](https://corply.dev/setup.md). After linking, verify email and organization
 through the connected `whoami`.

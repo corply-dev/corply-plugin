@@ -5,7 +5,7 @@
   "description": "Form a Delaware C-Corp or member-managed Florida LLC through conversation with Corply.",
   "author": {
     "name": "Corply",
-    "email": "founders@0lumens.com"
+    "email": "founders@corply.dev"
   },
   "homepage": "https://corply.dev",
   "repository": "https://github.com/corply-dev/corply-plugin",

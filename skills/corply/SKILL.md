@@ -35,6 +35,11 @@ workflows. Corply is software, not a law firm or a licensed professional adviser
    next missing fact or decision. Accept ordinary language; do not require technical IDs,
    exact phrases, numbered replies, or a large intake dump. Follow the server's current
    conversation presentation, keeping the actual next action first.
+   Use host question UI for choices, yes/no, or one-word answers and allow typed alternatives.
+   Batch only independent routine short questions in that UI. Ask branching, consequential,
+   or longer questions alone; in plain text ask one question per turn. Never batch consent.
+   Save each answer/batch before asking more. Keep one pending question open until answered,
+   cancelled, or failed; a timeout or preselection is not an answer.
 8. Take ordinary reversible saves directly. Follow
    [action-protocol.md](references/action-protocol.md) before consequential actions. Distinguish
    actual completion, pending state, rejection, and blockers. Do not add a proactive recovery

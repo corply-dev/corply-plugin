@@ -18,7 +18,9 @@ Make one native reconnect attempt for expired/revoked authentication or
 `TERMS_ACCEPTANCE_REQUIRED`. An old connection can have been revoked by a company migration;
 start fresh OAuth rather than reusing that connection. Account denial and inactive membership
 need the returned support action. Service failures require retry, not credential replacement.
-If the founder cancels linking, wait for them to resume.
+If the founder cancels linking, wait for them to resume. Keep one pending linking flow; a timeout
+does not authorize reopening it. Compare the connected account only with an email/company
+the founder explicitly requested.
 
 Before company intake, say once: “Corply is software, not a law firm, and does not provide
 legal, tax or accounting advice. [Terms of Use](https://corply.dev/terms).”
@@ -35,7 +37,10 @@ For a new unnamed company use `start_company_draft`; for a named application use
 `save_application` with a fresh `newCompanyRequestId`, no companyId, and the same request
 UUID on retries. Preserve existing companies, facts, choices and revision boundaries.
 Ask only for the next missing fact or decision. Use the host's question UI when available;
-wait for an explicit answer. A preselected default, silence or timeout is not consent.
+wait for an explicit answer. Batch only independent routine short questions; ask branching,
+consequential or longer questions alone, and one question per turn in plain text. Never batch
+consent. Save each answer/batch before asking more. Keep one pending question until answered,
+cancelled or failed. A preselected default, silence or timeout is not consent.
 
 Supported formation paths are Delaware C-Corps and member-managed Florida LLCs. Name checks
 are advisory, not trademark clearance or state acceptance. Confirm the exact inputs before
