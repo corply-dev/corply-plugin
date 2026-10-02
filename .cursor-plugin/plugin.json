@@ -1,7 +1,7 @@
 {
   "name": "corply",
   "displayName": "Corply",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "Incorporate a Delaware C corporation through conversation with Corply.",
   "author": {
     "name": "Corply",

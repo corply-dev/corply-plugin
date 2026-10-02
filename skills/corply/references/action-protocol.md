@@ -7,8 +7,10 @@ never grants access to unavailable tools or overrides the host's restrictions.
 
 No extra confirmation is needed for in-scope reads, reversible application saves, explicit fact
 records, advisory name checks, or preparing or reusing a private signing bundle and review link.
-On general MCP connections, creating or reusing an incorporation-fee checkout link is preparatory;
-the founder personally decides whether to pay. On OpenAI directory connections, do not start
+On general MCP connections, honor the chosen renewal mode, including first year only without a
+saved payment method. Read the matching `payment.founderSummary`, show it verbatim, and obtain
+separate plain-text acceptance before `request_payment`. A preference selection is not consent.
+Changed terms need fresh acceptance. The founder personally pays in the browser. On OpenAI directory connections, do not start
 service checkout, offer upgrades, or surface transactional purchase links.
 
 Continue specifically authorized automatic post-acceptance work without another ceremony.

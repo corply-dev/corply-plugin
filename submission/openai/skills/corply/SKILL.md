@@ -21,6 +21,8 @@ Make one native reconnect attempt for expired/revoked authentication or
 `TERMS_ACCEPTANCE_REQUIRED`. Account-denied or inactive-membership errors need the returned
 support/organization action; service/network failures do not call for replacing credentials.
 If linking is canceled, wait for the founder to resume.
+Wait on one pending linking flow; timeouts do not authorize reopening it. Compare the connected
+account only with an email/company the founder explicitly requested.
 
 ## Formation
 
@@ -42,6 +44,12 @@ Ask only for the next required fact or decision in natural language. Use returne
 entity paths, pricing entitlement, and standard configuration; do not promise options not exposed
 by the live server. Make reversible application saves without extra ceremony. Name checking is
 advisory, not trademark clearance or proof the state will accept a filing.
+
+Use host question UI for choices, yes/no, or one-word answers, allowing typed alternatives.
+Batch only independent routine short questions in that UI. Ask branching, consequential,
+or longer questions alone; in plain text ask one question per turn. Never batch consent.
+Save each answer/batch before asking more. Keep one pending question open until answered,
+cancelled, or failed; a timeout or preselection is not an answer.
 
 Before immutable document generation, summarize the exact inputs and obtain confirmation unless
 the result expressly identifies already-authorized automatic follow-through. Report only the

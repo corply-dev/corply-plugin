@@ -13,14 +13,17 @@ The founder chooses the intended account and accepts current terms personally in
   Never ask a ChatGPT user to install a CLI, run a terminal command, or paste credentials.
   If Corply is not enabled, direct them to the host's plugin connection control; a pasted
   website or setup prompt alone does not install an MCP connection.
-- Claude Code: open `/mcp`, select the existing Corply connection, and choose **Authenticate**.
-  This is an in-session control, not a shell command. Do not invent a CLI login command.
+- Claude Code agents: read the complete short [Claude setup guide](https://corply.dev/setup/claude-code.md)
+  and use its helper. Keep the returned sessionId; the helper owns native login and same-chat
+  recovery. A person setting up interactively may use `/mcp` and **Authenticate** instead.
 - Direct Codex MCP: run `codex mcp login corply` using the actual configured server name.
 - OpenCode 1.x: run `opencode mcp auth corply` using the actual configured server name.
 - Marketplace connections: use the host's **Connect** or **Reconnect** control for Corply.
 
 After setup, reconnect, or account switching, call protected `whoami` through this same MCP
-connection. Verify its email and organization before resuming the founder's original goal.
+connection, or reuse the helper's verified `whoami` result. Report the connected email once;
+pause only for a mismatch with an email/company the founder explicitly requested, never the
+coding host's account email. Resume the original goal without an extra account-confirmation question.
 A configured server or browser/CLI success message does not prove usable authentication.
 Preserve the endpoint already attached to this connection. Never replace `/mcp/openai` with
 `/mcp` to recover authentication or obtain a tool the directory connection does not expose.
@@ -32,9 +35,14 @@ and accept the current terms in the browser. `ACCOUNT_DENIED` requires Corply su
 access failures. `AUTH_SERVICE_UNAVAILABLE`, network failures, and 5xx errors call for a later
 retry without clearing credentials. If the founder cancels, stop until they resume.
 
-If tools remain stale after sign-in, reload/reconnect once or start a fresh task carrying the
-original goal, then retry `whoami`. If it still fails, report the client version, sanitized
-error code, and setup link. Do not repeat authorization indefinitely.
+Start OAuth once. While it is pending, wait on the same process/session; a timeout is not a
+failure or permission to open another page. Never run diagnostic logins or kill a waiting login.
+Cancellation, expiry, or failure needs an explicit user retry request.
+
+Missing tools after successful sign-in do not mean failed authentication. In Claude Code use
+the guide's session relay; in Codex use its native setup helper's relay. Do not restart login
+or require a new conversation. Preserve the current context receipt. For other hosts use their
+supported tool refresh, and report a sanitized blocker when no recovery is available.
 
 Never improvise PKCE or OAuth exchanges, guess API-key pages, add token headers as a workaround,
 read or write credential files, or request tokens, codes, or callback URLs in chat. Do not create
