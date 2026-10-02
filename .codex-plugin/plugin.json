@@ -1,7 +1,7 @@
 {
   "name": "corply",
-  "version": "0.8.2",
-  "description": "Form a Delaware C-Corp or member-managed Florida LLC through conversation with Corply.",
+  "version": "0.9.1",
+  "description": "Form Delaware C-Corps and Florida LLCs, import existing companies, and manage equity, governance and compliance with Corply.",
   "author": {
     "name": "Corply",
     "email": "founders@corply.dev",
@@ -13,11 +13,15 @@
   "keywords": [
     "incorporation",
     "startup",
-    "governance",
-    "equity",
+    "formation",
     "delaware",
     "c-corp",
-    "formation",
+    "florida",
+    "llc",
+    "cap-table",
+    "equity",
+    "governance",
+    "compliance",
     "documents",
     "signatures"
   ],
@@ -25,8 +29,8 @@
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Corply",
-    "shortDescription": "Incorporate your company through conversation.",
-    "longDescription": "Prepare a Delaware C-Corp or member-managed Florida LLC application, check company names, generate formation documents, coordinate each founder's review and signature, and track human-reviewed filing through Corply's hosted MCP connection. Continue from the company's saved state and the tools available on your connection. Corply is software, not a law firm.",
+    "shortDescription": "Form and run your company through conversation.",
+    "longDescription": "Form a Delaware C-Corp or a member-managed Florida LLC, check company names, generate formation documents, coordinate each founder's review and signature, and track human-reviewed filing through Corply's hosted MCP connection. Import a company formed elsewhere from its documents, review the cap table, and keep governance, annual reports, EIN and 83(b) follow-through on track from the company's saved state. Corply is software, not a law firm.",
     "developerName": "Corply",
     "category": "Productivity",
     "capabilities": [
@@ -37,9 +41,9 @@
     "privacyPolicyURL": "https://corply.dev/privacy",
     "termsOfServiceURL": "https://corply.dev/terms",
     "defaultPrompt": [
-      "Incorporate my startup with Corply.",
-      "Where is my incorporation blocked?",
-      "Help me review my Corply formation documents."
+      "Incorporate my startup with my cofounder.",
+      "Import my existing company into Corply from its documents.",
+      "What does my company need to do next?"
     ],
     "brandColor": "#10A37F",
     "composerIcon": "./assets/icon.svg",

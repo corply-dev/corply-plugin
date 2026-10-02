@@ -1,8 +1,8 @@
 {
   "name": "corply",
   "displayName": "Corply",
-  "version": "0.8.2",
-  "description": "Form a Delaware C-Corp or member-managed Florida LLC through conversation with Corply.",
+  "version": "0.9.1",
+  "description": "Form Delaware C-Corps and Florida LLCs, import existing companies, and manage equity, governance and compliance with Corply.",
   "author": {
     "name": "Corply",
     "email": "founders@corply.dev"
@@ -13,9 +13,13 @@
   "keywords": [
     "incorporation",
     "startup",
-    "governance",
-    "equity",
     "formation",
+    "florida",
+    "llc",
+    "cap-table",
+    "equity",
+    "governance",
+    "compliance",
     "documents",
     "signatures"
   ],
