@@ -113,7 +113,7 @@ Contact email: founders@corply.dev. The publisher selects the four acknowledgeme
 - **Documentation:** https://corply.dev/setup
 - **Privacy policy:** https://corply.dev/privacy
 - **Support:** https://corply.dev/support
-- **Icon:** `assets/logo.png` (512 x 512 PNG)
+- **Icon:** the Corply logo set as `icon` in `.claude-plugin/plugin.json` (512 x 512 PNG)
 - **Slug:** `corply` (permanent once published)
 - **Use cases:** company formation, existing-company import, cap-table review, governance and
   compliance tracking. Prerequisite: a Corply account, created during the first OAuth sign-in.

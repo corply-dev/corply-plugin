@@ -33,6 +33,16 @@ and does not provide legal, tax or accounting advice.
 Privacy policy: [corply.dev/privacy](https://corply.dev/privacy). Terms:
 [corply.dev/terms](https://corply.dev/terms). Security: [corply.dev/security](https://corply.dev/security).
 
+Other files in this repository are not part of what Claude runs:
+
+- `assets/` holds listing artwork only. The Codex manifest and the OpenAI directory package
+  name these images as their store icons, and `scripts/package-openai-plugin.mjs` copies them
+  into the OpenAI upload ZIP. Nothing executes or loads them as code.
+- `.github/workflows/publish-mcp.yml` runs in GitHub Actions on pushes to `main` that change
+  `server.json`. It uses GitHub's short-lived OIDC identity token to publish `server.json` to the
+  public MCP registry. It never runs on a user's machine and reads no user credential.
+- `scripts/` are maintainer checks and packaging, run by hand or in CI, never by the plugin.
+
 ## Install
 
 **Claude Code:**
