@@ -1,14 +1,14 @@
 {
   "name": "corply",
   "description": "Corply — incorporate your company through conversation.",
-  "owner": { "name": "Corply", "email": "founders@corply.dev" },
+  "owner": { "name": "Corply", "email": "founders@0lumens.com" },
   "plugins": [
     {
       "name": "corply",
-      "description": "Prepare formation documents, coordinate founder signatures, and track human-reviewed Delaware incorporation.",
-      "version": "0.8.1",
+      "description": "Prepare formation documents, coordinate founder signatures, and track human-reviewed Delaware C-Corp or Florida LLC formation.",
+      "version": "0.8.2",
       "source": "./",
-      "author": { "name": "Corply", "email": "founders@corply.dev" }
+      "author": { "name": "Corply", "email": "founders@0lumens.com" }
     }
   ]
 }

@@ -1,11 +1,11 @@
 {
   "name": "corply",
   "displayName": "Corply",
-  "version": "0.8.1",
-  "description": "Incorporate a Delaware C corporation through conversation with Corply.",
+  "version": "0.8.2",
+  "description": "Form a Delaware C-Corp or member-managed Florida LLC through conversation with Corply.",
   "author": {
     "name": "Corply",
-    "email": "founders@corply.dev"
+    "email": "founders@0lumens.com"
   },
   "homepage": "https://corply.dev",
   "repository": "https://github.com/corply-dev/corply-plugin",

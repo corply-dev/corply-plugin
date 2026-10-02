@@ -29,12 +29,12 @@ test("general plugin consistently ships the BUSL-1.1 license", async () => {
 
   for (const manifest of [".codex-plugin/plugin.json", ".claude-plugin/plugin.json", ".cursor-plugin/plugin.json"]) {
     const contents = JSON.parse(await readFile(path.join(root, manifest), "utf8"));
-    assert.equal(contents.version, "0.8.1", `${manifest} must identify the relicensed release`);
+    assert.equal(contents.version, "0.8.2", `${manifest} must identify the current release`);
     assert.equal(contents.license, "BUSL-1.1", `${manifest} must not advertise a permissive license`);
   }
 
   const marketplace = JSON.parse(await readFile(path.join(root, ".claude-plugin/marketplace.json"), "utf8"));
-  assert.equal(marketplace.plugins[0].version, "0.8.1");
+  assert.equal(marketplace.plugins[0].version, "0.8.2");
 
   const { skill, full } = await packageMappings();
   assert.ok(!skill.has("LICENSE"), "the OpenAI directory skill must remain an instructions-only upload");

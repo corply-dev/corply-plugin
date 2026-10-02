@@ -1,10 +1,10 @@
 {
   "name": "corply",
-  "version": "0.8.1",
-  "description": "Incorporate a Delaware C corporation through conversation with Corply.",
+  "version": "0.8.2",
+  "description": "Form a Delaware C-Corp or member-managed Florida LLC through conversation with Corply.",
   "author": {
     "name": "Corply",
-    "email": "founders@corply.dev",
+    "email": "founders@0lumens.com",
     "url": "https://corply.dev"
   },
   "homepage": "https://corply.dev",
@@ -26,7 +26,7 @@
   "interface": {
     "displayName": "Corply",
     "shortDescription": "Incorporate your company through conversation.",
-    "longDescription": "Prepare a Delaware C corporation application, check company names, generate formation documents, coordinate each founder's review and signature, and track human-reviewed filing through Corply's hosted MCP connection. Continue from the company's saved state and the tools available on your connection. Corply is software, not a law firm.",
+    "longDescription": "Prepare a Delaware C-Corp or member-managed Florida LLC application, check company names, generate formation documents, coordinate each founder's review and signature, and track human-reviewed filing through Corply's hosted MCP connection. Continue from the company's saved state and the tools available on your connection. Corply is software, not a law firm.",
     "developerName": "Corply",
     "category": "Productivity",
     "capabilities": [

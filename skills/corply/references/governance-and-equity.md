@@ -21,10 +21,16 @@ development-branch feature as available. Initial founder-stock
 work is distinct from later employee grants, financing, or bespoke corporate actions.
 
 The corporation's acceptance date is not necessarily the founder's stock-transfer date.
-For applicable 83(b) work, use the returned transfer date and authority. The current standard
-pre-filing Founder Formation Authorization covers the enumerated automatic post-acceptance
-records; do not request a second signature. Follow legacy exceptions only when returned.
-The taxpayer enters any required SSN/ITIN in the secure browser; Corply Ops handles mailing.
+For 83(b), use the live filing choice, transfer date, and authority. Managed mail uses the
+specific pre-filing authorization and secure TIN entry; do not create a second signature step
+for already-authorized work. Self-filing founders personally sign and submit directly to the IRS,
+then use their private Corply self-filing link for redacted evidence review. No Corply 83(b) mailing fee
+applies to self-filing. Never collect SSNs or ITINs in chat.
+
+Eligible imported Delaware C-Corps may use director/officer actions after reviewed governance
+records and a complete common-stock voting roster. Follow the exact eligibility returned;
+this does not make imported securities issuance, stock plans, options, or charter changes
+universally available. An uploaded document is not a completed evidence review.
 
 Do not guarantee legal or tax outcomes. Identify professional determinations when the actual
 formation facts require them, and continue independent steps. Follow

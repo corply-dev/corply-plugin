@@ -1,8 +1,8 @@
 {
   "name": "corply",
-  "description": "Incorporate a Delaware C corporation through conversation with Corply.",
-  "version": "0.8.1",
-  "author": { "name": "Corply", "email": "founders@corply.dev" },
+  "description": "Form a Delaware C-Corp or member-managed Florida LLC through conversation with Corply.",
+  "version": "0.8.2",
+  "author": { "name": "Corply", "email": "founders@0lumens.com" },
   "homepage": "https://corply.dev",
   "license": "BUSL-1.1",
   "keywords": ["incorporation", "startup", "formation", "governance", "equity", "delaware", "c-corp", "documents", "signatures"],

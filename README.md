@@ -53,7 +53,23 @@ invents signatures, payment, filing acceptance, or deadlines. Each founder acts 
 A new conversation does not mean starting a duplicate application.
 
 The standard flow records disclosed pre-filing authority for enumerated automatic post-acceptance
-work. Secure identity fields stay in the browser. Corply Ops handles applicable 83(b) mailing.
+work. Secure identity fields stay in the browser. Each restricted-stock founder chooses managed
+83(b) mail or self-filing. Managed mail includes standard certified mailing and a prepaid return
+envelope; self-filing has no Corply mailing fee and requires the founder's own IRS submission.
+Both routes track deadlines and reviewed evidence. See the [83(b) guide](https://corply.dev/guides/83b-election).
+
+Founders can also start a Delaware C-Corp in the [browser](https://corply.dev/signup?next=/welcome).
+Florida LLC intake currently uses a connected agent. Current supported prices are shown in the
+[formation calculator](https://corply.dev/pricing); live checkout controls the exact quote.
+Owners, founders and operators can export available company records from Documents or Settings.
+The [records download page](https://corply.dev/records) is accessible without accepting revised
+service terms; personal founder documents remain scoped to their owner.
+
+## Version 0.8.2
+
+Updated the founder workflow instructions for optional managed 83(b) mail, direct self-filing,
+private proof review, browser formation, records export, and reviewed imported-company role actions.
+Installed clients need their normal plugin update or reinstall to receive this snapshot.
 
 ## Distribution
 
@@ -92,4 +108,4 @@ More: [Corply](https://corply.dev) · [Setup](https://corply.dev/setup.md) ·
 Source-available under the [Business Source License 1.1](LICENSE). Production use is not granted.
 Each version converts to the Apache License 2.0 four years after that version is first publicly
 distributed. The license grants no rights to Corply trademarks or logos. Commercial-license
-inquiries: [founders@corply.dev](mailto:founders@corply.dev).
+inquiries: [founders@0lumens.com](mailto:founders@0lumens.com).
