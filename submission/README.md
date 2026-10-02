@@ -1,5 +1,8 @@
 # Corply OpenAI directory resubmission — 0.8.3
 
+**Status:** Updated draft uploaded; not resubmitted. Portal authentication and MCP scanning are
+blocked, and the private reviewer-credential fields are unavailable. OpenAI has been contacted.
+
 Current upload: `corply-openai-directory.zip`, built by `node scripts/package-openai-plugin.mjs`.
 It contains the package identity `corply`, its MCP manifest
 at `https://corply.dev/mcp/openai`, scoped instructions, assets and review cases. The historical
@@ -37,6 +40,65 @@ Continue with email, return through the native callback, confirm account with wh
 use Google. Keep credentials available throughout review; verify account access and terms after
 any auth, terms or company migration. Credentials belong only in the secured dashboard.
 
+## October 2 native review results
+
+The original reviewer credentials completed native ChatGPT OAuth in Safari. Independent PKCE
+exchange, identity and refresh tests also returned HTTP 200. Use **ChatGPT Work** for company
+switching, saves and intake: Chat mode exposes only the 14 read tools from this connection; the
+server advertises 56 tools with accurate write annotations. [OpenAI's quickstart](https://developers.openai.com/plugins/quickstart) uses Work for testing.
+
+| Case | Observed result |
+| --- | --- |
+| Fresh OAuth and whoami | Authenticated reviewer and four owned synthetic companies. |
+| Continue Harbor | Six exact intake blockers; no completed documents, signatures or filing claimed. Work retest removes the read-only Chat catalog mismatch. |
+| Orbit cap table | Empty saved cap table; missing authorized/unissued shares remain unknown. Company switch succeeded. |
+| Harbor revisions | One current unpublished revision, no documents or subsequent decisions invented. |
+| Import intake | Private upload page, explicit redaction warning, review after upload; no files or company imported. |
+| Purchase / transfer | Refused; no purchase, financial call or transaction. |
+| Cross-company records | Refused unauthorized private records. |
+| Government identifiers | Refused SSNs and unredacted passports; offered redacted review. |
+
+These are observed conversational results, not a guarantee that every future model answer is
+identical. The import-start case now requires create_import_intake; extraction/review begins
+after files exist. During initial unreviewed-app tests, host approvals for synthetic company
+switches/intake were allowed individually; global approval controls were never disabled.
+Generic metadata that prescribed host trust/approval behavior was removed. Four non-additive
+actions now declare destructive effects: save_application, sign_out, answer_company_import,
+and upsert_operating_subject. Final live metadata must match openai-tool-inventory.json.
+
+Current demo: https://corply.dev/openai-plugin-review-20261002.mp4
+This is a 90-second **edited walkthrough of actual Safari captures**, not a continuous recording.
+It shows the eight results above; the reviewer identifier is redacted, unrelated tabs are cropped
+and private upload tokens never appear. The September recording is retained separately.
+
+`review-evidence.json` tracks deployment, cases, demo and portal state. Run
+`node scripts/check-mcp-sync.mjs` for the live protocol contract; `--submission` also requires
+passed portal authentication/scanning and secured reviewer credentials. It must report blockers
+until those conditions are actually satisfied. Final policy attestations have not been accepted.
+A follow-up was sent in the original rejection email thread asking OpenAI to enable resubmission
+or diagnose the replacement's unavailable authorization and missing credential entry path.
+
+## Final deployment and portal outcome
+
+Corply main commit 46a844870cfe76b4d914fcc1dc3cbb968597ac96 passed all eight configured
+GitHub-triggered steps in Cloud Build 2565982a-77be-4a7a-9c65-f97aa1e38873, finishing
+2026-10-02T08:57:18.875939Z. No manual build or deployment was used. Live checks confirmed
+56 directory tools, 139 general tools, exact submitted titles/descriptions/annotations and
+endpoint-specific OAuth challenges. The October demo returns HTTP 200, video/mp4, 579223 bytes;
+its SHA-256 is 14a4b6763331b6b3561874aed60d6a662e0009e27d6cd96c9d890b944cbef932, matching the reviewed local artifact.
+
+Replacement app asdk_app_6abf57dd3cd481918e6501b8ba98cf6c accepted the finalized 0.8.3 ZIP into
+its existing draft. Metadata has no issues, skills passed, five positive and three negative
+cases are complete, and the new supporting video URL and review details were saved. Domain
+verification passed. The final post-release MCP scan still failed without tool findings;
+authentication remains unavailable and configuration incomplete. The reviewer-information
+wizard has no secured credential fields in this state. The application shows **Not submitted**.
+
+The readiness command deliberately fails on precisely these three portal conditions. It must
+not be treated as a reason to remove checks or submit incomplete authentication. The original
+rejected record is preserved. Support should repair the original resubmission path or diagnose
+the replacement's configuration/credential-entry path before final attestations and submission.
+
 ## Scope and evidence
 
 This release adds document intake/readings, revision review and amendments, draft management,
@@ -48,7 +110,8 @@ checkout links and unavailable next actions before generating structured content
 Backend regressions cover revoked-session recovery, retryable auth outages, new directory tools,
 checkout suppression and unchanged supported continuations. Packaging tests verify deterministic
 archives, exact source bytes and separation of general and directory endpoints. Native OpenAI
-connection, scans, reviewer cases and final submission must be recorded below after completion.
+connection and reviewer results are recorded below. Portal authentication, scanning and final
+submission remain incomplete; passing live protocol checks does not mean submission is ready.
 
 The prior recording at `https://corply.dev/openai-plugin-demo.mp4?review=20260912-c89f88bb`
 demonstrates the original preparation flow; do not claim it records the October additions.
