@@ -10,6 +10,7 @@ import { fileURLToPath } from "node:url";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const FIXED_TIME = new Date("2026-01-01T00:00:00.000Z");
 const OUTPUTS = {
+  directory: "corply-openai-directory.zip",
   skill: "corply-openai-skill-bundle.zip",
   full: "corply-openai-plugin-full.zip",
 };
@@ -53,6 +54,14 @@ export async function packageMappings() {
   const directoryRoot = "submission/openai/skills/corply";
   const directorySources = await collectFiles(path.join(ROOT, directoryRoot), directoryRoot);
   return {
+    directory: new Map([
+      ...directorySources.map((source) => [source.replace("submission/openai/", ""), source]),
+      [".codex-plugin/plugin.json", "submission/openai/.codex-plugin/plugin.json"],
+      [".mcp.json", "submission/openai/.mcp.json"],
+      ["assets/icon.svg", "assets/icon.svg"],
+      ["assets/logo.png", "assets/logo.png"],
+      ["LICENSE", "LICENSE"],
+    ]),
     skill: new Map(directorySources.map((source) => [source.replace("submission/openai/", ""), source])),
     full: new Map(sources.map((source) => [`corply/${source}`, source])),
   };
@@ -107,11 +116,13 @@ export async function buildArchive(stagingRoot, archive, mapping) {
 }
 
 async function main() {
-  const { skill: skillMapping, full: fullMapping } = await packageMappings();
+  const { directory: directoryMapping, skill: skillMapping, full: fullMapping } = await packageMappings();
   const temporary = await mkdtemp(path.join(tmpdir(), "corply-plugin-package-"));
   try {
     const stagedSkill = path.join(temporary, OUTPUTS.skill);
     const stagedFull = path.join(temporary, OUTPUTS.full);
+    const stagedDirectory = path.join(temporary, OUTPUTS.directory);
+    await buildArchive(path.join(temporary, "directory"), stagedDirectory, directoryMapping);
     await buildArchive(path.join(temporary, "skill"), stagedSkill, skillMapping);
     await buildArchive(path.join(temporary, "full"), stagedFull, fullMapping);
 
@@ -124,10 +135,13 @@ async function main() {
     }
 
     await copyFile(stagedSkill, path.join(ROOT, OUTPUTS.skill));
+    await copyFile(stagedDirectory, path.join(ROOT, OUTPUTS.directory));
+    await validateArchive(path.join(ROOT, OUTPUTS.directory), directoryMapping);
     await copyFile(stagedFull, path.join(ROOT, OUTPUTS.full));
     await validateArchive(path.join(ROOT, OUTPUTS.skill), skillMapping);
     await validateArchive(path.join(ROOT, OUTPUTS.full), fullMapping);
     console.log(`Built and byte-validated ${OUTPUTS.skill} (${skillMapping.size} files).`);
+    console.log(`Built and byte-validated ${OUTPUTS.directory} (${directoryMapping.size} files).`);
     console.log(`Built and byte-validated ${OUTPUTS.full} (${fullMapping.size} files).`);
   } finally {
     await rm(temporary, { recursive: true, force: true });

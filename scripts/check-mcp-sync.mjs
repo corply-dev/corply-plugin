@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import assert from "node:assert/strict";
+import { reviewBlockers } from "./review-readiness.mjs";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -19,9 +20,9 @@ const core = ["whoami", "get_org", "get_status", "save_application", "validate_a
 const generalFormation = [...core, "get_signature_request", "amend_frozen_application",
   "request_payment", "await_payment", "request_signature", "sign_bundle",
   "submit_for_formation", "prepare_83b_tin_input", "invite_member", "redeem_invite"];
-const directoryExcluded = ["get_signature_request", "request_payment", "await_payment",
+const directoryExcluded = ["request_payment", "await_payment",
   "request_signature", "sign_bundle", "submit_for_formation", "prepare_83b_tin_input",
-  "amend_frozen_application", "create_payment_portal", "pay_payment_link", "bank_transfer",
+  "create_payment_portal", "pay_payment_link", "bank_transfer",
   "wallet_spend", "create_payment_route_draft", "start_payment_route_onboarding",
   "run_sandbox_payment_probe", "run_sandbox_payout_probe"];
 const upgrades = ["request_registered_agent_upgrade", "await_registered_agent_upgrade"];
@@ -71,6 +72,12 @@ try {
   check(read("skills/corply/agents/openai.yaml").includes('url: "' + PUBLIC_URL + '"'), "General skill endpoint mismatch");
   check(read("submission/openai/skills/corply/agents/openai.yaml").includes('url: "' + DIRECTORY_URL + '"'),
     "Directory skill endpoint mismatch");
+  const directoryManifest = json("submission/openai/.codex-plugin/plugin.json");
+  check(directoryManifest.name === "corply" && directoryManifest.version === "0.8.3", "Directory package identity/version mismatch");
+  check(json("submission/openai/.mcp.json").mcpServers.corply.url === DIRECTORY_URL, "Directory package MCP endpoint mismatch");
+  check(directoryManifest.interface.shortDescription.length <= 30, "Directory subtitle exceeds submission limit");
+  check(directoryManifest.extensions["com.openai"].review.test_cases.positive.length === 5, "Exactly five positive cases are required");
+  check(directoryManifest.extensions["com.openai"].review.test_cases.negative.length === 3, "Exactly three negative cases are required");
   check(read("submission/README.md").includes("**Plugin source version:** " + version), "Submission version mismatch");
   check(read("submission/README.md").includes("**MCP metadata version:** " + json("server.json").version),
     "Submission MCP version mismatch");
@@ -130,11 +137,24 @@ try {
       if (label === "directory") {
         for (const name of directoryExcluded) check(!names.has(name), "Directory capability changed: " + name);
         for (const name of upgrades) if (names.has(name)) blockers.push("Directory still exposes service checkout/upgrade tool " + name);
-        const missing = ["request_signature", "sign_bundle", "submit_for_formation"].filter((name) => !names.has(name));
-        if (missing.length) blockers.push("Complete chat incorporation cannot be claimed: directory lacks " + missing.join(", "));
+        const expectedDirectory = json("submission/openai-tool-inventory.json");
+        check(JSON.stringify([...names].sort()) === JSON.stringify(expectedDirectory.map((tool) => tool.name).sort()), "Directory live inventory differs from the submitted snapshot");
+        for (const tool of result.tools) {
+          const expected = expectedDirectory.find((entry) => entry.name === tool.name);
+          check(tool.description === expected?.description && tool.title === expected?.title, "Directory metadata mismatch: " + tool.name);
+          for (const hint of ["readOnlyHint", "destructiveHint", "openWorldHint", "idempotentHint"]) {
+            check(tool.annotations?.[hint] === expected?.annotations?.[hint], "Directory annotation mismatch: " + tool.name + "." + hint);
+          }
+          check(!/Use checkoutUrl|curlExample/.test(tool.description), "Directory description exposes a purchase or terminal workflow: " + tool.name);
+        }
         const info = await rpc(url, "initialize", { protocolVersion: "2025-03-26",
           capabilities: {}, clientInfo: { name: "corply-plugin-contract-check", version } });
         check(info.serverInfo?.version === json("server.json").version, "MCP registry version differs from production");
+        const probe = await fetch(url, { method: "POST", signal: AbortSignal.timeout(15000) });
+        check(probe.status === 401, "Directory empty OAuth probe did not receive a challenge");
+        const metadataUrl = "https://corply.dev/.well-known/oauth-protected-resource/mcp/openai";
+        check(probe.headers.get("www-authenticate")?.includes(metadataUrl), "Directory probe advertises a different resource");
+        check(auth.headers.get("www-authenticate")?.includes(metadataUrl), "Directory tool auth advertises a different resource");
       } else {
         const financial = [...names].filter((name) => financeName.test(name));
         if (financial.length) console.log("Production general MCP still advertises non-formation tools: " + financial.join(", "));
@@ -142,10 +162,11 @@ try {
       console.log(label + ": " + names.size + " live tools; required formation contract checked.");
     }
   }
+  if (submission) blockers.push(...reviewBlockers(json("submission/review-evidence.json"), directoryManifest.extensions["com.openai"].review));
   for (const blocker of blockers) console.warn("Submission blocker: " + blocker);
   if (submission) errors.push(...blockers);
   assert.equal(errors.length, 0, errors.join("\n"));
-  console.log("Plugin " + version + " " + (submission ? "submission checks" : "contract checks") + " passed.");
+  console.log("Plugin " + version + " " + (submission ? "submission readiness checks" : "live MCP contract checks") + " passed.");
 } catch (error) {
   console.error(error.message);
   process.exitCode = 1;

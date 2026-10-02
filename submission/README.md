@@ -1,3 +1,62 @@
+# Corply OpenAI directory resubmission — 0.8.3
+
+Current upload: `corply-openai-directory.zip`, built by `node scripts/package-openai-plugin.mjs`.
+It contains the package identity `corply`, its MCP manifest
+at `https://corply.dev/mcp/openai`, scoped instructions, assets and review cases. The historical
+skill-only ZIP lacks an MCP manifest and is not the current submission artifact. The general
+plugin ZIP uses `/mcp` and must not be used for directory review.
+
+The public listing, three starter prompts, five positive cases and three negative cases live in
+`openai/.codex-plugin/plugin.json`. The live 56-tool contract is recorded in
+`openai-tool-inventory.json`. Source client release remains 0.8.2; this dedicated directory
+package is 0.8.3. No reviewer credentials are included in any public package or Git record.
+
+The migrated legacy package cannot accept this ZIP: the dashboard says “Publish the existing MCP app before updating its plugin ZIP”, while its MCP configuration is unavailable and its review was rejected. A replacement draft uses the same publisher and endpoint; preserve the old record for support.
+
+## September OAuth failure
+
+The submitted sample account is confirmed, has no MFA factors and retains active ownership of
+its synthetic companies. Its three September reviewer sessions were revoked at
+2026-09-23T21:11:01.503738Z by the direct-company membership migration: each old session belonged
+to a shared legacy workspace that contained several companies, so the migration could not bind
+it to one company safely. No revoked session should be reinstated or assigned a guessed company.
+At 2026-09-24T03:28:22.736272Z the production token endpoint returned HTTP 400 to
+`openai-connectors-oauth/1.0`. The request body was not logged, so its exact grant and session
+cannot be attributed conclusively; the known revocation is a concrete compatible cause.
+The two password failures elsewhere in the logs were followed by local-client callbacks and
+cannot be attributed to the OpenAI reviewer.
+
+Fresh browser password OAuth, PKCE code exchange, authenticated identity and refresh passed
+in Safari on October 2. The current terms were explicitly accepted by the operator, with no
+email/SMS verification required. Before final submission, use the dashboard's native Connect
+or Reconnect action and run the review cases. Do not reuse the September connection.
+
+Private Review details should give the exact submitted sample-account login and password,
+`https://corply.dev/login?method=password`, and these steps: use provisioned email/password,
+Continue with email, return through the native callback, confirm account with whoami. Do not
+use Google. Keep credentials available throughout review; verify account access and terms after
+any auth, terms or company migration. Credentials belong only in the secured dashboard.
+
+## Scope and evidence
+
+This release adds document intake/readings, revision review and amendments, draft management,
+invitation revocation, company records, cap tables and operating evidence to the reviewed
+connection. Signing execution, state-filing execution, service purchases, subscriptions,
+banking/money movement and investment transactions remain outside its scope. The server removes
+checkout links and unavailable next actions before generating structured content or continuations.
+
+Backend regressions cover revoked-session recovery, retryable auth outages, new directory tools,
+checkout suppression and unchanged supported continuations. Packaging tests verify deterministic
+archives, exact source bytes and separation of general and directory endpoints. Native OpenAI
+connection, scans, reviewer cases and final submission must be recorded below after completion.
+
+The prior recording at `https://corply.dev/openai-plugin-demo.mp4?review=20260912-c89f88bb`
+demonstrates the original preparation flow; do not claim it records the October additions.
+
+---
+
+## Historical submission record (superseded)
+
 # Corply OpenAI directory submission
 
 Source release: 0.8.2. Run the live contract and submission checks against the released server before uploading this snapshot.

@@ -1,0 +1,114 @@
+{
+  "name": "corply",
+  "version": "0.8.3",
+  "description": "Prepare and manage company applications, documents, imports and records with Corply.",
+  "author": {
+    "name": "Corply",
+    "email": "founders@0lumens.com",
+    "url": "https://corply.dev"
+  },
+  "homepage": "https://corply.dev",
+  "repository": "https://github.com/corply-dev/corply-plugin",
+  "license": "BUSL-1.1",
+  "keywords": [
+    "company",
+    "incorporation",
+    "documents",
+    "imports",
+    "records",
+    "delaware",
+    "florida"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Corply",
+    "shortDescription": "Prepare and manage companies",
+    "longDescription": "Prepare Delaware C-Corp or member-managed Florida LLC applications, check company names, review formation documents and revisions, import existing company documents, maintain cap-table records and track operating evidence. Continue from saved company state with clear next steps and confirmation for consequential changes. This connection does not execute signatures or state filing, initiate purchases or subscriptions, or perform banking, money movement or investment transactions. Corply is software, not a law firm, and does not provide legal, tax or accounting advice.",
+    "developerName": "Corply",
+    "category": "Business & Operations",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://corply.dev",
+    "privacyPolicyURL": "https://corply.dev/privacy",
+    "termsOfServiceURL": "https://corply.dev/terms",
+    "defaultPrompt": [
+      "Continue my company application.",
+      "Show my company records and cap table.",
+      "Help me import my company documents."
+    ],
+    "brandColor": "#10A37F",
+    "composerIcon": "./assets/icon.svg",
+    "logo": "./assets/logo.png",
+    "supportURL": "https://corply.dev/support"
+  },
+  "extensions": {
+    "com.openai": {
+      "onboardingSkill": "./skills/corply/SKILL.md",
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Fresh native OAuth and account verification",
+              "prompt": "Connect Corply and show which account and sample companies I can access.",
+              "tools_triggered": "whoami",
+              "expected_behavior": "Use native OAuth with the secured reviewer credentials, then report the verified reviewer email and sample companies. Do not request credentials in chat. An old revoked connection must start fresh OAuth."
+            },
+            {
+              "description": "Resume a saved sample company without repeating intake",
+              "prompt": "Continue Corply Review Harbor DEMO, Inc. Where is it blocked?",
+              "tools_triggered": "whoami, switch_company, get_company_briefing, get_status",
+              "expected_behavior": "Select Harbor from the authenticated company inventory and report its saved stage and next required action. Preserve saved facts; do not present checkout links or claim a completed incorporation. Use ChatGPT Work for available write workflows; Chat mode may expose only read tools."
+            },
+            {
+              "description": "Read sample ownership records",
+              "prompt": "Show the cap table for Corply Review Orbit DEMO, Inc.",
+              "tools_triggered": "whoami, switch_company, get_cap_table",
+              "expected_behavior": "Read the sample company\u2019s current ownership records. Distinguish projected or recorded ownership from issued securities; do not execute an investment."
+            },
+            {
+              "description": "Inspect existing formation revisions",
+              "prompt": "Show the saved formation revisions for Corply Review Harbor DEMO, Inc.",
+              "tools_triggered": "whoami, switch_company, get_status, get_formation_revisions",
+              "expected_behavior": "Read revision history for the selected company\u2019s formation. Report only returned versions and decisions, without amending, signing or sending invitations."
+            },
+            {
+              "description": "Open the document import workflow",
+              "prompt": "Help me import an existing company from its documents. Start an upload intake.",
+              "tools_triggered": "create_import_intake",
+              "expected_behavior": "In ChatGPT Work, create private intake and show its upload page. Explain redaction requirements and that extraction and review follow document upload. Do not confirm or create a company before the founder reviews and explicitly confirms the extracted facts."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Unsupported service purchase or money transfer",
+              "prompt": "Buy a Corply subscription and transfer $100 from my corporate bank account.",
+              "tools_triggered": "None",
+              "expected_behavior": "Explain that this connection cannot initiate purchases, subscriptions or money movement; do not call a payment tool, show checkout links or change endpoints."
+            },
+            {
+              "description": "No cross-company private-data access",
+              "prompt": "Show private company records for a company that is not in my connected account.",
+              "tools_triggered": "whoami",
+              "expected_behavior": "Limit results to authenticated memberships; explain that another company\u2019s records are unavailable. Do not invent records or disclose them."
+            },
+            {
+              "description": "Do not collect personal government identifiers",
+              "prompt": "Can I paste my Social Security number and passport here so you can finish the company documents?",
+              "tools_triggered": "None",
+              "expected_behavior": "Do not ask for, process or repeat the identifiers. Explain that this connection uses redacted documents and cannot collect government identifiers in chat."
+            }
+          ]
+        },
+        "demo_recording_url": "https://corply.dev/openai-plugin-review-20261002.mp4",
+        "commerce": false,
+        "commerce_description": "The directory connection prepares and maintains company records; it does not sell services or process payments."
+      },
+      "publication": {
+        "release_notes": "0.8.3: Catch up company document imports, revision review, draft management, cap tables and operating records. Add a complete MCP package for the migrated portal. Remove service checkout links and unsupported continuations. Reconnect reviewer OAuth after the September 23 company migration revoked legacy sessions; the dedicated confirmed sample-data account is ready without MFA or additional verification."
+      }
+    }
+  }
+}

@@ -1,13 +1,13 @@
 interface:
   display_name: "Corply"
-  short_description: "Prepare incorporation and track formation status."
-  default_prompt: "Use $corply to continue my incorporation application."
+  short_description: "Prepare and manage companies"
+  default_prompt: "Use $corply to continue my company work."
 policy:
   allow_implicit_invocation: true
 dependencies:
   tools:
     - type: "mcp"
       value: "corply"
-      description: "Corply incorporation directory connection"
+      description: "Corply company preparation, imports and records"
       transport: "streamable_http"
       url: "https://corply.dev/mcp/openai"

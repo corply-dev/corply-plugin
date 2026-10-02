@@ -7,7 +7,11 @@ import { fileURLToPath } from "node:url";
 import { packageMappings, buildArchive, archiveFile, archiveEntries, validateArchive } from "./package-openai-plugin.mjs";
 
 test("directory upload is isolated from general plugin instructions", async () => {
-  const { skill, full } = await packageMappings();
+  const { directory, skill, full } = await packageMappings();
+  assert.ok(directory.has(".codex-plugin/plugin.json"));
+  assert.ok(directory.has(".mcp.json"));
+  assert.equal(directory.get("skills/corply/SKILL.md"), "submission/openai/skills/corply/SKILL.md");
+  for (const entry of directory.keys()) assert.doesNotMatch(entry, /references|credentials|\.env|server\.json|README/);
   assert.deepEqual([...skill.keys()].sort(), ["skills/corply/SKILL.md", "skills/corply/agents/openai.yaml"]);
   assert.equal(skill.get("skills/corply/SKILL.md"), "submission/openai/skills/corply/SKILL.md");
   assert.ok(full.has("corply/.codex-plugin/plugin.json"));
@@ -52,10 +56,10 @@ test("archives are deterministic and byte-verified against their own sources", a
       await buildArchive(path.join(temporary, `${kind}-2`), second, mapping);
       assert.deepEqual(await readFile(first), await readFile(second));
       assert.equal(archiveEntries(first).length, mapping.size);
-      const config = kind === "skill" ? "skills/corply/agents/openai.yaml" : "corply/.mcp.json";
+      const config = kind === "skill" ? "skills/corply/agents/openai.yaml" : kind === "directory" ? ".mcp.json" : "corply/.mcp.json";
       const text = String(archiveFile(first, config));
       if (kind === "skill") assert.match(text, /https:\/\/corply\.dev\/mcp\/openai/);
-      else assert.equal(JSON.parse(text).mcpServers.corply.url, "https://corply.dev/mcp");
+      else assert.equal(JSON.parse(text).mcpServers.corply.url, kind === "directory" ? "https://corply.dev/mcp/openai" : "https://corply.dev/mcp");
       const wrongMapping = new Map(mapping);
       wrongMapping.set([...mapping.keys()][0], "LICENSE");
       await assert.rejects(validateArchive(first, wrongMapping), /stale bytes/);

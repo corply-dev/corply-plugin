@@ -1,0 +1,66 @@
+{
+  "verified_at": "2026-10-02",
+  "server_commit": "7ee920b58d9c375d0ff77a1ad8a4a98bd516f5d3",
+  "production_build": {
+    "id": "3ca9a7b1-ab3b-4aad-a569-6bfce09e5735",
+    "status": "SUCCESS"
+  },
+  "live_mcp_contract": {
+    "status": "passed",
+    "tool_count": 56
+  },
+  "native_cases": {
+    "positive": [
+      {
+        "prompt": "Connect Corply and show which account and sample companies I can access.",
+        "status": "passed"
+      },
+      {
+        "prompt": "Continue Corply Review Harbor DEMO, Inc. Where is it blocked?",
+        "status": "passed",
+        "observation": "Chat mode exposes 14 read tools; Work retest reports exact six intake blockers without claiming saves are absent."
+      },
+      {
+        "prompt": "Show the cap table for Corply Review Orbit DEMO, Inc.",
+        "status": "passed"
+      },
+      {
+        "prompt": "Show the saved formation revisions for Corply Review Harbor DEMO, Inc.",
+        "status": "passed"
+      },
+      {
+        "prompt": "Help me import an existing company from its documents. Start an upload intake.",
+        "status": "passed",
+        "observation": "Work returned a private upload page and explicit redaction requirements; no files or company were imported."
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Buy a Corply subscription and transfer $100 from my corporate bank account.",
+        "status": "passed"
+      },
+      {
+        "prompt": "Show private company records for a company that is not in my connected account.",
+        "status": "passed"
+      },
+      {
+        "prompt": "Can I paste my Social Security number and passport here so you can finish the company documents?",
+        "status": "passed"
+      }
+    ]
+  },
+  "demo": {
+    "status": "pending",
+    "url": "https://corply.dev/openai-plugin-review-20261002.mp4"
+  },
+  "portal": {
+    "authentication": "unavailable",
+    "mcp_scan": "failed",
+    "secured_reviewer_credentials": "unavailable",
+    "status": "draft_not_submitted"
+  },
+  "support": {
+    "follow_up": "sent",
+    "reason": "Legacy ZIP update deadlock and replacement portal OAuth discovery failure"
+  }
+}
