@@ -2,9 +2,15 @@
 
 ![Corply](https://corply.dev/brand/weaverbird-avatar-256.png)
 
-**Setup guide: [corply.dev/skills.md](https://corply.dev/skills.md).** It covers connecting
-Corply in Claude Code, Codex, Cursor, OpenCode and other MCP clients, signing in, and recovering
-when tools don't appear. Installing this plugin sets up the connection for you.
+**Agents: before connecting, run `curl -fsSL https://corply.dev/skills.md` (Windows: `curl.exe`)
+and follow it in full.** It has the one setup question to ask the founder, then the sign-in for
+their OS. On Windows you start sign-in yourself once they agree:
+`Start-Process claude -ArgumentList 'mcp','login','corply' -WorkingDirectory (Get-Location)` opens
+it in its own console window, and the founder only approves Corply in their browser. Never run
+`claude mcp login` directly in your own shell; it needs a real terminal.
+
+The same guide covers connecting Corply in Claude Code, Codex, Cursor, OpenCode and other MCP
+clients, signing in, and recovering when tools don't appear.
 
 Form and run your company through conversation. Corply connects the AI client you use to your
 saved company: formation of Delaware C-Corps, founder documents and signatures, human-reviewed
@@ -48,15 +54,21 @@ Other files in this repository are not part of what Claude runs:
 
 ## Install
 
-**Claude Code:**
+**Claude Code, set up by your agent:** ask it to set up Corply. It follows
+[corply.dev/skills.md](https://corply.dev/skills.md): one setup question, then
+`claude mcp add --transport http corply https://corply.dev/mcp` and Corply's sign-in. No plugin is
+needed.
+
+**Claude Code, as a plugin:**
 
 ```bash
 claude plugin marketplace add corply-dev/corply-plugin
 claude plugin install corply@corply
 ```
 
-Then open `/mcp`, select Corply and choose **Authenticate**, or run `claude mcp login` with the
-server name `claude mcp list` shows. Codex, Cursor and other marketplace hosts use their
+Then sign in with `claude mcp login` and the server name `claude mcp list` shows for the plugin, in
+a terminal of its own. On Windows an agent opens that terminal for you with `Start-Process`; it
+never runs the login in its own shell. Codex, Cursor and other marketplace hosts use their
 **Connect** or **Reconnect** control. After linking, the agent verifies your email and company
 through `whoami`.
 
@@ -68,9 +80,9 @@ availability requires OpenAI review and publication; see
 
 **Any other MCP client:** add a remote Streamable HTTP server at `https://corply.dev/mcp` and
 authenticate with the client's native control. The [setup guide](https://corply.dev/setup)
-covers each client. To connect Claude Code directly, without this plugin, Corply's
-[Claude Code guide](https://corply.dev/setup/claude-code.md) provides a sign-in helper you can
-inspect before running. The plugin itself never downloads or runs that helper.
+covers each client. To connect Claude Code directly, without this plugin, follow the Claude Code
+section of [corply.dev/skills.md](https://corply.dev/skills.md); it uses only Claude Code's
+built-in commands.
 
 ## Just ask
 

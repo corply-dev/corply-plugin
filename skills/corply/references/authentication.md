@@ -6,9 +6,14 @@ connection and its configured name; do not add a second Corply connection.
 Use the client's native OAuth flow. The client owns PKCE, callbacks, token storage and refresh.
 The founder chooses the intended account and accepts current terms personally in the browser.
 
-- **Claude Code:** in the session, open `/mcp`, select the Corply server and choose
-  **Authenticate**. From a terminal, the founder can run `claude mcp login` with the server name
-  that `claude mcp list` shows for this plugin.
+- **Claude Code:** sign-in needs a real terminal, so never run `claude mcp login` in your own
+  shell. On Windows, once the founder agrees, start it yourself in its own console window with
+  the PowerShell tool:
+  `Start-Process claude -ArgumentList 'mcp','login','<server name>' -WorkingDirectory (Get-Location) -PassThru | Wait-Process -Timeout 280`,
+  using the server name `claude mcp list` shows for this plugin, then check that
+  `claude mcp get <server name>` shows Connected. The founder only approves Corply in their
+  browser. Elsewhere, ask the founder to run `claude mcp login <server name>` in their own
+  terminal.
 - **Claude apps and Cowork:** use the **Connect** control for Corply in the connector or plugin
   settings, sign in on Corply's page, then return to the conversation.
 - **ChatGPT on the web:** use ChatGPT's native **Connect** or **Reconnect** flow for the enabled
@@ -50,8 +55,11 @@ Cancellation, expiry or failure needs the founder's explicit request before anot
   credentials.
 
 Missing or stale tools after a successful sign-in do not mean authentication failed, so do not
-restart sign-in. Use the host's supported tool refresh: in Claude Code, reconnect Corply from
-`/mcp`; in Codex, use the relay of Corply's native setup helper when it is installed. Preserve
+restart sign-in. Use the host's supported tool refresh: in Claude Code, a running conversation
+can't load a server signed in mid-session, so reopen it with Corply's tools loaded (on Windows,
+`Start-Process claude -ArgumentList '--resume', $env:CLAUDE_CODE_SESSION_ID -WorkingDirectory (Get-Location)`;
+elsewhere the founder runs `claude --continue`) and tell the founder to continue there; in Codex,
+use the relay of Corply's native setup helper when it is installed. Preserve
 the current context receipt. If nothing restores the tools, report the client version and the
 sanitized error code, and share [Corply setup](https://corply.dev/setup) with the founder.
 
