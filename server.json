@@ -2,13 +2,13 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.corply-dev/corply",
   "title": "Corply \u2014 Start and run your company",
-  "description": "Form Delaware C-Corps or Florida LLCs; manage companies. Setup: https://corply.dev/setup.md",
+  "description": "Form and manage a Delaware C-Corp from your agent. Setup: https://corply.dev/skills.md",
   "repository": {
     "url": "https://github.com/corply-dev/corply-plugin",
     "source": "github"
   },
-  "version": "0.11.0",
-  "websiteUrl": "https://corply.dev/setup.md",
+  "version": "0.11.1",
+  "websiteUrl": "https://corply.dev/skills.md",
   "remotes": [
     {
       "type": "streamable-http",
