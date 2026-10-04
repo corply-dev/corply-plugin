@@ -3,7 +3,7 @@
 Source release: 0.9.1, prepared October 2, 2026 from production MCP discovery.
 Portal: https://claude.ai/directory/manage (opened to paid-plan developers on September 25, 2026)
 
-- **Plugin source version:** 0.9.1
+- **Plugin source version:** 0.9.2
 - **MCP metadata version:** 0.11.1
 - **Status:** not submitted. Nothing in this repository records a Claude directory submission.
 
@@ -98,10 +98,10 @@ Contact email: founders@corply.dev. The publisher selects the four acknowledgeme
 
 - **Connection:** `https://corply.dev/mcp/claude`, the Claude directory profile. One URL for all users.
 - **Server name:** Corply
-- **One-liner (200 max):** Form Delaware C-Corps and Florida LLCs, import existing companies,
-  and manage equity, governance and compliance through conversation.
+- **One-liner (200 max):** Form Delaware C-Corps, import existing companies, and manage
+  equity, governance and compliance through conversation.
 - **Description (2,000 max):** Corply connects Claude to your company's saved state. Form a
-  Delaware C-Corp or a member-managed Florida LLC: save the application, check proposed names,
+  Delaware C-Corp: save the application, check proposed names,
   generate formation documents, review and sign them, pay Corply's fee on Corply's own checkout
   page, and hand the packet to Corply's human-reviewed filing pipeline. Import a company formed
   elsewhere from its documents, review the cap table, and keep governance, EIN, 83(b), Delaware
@@ -126,7 +126,7 @@ Contact email: founders@corply.dev. The publisher selects the four acknowledgeme
   `resource_metadata`.
 - **Data handling:** first-party API; no personal health data; no sponsored content.
 - **Test and launch:** provision a dedicated Claude reviewer account populated with an
-  in-progress Delaware formation, a Florida LLC draft, an imported company and a cap table.
+  in-progress Delaware formation, an imported company and a cap table.
   Credentials go only in the portal. Confirm every tool was run through MCP Inspector or as a
   custom connector in Claude.
 - **Compliance:** the publisher selects all seven acknowledgements personally, including

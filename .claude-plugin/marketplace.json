@@ -5,8 +5,8 @@
   "plugins": [
     {
       "name": "corply",
-      "description": "Form Delaware C-Corps and Florida LLCs, coordinate founder signatures and human-reviewed filing, import existing companies, and manage equity, governance and compliance.",
-      "version": "0.9.1",
+      "description": "Form Delaware C-Corps, coordinate founder signatures and human-reviewed filing, import existing companies, and manage equity, governance and compliance.",
+      "version": "0.9.2",
       "source": "./",
       "author": { "name": "Corply", "email": "founders@corply.dev" }
     }

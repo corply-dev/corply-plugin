@@ -6,16 +6,12 @@ directory connection exposes a smaller tool set; never switch it to another endp
 
 ## Supported formations
 
-- **Delaware C-Corp:** `structure=c_corp`, `jurisdiction=US-DE`.
-- **Member-managed Florida LLC:** `structure=llc`, `jurisdiction=US-FL`. Collect each member's
-  ownership percentage and capital contribution, the LLC principal address, an optional mailing
-  address and the members' ownership confirmation. The registered agent is prefilled. LLCs have
-  no shares, vesting, directors, officers or 83(b) elections.
+Corply forms Delaware C-Corps: `structure=c_corp`, `jurisdiction=US-DE`.
 
-For an LLC request without a state, offer Florida and confirm it; do not substitute a Delaware
-C-Corp. Other states and entity types are outside the current workflow: say so plainly instead
-of starting a different formation. Use the returned formation path, prices and options, never
-ones from memory or an unreleased feature.
+Other states and entity types are outside the current workflow: say so plainly instead of
+starting a different formation or substituting a Delaware C-Corp without the founder's choice.
+Use the returned formation path, prices and options, never ones from memory or an unreleased
+feature.
 
 ## New, resumed and separate companies
 
@@ -55,17 +51,13 @@ allocations. Read [governance-and-equity.md](governance-and-equity.md) before ex
 shares or roles, and [company-naming.md](company-naming.md) before checking names.
 
 `generate_documents` creates immutable documents. Summarize the inputs that will be frozen and
-obtain confirmation first. Report only the documents actually returned:
-
-- Delaware, before filing: the Certificate of Incorporation. After Delaware acceptance: bylaws,
-  action of incorporator, initial board consent, each founder's stock purchase agreement and
-  the unsigned SS-4.
-- Florida, before filing: the Articles of Organization. After Florida acceptance: the operating
-  agreement every member signs and LLC EIN preparation.
+obtain confirmation first. Report only the documents actually returned: before filing, the
+Certificate of Incorporation; after Delaware acceptance, bylaws, action of incorporator, initial
+board consent, each founder's stock purchase agreement and the unsigned SS-4.
 
 ## Changing a frozen application
 
-- The incorporator or organizer uses `amend_frozen_application` only after explaining that it
+- The incorporator uses `amend_frozen_application` only after explaining that it
   supersedes the current documents and open signature requests, and obtaining confirmation.
 - A cofounder who wants a change uses `propose_formation_change` (confirm the message first);
   it holds payment and filing until the incorporator decides with `decide_formation_change`.
@@ -83,9 +75,8 @@ Signatures come before payment.
 2. Call `request_signature` without another confirmation to prepare the live signer's bundle.
    Show every document title, the review link and the complete authorization disclosure; open
    the review link when the host can, as [action-protocol.md](action-protocol.md) describes.
-   Florida: only the organizer signs the Articles before filing. Delaware: the incorporator's
-   bundle includes the Certificate of Incorporation and every founder's bundle includes the
-   Founder Formation Authorization for the listed post-acceptance records.
+   The incorporator's bundle includes the Certificate of Incorporation and every founder's
+   bundle includes the Founder Formation Authorization for the listed post-acceptance records.
 3. After review, obtain fresh signature consent under
    [action-protocol.md](action-protocol.md) and call `sign_bundle` once with the server-issued
    `bundleId`. If the founder signs personally with the returned `webSignUrl`, refresh status

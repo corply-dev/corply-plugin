@@ -1,7 +1,7 @@
 {
   "name": "corply",
-  "version": "0.9.1",
-  "description": "Form Delaware C-Corps and Florida LLCs, import existing companies, and manage equity, governance and compliance with Corply.",
+  "version": "0.9.2",
+  "description": "Form Delaware C-Corps, import existing companies, and manage equity, governance and compliance with Corply.",
   "author": {
     "name": "Corply",
     "email": "founders@corply.dev",
@@ -16,8 +16,6 @@
     "formation",
     "delaware",
     "c-corp",
-    "florida",
-    "llc",
     "cap-table",
     "equity",
     "governance",
@@ -30,7 +28,7 @@
   "interface": {
     "displayName": "Corply",
     "shortDescription": "Form and run your company through conversation.",
-    "longDescription": "Form a Delaware C-Corp or a member-managed Florida LLC, check company names, generate formation documents, coordinate each founder's review and signature, and track human-reviewed filing through Corply's hosted MCP connection. Import a company formed elsewhere from its documents, review the cap table, and keep governance, annual reports, EIN and 83(b) follow-through on track from the company's saved state. Corply is software, not a law firm.",
+    "longDescription": "Form a Delaware C-Corp, check company names, generate formation documents, coordinate each founder's review and signature, and track human-reviewed filing through Corply's hosted MCP connection. Import a company formed elsewhere from its documents, review the cap table, and keep governance, annual reports, EIN and 83(b) follow-through on track from the company's saved state. Corply is software, not a law firm.",
     "developerName": "Corply",
     "category": "Productivity",
     "capabilities": [

@@ -1,14 +1,13 @@
 ---
 name: corply
-description: Form a Delaware C-Corp or Florida LLC with cofounders, import a company formed elsewhere, or manage its cap table, governance, filings and compliance through the connected Corply MCP tools. Use for requests to start, open, register, incorporate or import a company, review founder equity, sign formation or company-action documents, or check EIN, 83(b), annual report and other company obligations, even when Corply is not named.
+description: Form a Delaware C-Corp with cofounders, import a company formed elsewhere, or manage its cap table, governance, filings and compliance through the connected Corply MCP tools. Use for requests to start, open, register, incorporate or import a company, review founder equity, sign formation or company-action documents, or check EIN, 83(b), annual report and other company obligations, even when Corply is not named.
 ---
 
 # Corply
 
 Help the founder form and run their legal entity through ordinary conversation, using the
-Corply tools on this connection. Corply supports Delaware C-Corps and member-managed Florida
-LLCs, imports existing Delaware C-Corps and Florida LLCs, and keeps company records, equity,
-governance and compliance in one place. Corply is software, not a law firm, and does not give
+Corply tools on this connection. Corply forms Delaware C-Corps, imports existing Delaware
+C-Corps, and keeps company records, equity, governance and compliance in one place. Corply is software, not a law firm, and does not give
 legal, tax or accounting advice.
 
 Stay within company formation and operation. Do not start customer-payment processing, payment
@@ -56,7 +55,7 @@ personally, on a returned checkout page.
 
 ## References
 
-- [formation.md](references/formation.md): Delaware C-Corp and Florida LLC formation, drafts,
+- [formation.md](references/formation.md): Delaware C-Corp formation, drafts,
   founder details, addresses, signatures, fees, cofounders and filing handoff.
 - [company-naming.md](references/company-naming.md): choosing and checking a legal name.
 - [governance-and-equity.md](references/governance-and-equity.md): founder equity, cap table,

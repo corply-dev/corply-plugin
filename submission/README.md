@@ -1,4 +1,7 @@
-# Corply OpenAI directory resubmission — 0.8.3
+# Corply OpenAI directory resubmission — 0.8.4
+
+**0.8.4 (October 4, 2026):** the listing and skill now describe Delaware C-Corp formation only,
+matching what Corply forms. Rebuild `corply-openai-directory.zip` and upload it in place of 0.8.3.
 
 **Status:** Updated draft uploaded; not resubmitted. Portal authentication and MCP scanning are
 blocked, and the private reviewer-credential fields are unavailable. OpenAI has been contacted.

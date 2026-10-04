@@ -10,7 +10,7 @@ Distinguish authorized shares, founder-issued shares and authorized but unissued
 Use `kind: missing` to collect absent inputs and `kind: invalid` to correct saved values.
 A saved invalid allocation is not a persistence failure.
 
-Show the exact founder allocation and obtain each founder's confirmation. An organizer may
+Show the exact founder allocation and obtain each founder's confirmation. One founder may
 propose a split but cannot agree on another founder's behalf. Keep incorporator, director,
 corporate officer and ordinary job titles distinct.
 
@@ -18,9 +18,6 @@ Recommend the vesting, purchase, director, incorporator and officer choices retu
 company. The live schema supports a per-founder `equityTreatment=fully_vested`: offer it
 alongside the recommended vesting treatment, never infer it from zero months, and follow its
 returned stock purchase agreement path with no 83(b) election. Teams may mix treatments.
-
-Florida LLC members hold membership percentages with agreed capital contributions, not stock.
-Do not describe shares, vesting, a board or 83(b) elections for an LLC.
 
 ## Cap table
 

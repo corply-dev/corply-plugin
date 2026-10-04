@@ -9,7 +9,7 @@ make a clear recommendation rather than prolonging low-value debate.
 
 When generating new names:
 
-1. Generate at least 20 base names before adding `Inc.`, `LLC` or another approved entity ending.
+1. Generate at least 20 base names before adding `Inc.` or another approved corporate ending.
 2. Prefer names that are 6–8 letters, easy to hear, spell, pronounce, and remember.
 3. Favor pronounceable CVCV, CVCC, or VCCV structures and invented names over descriptive English
    words when the founder has no strong naming direction.
@@ -46,9 +46,7 @@ Once the founder has selected a complete legal name:
 - Keep entity-name availability separate from trademark clearance, domain availability, and naming
   rules in states where the company may later qualify to do business.
 
-Use an approved ending for the entity: a corporate ending such as `Inc.` for a Delaware
-corporation, or `LLC` or `L.L.C.` for a Florida LLC. Avoid regulated or misleading terms such
-as `bank` or `trust` unless canonical tool output exposes an approved path or a qualified
-professional has cleared the issue. The state may still reject a name that is misleading,
-abusive or otherwise noncompliant even when a search reports it available. For Florida LLCs,
-availability stays unknown until Corply operations checks Sunbiz before filing.
+Use an approved corporate ending such as `Inc.` for a Delaware corporation. Avoid regulated or
+misleading terms such as `bank` or `trust` unless canonical tool output exposes an approved path
+or a qualified professional has cleared the issue. Delaware may still reject a name that is
+misleading, abusive or otherwise noncompliant even when a search reports it available.

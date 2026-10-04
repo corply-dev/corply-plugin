@@ -2,11 +2,14 @@
 
 ![Corply](https://corply.dev/brand/weaverbird-avatar-256.png)
 
+**Setup guide: [corply.dev/skills.md](https://corply.dev/skills.md).** It covers connecting
+Corply in Claude Code, Codex, Cursor, OpenCode and other MCP clients, signing in, and recovering
+when tools don't appear. Installing this plugin sets up the connection for you.
+
 Form and run your company through conversation. Corply connects the AI client you use to your
-saved company: formation of Delaware C-Corps and member-managed Florida LLCs, founder documents
-and signatures, human-reviewed state filing, import of companies formed elsewhere, cap tables,
-governance actions, EIN and 83(b) follow-through, Delaware annual reports and other ongoing
-company obligations.
+saved company: formation of Delaware C-Corps, founder documents and signatures, human-reviewed
+state filing, import of companies formed elsewhere, cap tables, governance actions, EIN and 83(b)
+follow-through, Delaware annual reports and other ongoing company obligations.
 
 This repository is the cross-agent plugin: a skill plus the connection to Corply's hosted MCP
 server. Company state and execution live on that server. Corply is software, not a law firm,
@@ -72,7 +75,6 @@ inspect before running. The plugin itself never downloads or runs that helper.
 ## Just ask
 
 - "Incorporate our startup. My cofounder and I want a 60/40 split."
-- "Form a Florida LLC for my consulting business."
 - "Import my existing Delaware company into Corply from its documents."
 - "Show our cap table and what the company needs to do next."
 
@@ -90,18 +92,23 @@ envelope; self-filing has no Corply mailing fee and requires the founder's own I
 Both routes track deadlines and reviewed evidence. See the [83(b) guide](https://corply.dev/guides/83b-election).
 
 Founders can also start a Delaware C-Corp in the [browser](https://corply.dev/signup?next=/welcome).
-Florida LLC intake currently uses a connected agent. Current supported prices are shown in the
+Current supported prices are shown in the
 [formation calculator](https://corply.dev/pricing); live checkout controls the exact quote.
 Owners, founders and operators can export available company records from Documents or Settings.
 The [records download page](https://corply.dev/records) is accessible without accepting revised
 service terms; personal founder documents remain scoped to their owner.
 
+## Version 0.9.2
+
+The listing and instructions describe Delaware C-Corp formation only, matching what Corply
+currently forms.
+
 ## Version 0.9.1
 
 The Claude plugin connects to `https://corply.dev/mcp/claude`, Corply's directory profile, and
-its instructions now cover Florida LLCs, existing-company import, cap tables, governed company
-actions, annual reports, IRS changes, the company workspace and address lookup. Every Corply
-tool now has a title.
+its instructions now cover existing-company import, cap tables, governed company actions, annual
+reports, IRS changes, the company workspace and address lookup. Every Corply tool now has a
+title.
 
 ## Version 0.8.2
 

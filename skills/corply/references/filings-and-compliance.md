@@ -14,7 +14,7 @@ Report the company as formed only when canonical state confirms acceptance.
 ## EIN and post-incorporation tasks
 
 Follow live results for EIN preparation: Delaware formations receive an unsigned SS-4 after
-acceptance; Florida LLCs receive LLC-aware EIN preparation. When a founder finishes one of their
+acceptance. When a founder finishes one of their
 own assigned tasks, such as opening a bank account, `mark_task_done` reports it; the status
 becomes pending review until Corply's team verifies it.
 

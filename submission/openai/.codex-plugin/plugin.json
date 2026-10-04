@@ -1,6 +1,6 @@
 {
   "name": "corply",
-  "version": "0.8.3",
+  "version": "0.8.4",
   "description": "Prepare and manage company applications, documents, imports and records with Corply.",
   "author": {
     "name": "Corply",
@@ -16,15 +16,14 @@
     "documents",
     "imports",
     "records",
-    "delaware",
-    "florida"
+    "delaware"
   ],
   "skills": "./skills/",
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Corply",
     "shortDescription": "Prepare and manage companies",
-    "longDescription": "Prepare Delaware C-Corp or member-managed Florida LLC applications, check company names, review formation documents and revisions, import existing company documents, maintain cap-table records and track operating evidence. Continue from saved company state with clear next steps and confirmation for consequential changes. This connection does not execute signatures or state filing, initiate purchases or subscriptions, or perform banking, money movement or investment transactions. Corply is software, not a law firm, and does not provide legal, tax or accounting advice.",
+    "longDescription": "Prepare Delaware C-Corp applications, check company names, review formation documents and revisions, import existing company documents, maintain cap-table records and track operating evidence. Continue from saved company state with clear next steps and confirmation for consequential changes. This connection does not execute signatures or state filing, initiate purchases or subscriptions, or perform banking, money movement or investment transactions. Corply is software, not a law firm, and does not provide legal, tax or accounting advice.",
     "developerName": "Corply",
     "category": "Business & Operations",
     "capabilities": [
@@ -107,7 +106,7 @@
         "commerce_description": "The directory connection prepares and maintains company records; it does not sell services or process payments."
       },
       "publication": {
-        "release_notes": "0.8.3: Catch up company document imports, revision review, draft management, cap tables and operating records. Add a complete MCP package for the migrated portal. Remove service checkout links and unsupported continuations. Reconnect reviewer OAuth after the September 23 company migration revoked legacy sessions; the dedicated confirmed sample-data account is ready without MFA or additional verification."
+        "release_notes": "0.8.4: List Delaware C-Corp formation only, matching what Corply forms. 0.8.3: Catch up company document imports, revision review, draft management, cap tables and operating records. Add a complete MCP package for the migrated portal. Remove service checkout links and unsupported continuations. Reconnect reviewer OAuth after the September 23 company migration revoked legacy sessions; the dedicated confirmed sample-data account is ready without MFA or additional verification."
       }
     }
   }

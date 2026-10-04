@@ -1,7 +1,7 @@
 # Importing an existing company
 
 Use this when the founder's company was already formed outside Corply. An import brings an
-existing Delaware C-Corp or Florida LLC into Corply; it is not a new state formation. Preserve
+existing Delaware C-Corp into Corply; it is not a new state formation. Preserve
 work done elsewhere instead of making the founder repeat it.
 
 ## Start from documents when the founder has them

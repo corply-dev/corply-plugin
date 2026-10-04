@@ -11,7 +11,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const PLUGIN_URL = "https://corply.dev/mcp/claude";
 const REGISTRY_URL = "https://corply.dev/mcp";
 const DIRECTORY_URL = "https://corply.dev/mcp/openai";
-const DIRECTORY_PACKAGE_VERSION = "0.8.3";
+const DIRECTORY_PACKAGE_VERSION = "0.8.4";
 const skipLive = /^(1|true)$/i.test(process.env.CORPLY_SKIP_LIVE_MCP || "");
 const submissionArg = process.argv.find((arg) => arg === "--submission" || arg.startsWith("--submission="));
 const submissionTargets = !submissionArg ? [] : submissionArg.includes("=")
