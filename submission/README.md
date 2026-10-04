@@ -138,7 +138,7 @@ Portal: https://platform.openai.com/plugins
 - **Terms:** https://corply.dev/terms
 - **MCP server:** https://corply.dev/mcp/openai
 - **Plugin source version:** 0.8.2
-- **MCP metadata version:** 0.11.0
+- **MCP metadata version:** 0.11.1
 - **Authentication:** OAuth authorization code with PKCE S256 and dynamic client registration.
 - **Logo:** ../assets/logo.png
 - **Skill bundle:** ../corply-openai-skill-bundle.zip
