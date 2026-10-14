@@ -43,13 +43,7 @@ evidence, or treat an upload as IRS acceptance. Follow a legacy path only when r
 
 ## Delaware annual report and franchise tax
 
-`get_delaware_annual_service` returns one company's annual report or estimated-tax installment
-for an exact reporting year: deadline, billing eligibility, facts, calculation methods and the
-reviewed quote. `prepare_delaware_annual_report` prepares it from confirmed facts after the
-current director and officer roster is reviewed. It requires the recurring service with a
-verified payment method or a prepayment; the officer personally certifies on the secure page,
-and Corply Ops reviews state charges. Each installment is separate and never completes the
-annual report.
+Delaware annual-service tools are currently disabled on the public connection. Do not promise an automated annual-report or estimated-tax workflow when no corresponding tool is exposed. Read the company's operating plan for recorded obligations and direct the founder to Corply support for unavailable filing services. Never claim a report was filed or a tax payment was made without canonical evidence.
 
 ## Charter amendments
 

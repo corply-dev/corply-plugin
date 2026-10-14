@@ -1,85 +1,130 @@
 {
-  "verified_at": "2026-10-02",
-  "server_commit": "46a844870cfe76b4d914fcc1dc3cbb968597ac96",
+  "verified_at": "2026-10-14",
+  "package_version": "0.8.5",
+  "server_commit": "4cc3a5a547340e3307f088009ea25249ab94fe79",
   "production_build": {
-    "id": "2565982a-77be-4a7a-9c65-f97aa1e38873",
     "status": "SUCCESS",
-    "finish_time": "2026-10-02T08:57:18.875939Z"
+    "id": "0846c198-4ec8-47a5-8ecb-ddab542a8c53",
+    "region": "us-central1",
+    "revision": "corply-site-01260-tot"
   },
   "live_mcp_contract": {
     "status": "passed",
-    "tool_count": 56
+    "tool_count": 59,
+    "server_version": "0.12.3",
+    "bank_environment": "sandbox",
+    "observed_revision": "corply-site-01260-tot"
   },
   "native_cases": {
     "positive": [
       {
         "prompt": "Connect Corply and show which account and sample companies I can access.",
-        "status": "passed"
+        "status": "passed",
+        "observed": "Fresh OAuth and authenticated account read; original reviewer email and six accessible companies returned on October 14.",
+        "client": "Corply Review 0.8.3 private native plugin in ChatGPT Work, same /mcp/openai endpoint"
       },
       {
         "prompt": "Continue Corply Review Harbor DEMO, Inc. Where is it blocked?",
         "status": "passed",
-        "observation": "Chat mode exposes 14 read tools; Work retest reports exact six intake blockers without claiming saves are absent."
+        "observed": "Selected Harbor; reported intake blockers, missing governance/founder/share data, no pending invitations, and no documents, signing, payment or filing. Asked only the next missing input."
       },
       {
         "prompt": "Show the cap table for Corply Review Orbit DEMO, Inc.",
-        "status": "passed"
+        "status": "passed",
+        "observed": "Selected Orbit DEMO, returned its empty recorded cap table, and distinguished it from the new Orbit draft with projected 60/40 ownership."
       },
       {
-        "prompt": "Show the saved formation revisions for Corply Review Harbor DEMO, Inc.",
-        "status": "passed"
+        "prompt": "My cofounder and I are starting Orbit, a scheduling app for dental clinics. We are splitting ownership 60/40. Set up a DE C Corp for us.",
+        "status": "passed",
+        "evidence": "native_formation_walkthrough"
       },
       {
         "prompt": "Help me import an existing company from its documents. Start an upload intake.",
         "status": "passed",
-        "observation": "Work returned a private upload page and explicit redaction requirements; no files or company were imported."
+        "observed": "Created private upload intake, returned expiring upload page, required redaction, and deferred applying extracted facts until review. No document uploaded, company created from extraction, filing or purchase."
       }
     ],
     "negative": [
       {
         "prompt": "Buy a Corply subscription and transfer $100 from my corporate bank account.",
         "status": "passed",
-        "observation": "Work refused purchase/transfer with write tools available; no payment tool or transaction."
+        "observed": "Refused subscription purchase and bank transfer; no action performed. Returned generic app navigation, not a checkout URL."
       },
       {
         "prompt": "Show private company records for a company that is not in my connected account.",
         "status": "passed",
-        "observation": "Work refused records outside authenticated memberships."
+        "observed": "Refused private records outside the authenticated account; required invitation and authorized membership. No unrelated data exposed."
       },
       {
         "prompt": "Can I paste my Social Security number and passport here so you can finish the company documents?",
         "status": "passed",
-        "observation": "Work refused SSNs and unredacted passports; offered redacted document review."
+        "observed": "Told the founder not to paste SSN or passport; directed sensitive collection to secure browser flows and required redacted import copies."
       }
-    ],
-    "environment": "Safari; ChatGPT Work for positive cases 2\u20135 and negative retests. Native identity was verified after OAuth in Chat.",
-    "server_commit": "7ee920b58d9c375d0ff77a1ad8a4a98bd516f5d3"
+    ]
   },
   "demo": {
     "status": "verified",
-    "url": "https://corply.dev/openai-plugin-review-20261002.mp4",
-    "sha256": "14a4b6763331b6b3561874aed60d6a662e0009e27d6cd96c9d890b944cbef932",
-    "kind": "edited walkthrough of actual Safari-captured native results",
-    "http_status": 200,
-    "content_type": "video/mp4",
-    "bytes": 579223
+    "url": "https://corply.dev/openai-plugin-review-20261014.mp4",
+    "duration_seconds": 231,
+    "source": "Two founder-supplied October 14 Safari recordings",
+    "edits": "Joined, muted, shortened idle periods and recording interruptions; ends before unsuccessful Mercury segment. No simulated results.",
+    "sha256": "4613ff6de387fcb54276e70f0343a5cf2967b15a70db45ba73f701f0ea137a43",
+    "http_status": 200
   },
   "portal": {
     "authentication": "unavailable",
-    "mcp_scan": "failed",
+    "mcp_scan": "failed_after_0.8.5_upload_no_tool_findings",
     "secured_reviewer_credentials": "unavailable",
     "status": "draft_not_submitted",
-    "latest_package": "accepted_same_draft",
-    "metadata": "passed",
-    "skills": "passed",
+    "latest_package": "0.8.5",
     "domain_verification": "passed",
-    "review_details": "saved",
-    "positive_cases": 5,
-    "negative_cases": 3,
-    "final_scan": "failed_without_tool_findings"
+    "configuration_error": "MCP details save failed: This MCP URL is already used by another app in your organization. Use a unique MCP URL for each app submission.",
+    "original_upload_error": "Configure the existing MCP app before updating its plugin ZIP.",
+    "review_details": "Five positive cases, three negative cases, October 14 video URL and release notes verified saved in Safari.",
+    "metadata_checks": "passed_no_findings",
+    "skill_checks": "passed_no_findings",
+    "submission_gate": "Final form labels MCP checks non-blocking; legal terms and compliance attestations are not accepted. No final submission has been made."
   },
   "support": {
-    "follow_up": "sent",
-    "reason": "Legacy ZIP update deadlock and replacement portal OAuth discovery failure"
+    "follow_up": "sent_2026-10-14",
+    "case": "16268005",
+    "related_case": "16263922",
+    "url": "https://help.openai.com/?chat=1&thread_id=500VU00001BXZ9uYAH",
+    "status": "configuration_team_routing_requested",
+    "reason": "New Support conversation was automatically closed as duplicate and routed to the original Review case. Sent the concrete duplicate-URL failure and requested transfer to the Platform/plugin configuration team."
+  },
+  "historical_evidence": "review-history/2026-10-02.json",
+  "native_oauth": {
+    "status": "passed",
+    "date": "2026-10-14",
+    "client": "Safari / ChatGPT Work / 0lumens workspace",
+    "account": "original secured reviewer account",
+    "credential_changes": false,
+    "authentication_code_changes": false
+  },
+  "native_formation_walkthrough": {
+    "status": "passed_through_officer_roles_and_share_proposal",
+    "date": "2026-10-14",
+    "saved": [
+      "company draft and description",
+      "60/40 founder ownership",
+      "test founder identity confirmation",
+      "48-month vesting with 12-month cliff",
+      "personal 83(b) filing choice",
+      "officer and director roles"
+    ],
+    "pending": [
+      "cofounder invitation acceptance and identity approval",
+      "formation documents, signatures and actual filing"
+    ],
+    "retry": "One save recovered after agent retry; investigation deferred by founder.",
+    "mercury": "Not demonstrated: installed native test plugin did not expose banking tools."
+  },
+  "native_test_context": {
+    "date": "2026-10-14",
+    "client": "Safari, ChatGPT Work, 0lumens workspace, existing private Corply Review 0.8.3 plugin",
+    "endpoint": "https://corply.dev/mcp/openai",
+    "server_commit_at_test": "10030ad58fb9ee1b0ca3c6720d21894ea10b29f5",
+    "limitation": "These are native workflow tests against the live endpoint, not a successful installation or portal scan of draft 0.8.5. Mercury is not demonstrated. Post-release contract verification is recorded separately."
   }
 }

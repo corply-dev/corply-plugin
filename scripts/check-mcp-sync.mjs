@@ -11,7 +11,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const PLUGIN_URL = "https://corply.dev/mcp/claude";
 const REGISTRY_URL = "https://corply.dev/mcp";
 const DIRECTORY_URL = "https://corply.dev/mcp/openai";
-const DIRECTORY_PACKAGE_VERSION = "0.8.4";
+const DIRECTORY_PACKAGE_VERSION = "0.8.5";
 const skipLive = /^(1|true)$/i.test(process.env.CORPLY_SKIP_LIVE_MCP || "");
 const submissionArg = process.argv.find((arg) => arg === "--submission" || arg.startsWith("--submission="));
 const submissionTargets = !submissionArg ? [] : submissionArg.includes("=")
@@ -36,7 +36,7 @@ const generalFormation = ["whoami", "get_org", "get_status", "switch_company", "
 const directoryExcluded = ["request_payment", "await_payment", "request_signature", "sign_bundle",
   "submit_for_formation", "prepare_83b_tin_input", "create_payment_portal", "pay_payment_link",
   "bank_transfer", "wallet_spend", "create_payment_route_draft", "start_payment_route_onboarding",
-  "run_sandbox_payment_probe", "run_sandbox_payout_probe", "start_bank_onboarding",
+  "run_sandbox_payment_probe", "run_sandbox_payout_probe", "open_bank_account",
   "start_company_domain_checkout", "checkout_charter_filing", "send_inbox_email"];
 const upgrades = ["request_registered_agent_upgrade", "await_registered_agent_upgrade"];
 const financeName = /^(?:prepare_revenue|.*payment_(?:project|pipeline|route|integration|catalog|portal|link)|configure_payment|verify_payment|run_sandbox|.*bank_onboarding|bank_transfer|wallet_spend|.*payout)/;
@@ -238,7 +238,7 @@ try {
         }
         const info = await rpc(url, "initialize", { protocolVersion: "2025-03-26",
           capabilities: {}, clientInfo: { name: "corply-plugin-contract-check", version } });
-        check(info.serverInfo?.version === json("server.json").version, "MCP registry version differs from production");
+        check(info.serverInfo?.version === json("submission/review-evidence.json").live_mcp_contract?.server_version, "Directory runtime version differs from the reviewed server snapshot");
         const probe = await fetch(url, { method: "POST", signal: AbortSignal.timeout(15000) });
         check(probe.status === 401, "Directory empty OAuth probe did not receive a challenge");
         check(probe.headers.get("www-authenticate")?.includes(metadataUrl), "Directory probe advertises a different resource");
