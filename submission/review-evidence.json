@@ -86,12 +86,13 @@
     "submission_gate": "Final form labels MCP checks non-blocking; legal terms and compliance attestations are not accepted. No final submission has been made."
   },
   "support": {
-    "follow_up": "sent_2026-10-14",
+    "follow_up": "sent_2026-10-14_after_0.8.5_upload_and_release",
     "case": "16268005",
     "related_case": "16263922",
     "url": "https://help.openai.com/?chat=1&thread_id=500VU00001BXZ9uYAH",
-    "status": "configuration_team_routing_requested",
-    "reason": "New Support conversation was automatically closed as duplicate and routed to the original Review case. Sent the concrete duplicate-URL failure and requested transfer to the Platform/plugin configuration team."
+    "status": "configuration_team_transfer_requested_with_current_native_and_portal_evidence",
+    "reason": "New Support conversation was automatically closed as duplicate and routed to the original Review case. Sent the concrete duplicate-URL failure and requested transfer to the Platform/plugin configuration team.",
+    "latest_evidence": "New video URL, passing native workflow results, both portal IDs, private native test plugin ID, exact original upload error and unresolved duplicate-URL/scan state. Final portal form labels MCP findings non-blocking; legal attestations pending."
   },
   "historical_evidence": "review-history/2026-10-02.json",
   "native_oauth": {
