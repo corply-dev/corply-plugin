@@ -1,11 +1,11 @@
 # Corply Claude directory submission
 
-Source release: 0.9.1, prepared October 2, 2026 from production MCP discovery.
+Source release: 0.9.2; portal status refreshed October 14, 2026.
 Portal: https://claude.ai/directory/manage (opened to paid-plan developers on September 25, 2026)
 
 - **Plugin source version:** 0.9.2
 - **MCP metadata version:** 0.11.1
-- **Status:** not submitted. Nothing in this repository records a Claude directory submission.
+- **Status:** MCP connector is already In review at https://claude.ai/directory/manage/corply (verified October 14, 2026). Plugin bundle submission is being prepared separately.
 
 Anthropic's directory takes two related submissions, and its documentation asks for both when a
 plugin points at a server you run:

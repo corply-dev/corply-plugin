@@ -8,7 +8,7 @@
   "repository": "https://github.com/corply-dev/corply-plugin",
   "license": "BUSL-1.1",
   "keywords": ["incorporation", "startup", "formation", "delaware", "c-corp", "cap-table", "equity", "governance", "compliance", "documents", "signatures"],
-  "icon": "./assets/logo.png",
+  "icon": "./assets/corply-directory-logo.png",
   "documentationUrl": "https://corply.dev/setup",
   "supportUrl": "https://corply.dev/support",
   "privacyPolicyUrl": "https://corply.dev/privacy",
