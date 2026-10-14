@@ -60,6 +60,7 @@ export async function packageMappings() {
       [".mcp.json", "submission/openai/.mcp.json"],
       ["assets/icon.svg", "assets/icon.svg"],
       ["assets/logo.png", "assets/logo.png"],
+      ["assets/corply-directory-logo.png", "assets/corply-directory-logo.png"],
       ["LICENSE", "LICENSE"],
     ]),
     skill: new Map(directorySources.map((source) => [source.replace("submission/openai/", ""), source])),

@@ -1,6 +1,6 @@
 {
   "name": "corply",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "description": "Prepare and manage company applications, documents, imports and records; test consented Mercury sandbox onboarding with Corply.",
   "author": {
     "name": "Corply",
@@ -39,8 +39,8 @@
       "Help me import my company documents."
     ],
     "brandColor": "#10A37F",
-    "composerIcon": "./assets/icon.svg",
-    "logo": "./assets/logo.png",
+    "composerIcon": "./assets/corply-directory-logo.png",
+    "logo": "./assets/corply-directory-logo.png",
     "supportURL": "https://corply.dev/support"
   },
   "extensions": {
@@ -106,7 +106,7 @@
         "commerce_description": "The directory connection prepares and maintains company records; it does not sell services or process payments."
       },
       "publication": {
-        "release_notes": "0.8.5: Refresh the directory package against the current 59-tool server catalog and add the October 14 native ChatGPT Work walkthrough of Delaware C-Corp preparation. Fresh OAuth with the submitted reviewer account succeeded. The demo covers company details, ownership, identity confirmation, vesting, officers and share structure. Mercury sandbox tools remain optional and are not demonstrated; real bank accounts, payments, signing and state filing are excluded."
+        "release_notes": "0.8.6: Replace the placeholder C icon with the original Corply logo. All workflows and October 14 review video are unchanged from 0.8.5."
       }
     }
   }

@@ -1,6 +1,6 @@
 {
   "verified_at": "2026-10-14",
-  "package_version": "0.8.5",
+  "package_version": "0.8.6",
   "server_commit": "4cc3a5a547340e3307f088009ea25249ab94fe79",
   "production_build": {
     "status": "SUCCESS",
@@ -72,25 +72,28 @@
     "http_status": 200
   },
   "portal": {
-    "authentication": "unavailable",
-    "mcp_scan": "failed_after_0.8.5_upload_no_tool_findings",
-    "secured_reviewer_credentials": "unavailable",
-    "status": "draft_not_submitted",
-    "latest_package": "0.8.5",
+    "authentication": "passed",
+    "mcp_scan": "passed",
+    "secured_reviewer_credentials": "saved",
+    "status": "in_review",
+    "latest_package": "0.8.6",
     "domain_verification": "passed",
-    "configuration_error": "MCP details save failed: This MCP URL is already used by another app in your organization. Use a unique MCP URL for each app submission.",
+    "configuration_error": null,
     "original_upload_error": "Configure the existing MCP app before updating its plugin ZIP.",
     "review_details": "Five positive cases, three negative cases, October 14 video URL and release notes verified saved in Safari.",
     "metadata_checks": "passed_no_findings",
     "skill_checks": "passed_no_findings",
-    "submission_gate": "Final form labels MCP checks non-blocking; legal terms and compliance attestations are not accepted. No final submission has been made."
+    "submission_gate": "Submitted successfully October 14, 2026. Portal list shows Version 1.0.0 \u00b7 In review and Configured; uploaded package 0.8.6.",
+    "connection_recovery": "User permanently deleted original rejected app on October 14; same endpoint then saved, reviewer OAuth passed, MCP Configured and all 59 tools discovered.",
+    "scan_findings": "get_status: This tool update needs further review before it can go live.",
+    "logo": "Original Corply logo verified rendered in Safari after refresh."
   },
   "support": {
     "follow_up": "sent_2026-10-14_after_0.8.5_upload_and_release",
     "case": "16268005",
     "related_case": "16263922",
     "url": "https://help.openai.com/?chat=1&thread_id=500VU00001BXZ9uYAH",
-    "status": "configuration_team_transfer_requested_with_current_native_and_portal_evidence",
+    "status": "resolved_by_operator_deleting_old_app_then_fresh_oauth_and_scan",
     "reason": "New Support conversation was automatically closed as duplicate and routed to the original Review case. Sent the concrete duplicate-URL failure and requested transfer to the Platform/plugin configuration team.",
     "latest_evidence": "New video URL, passing native workflow results, both portal IDs, private native test plugin ID, exact original upload error and unresolved duplicate-URL/scan state. Final portal form labels MCP findings non-blocking; legal attestations pending."
   },
