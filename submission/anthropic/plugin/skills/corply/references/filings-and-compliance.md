@@ -20,19 +20,13 @@ becomes pending review until Corply's team verifies it.
 
 ## 83(b) elections
 
-Each founder with restricted stock has their own choice, returned by the server:
+Each founder with restricted stock decides whether to make an election, returned by the server:
 
-- **Managed mail:** the specific pre-filing Founder Formation Authorization covers the
+- **Corply files it:** the specific pre-filing Founder Formation Authorization covers the
   election, so do not ask for a second signature. The taxpayer enters any SSN/ITIN only in the
   one-time secure browser field; `prepare_83b_tin_input` refreshes that link without another
   confirmation. Corply Ops sends standard certified mail with an acknowledgment copy and a
   prepaid return envelope, then records evidence.
-- **Self-filing:** no Corply 83(b) mailing fee applies. The founder personally completes, signs
-  and submits the election to the IRS online or by mail, then uses the returned private
-  self-filing link for redacted proof. Corply does not execute or mail that election, and
-  reminders continue until the proof is reviewed. Do not send a self-filing founder to the
-  managed TIN form. The [83(b) guide](https://corply.dev/guides/83b-election#file-yourself)
-  has the filing instructions.
 - **No election:** respect the founder's decision and report it accurately.
 
 Fully vested founders have no 83(b) election. Use the returned actual stock-transfer date and

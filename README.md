@@ -102,10 +102,9 @@ Not included: customer-payment processing, banking, payouts and other money move
 plugin's endpoint does not expose those tools, and its skill does not use them.
 
 The standard flow records disclosed pre-filing authority for enumerated automatic post-acceptance
-work. Secure identity fields stay in the browser. Each restricted-stock founder chooses managed
-83(b) mail or self-filing. Managed mail includes standard certified mailing and a prepaid return
-envelope; self-filing has no Corply mailing fee and requires the founder's own IRS submission.
-Both routes track deadlines and reviewed evidence. See the [83(b) guide](https://corply.dev/guides/83b-election).
+work. Secure identity fields stay in the browser. Corply mails each restricted-stock founder's 83(b)
+election by standard certified mail with a prepaid return envelope, and tracks the deadline and
+evidence. See the [83(b) guide](https://corply.dev/guides/83b-election).
 
 Founders can also start a Delaware C-Corp in the [browser](https://corply.dev/signup?next=/welcome).
 Current supported prices are shown in the
@@ -113,6 +112,10 @@ Current supported prices are shown in the
 Owners, founders and operators can export available company records from Documents or Settings.
 The [records download page](https://corply.dev/records) is accessible without accepting revised
 service terms; personal founder documents remain scoped to their owner.
+
+## Version 0.9.3
+
+Corply files every elected 83(b); the instructions describe that one route.
 
 ## Version 0.9.2
 
@@ -128,8 +131,7 @@ title.
 
 ## Version 0.8.2
 
-Updated the founder workflow instructions for optional managed 83(b) mail, direct self-filing,
-private proof review, browser formation, records export, and reviewed imported-company role actions.
+Updated the founder workflow instructions for managed 83(b) mail, browser formation, records export, and reviewed imported-company role actions.
 Installed clients need their normal plugin update or reinstall to receive this snapshot.
 
 ## Distribution

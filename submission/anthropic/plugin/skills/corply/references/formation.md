@@ -116,7 +116,6 @@ Signatures come before payment.
 Distinguish submitted, filing, accepted and rejected, and preserve operator-review holds.
 Report incorporation only when canonical state confirms state acceptance. For EIN, 83(b) and
 other follow-through, read [filings-and-compliance.md](filings-and-compliance.md). Preserve each
-founder's 83(b) choice of managed mail or self-filing; never send a self-filing founder to the
-managed TIN form or promise Corply will mail for them. Do not create a second signing ceremony
+founder's 83(b) decision; Corply mails every elected 83(b). Do not create a second signing ceremony
 for work the Founder Formation Authorization already covers; follow a legacy path only when the
 server returns one.
