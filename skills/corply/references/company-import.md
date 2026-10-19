@@ -6,13 +6,18 @@ work done elsewhere instead of making the founder repeat it.
 
 ## Start from documents when the founder has them
 
-1. `create_import_intake` opens a document dump and returns an upload page (`uploadUrl`). No
-   company details are needed first. Present the link, or open it if the host has a permitted
-   way to open URLs. When the files are on this machine and the host allows shell commands,
-   the returned upload example can send them directly; never paste PDF contents into a tool.
-2. `add_import_intake_url` adds a public HTTPS PDF link the founder pastes in chat.
-3. `read_import_intake` reads a few files per call. Repeat until nothing remains, then call
-   `get_import_intake_review`.
+1. `create_import_intake` (or `import_company` with only a `requestId`) opens a document dump.
+   No company details are needed first. Call `show_import_upload` with its `intakeId`: the
+   founder drops their PDFs or a zip, sees every file stored, removes any, and submits; Corply
+   then reads them in that view. Never upload, extract or transmit the founder's documents
+   yourself, even when the files are on this machine and the host allows shell commands. If the
+   view does not appear, give the founder `uploadUrl` (their signed-in Corply import page).
+2. `wait_for_import_upload` waits until the founder submitted and reading finished; call it
+   again while `done` is false. Nothing is read before the founder submits.
+3. `add_import_intake_url` adds a public HTTPS PDF link the founder pastes in chat. Only if the
+   upload view closed before reading finished, `read_import_intake` continues reading the
+   submitted files. When everything is read, call `show_import_intake_review` (or
+   `get_import_intake_review`).
 4. Show the review tables, point out anything marked for a closer look and every cross-document
    issue, and let the founder confirm or correct. Call `confirm_import_intake` only after the
    founder chooses to confirm and import, sending only changed values and the returned review

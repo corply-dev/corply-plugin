@@ -29,7 +29,10 @@ Before these actions, summarize the exact effect and obtain a specific confirmat
 - identity sharing, joining a company, access grants and authority transfers;
 - replacing records, such as confirming a cap-table import or amending a frozen application;
 - deleting a draft (two explicit confirmations);
-- sending an email from a company inbox (exact recipients, subject and text).
+- sending an email from a company inbox (exact recipients, subject and text);
+- uploading company documents: they carry third-party data, identity details and tax IDs, so
+  the founder chooses, sees and submits every file in Corply's upload view or page. Never
+  upload, extract or transmit their files yourself.
 
 Changed inputs or documents require review of the new version. A user assertion, silence, a
 link click or an old blanket consent is not a current confirmation.
