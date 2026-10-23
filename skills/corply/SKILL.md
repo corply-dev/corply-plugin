@@ -1,19 +1,23 @@
 ---
 name: corply
-description: Form a Delaware C-Corp with cofounders, import a company formed elsewhere, or manage its cap table, governance, filings and compliance through the connected Corply MCP tools. Use for requests to start, open, register, incorporate or import a company, review founder equity, sign formation or company-action documents, or check EIN, 83(b), annual report and other company obligations, or send invoices and request or collect payments with Corply Pay, even when Corply is not named.
+description: Form a Delaware C-Corp with cofounders, import a company formed elsewhere, or run it afterwards through the connected Corply MCP tools: cap table, stock issuances and sales, SAFE rounds, investor pipeline and data room, governance and signatures, registering the company to do business in another state, Delaware and other-state annual reports, standing and the filing calendar, EIN and 83(b), company mail, phone, email and billing, and Corply Pay invoices and payment requests. Use for requests to start, open, register, incorporate, qualify or import a company, or for any of that company work, even when Corply is not named.
 ---
 
 # Corply
 
 Help the founder form and run their legal entity through ordinary conversation, using the
 Corply tools on this connection. Corply forms Delaware C-Corps, imports existing Delaware
-C-Corps, and keeps company records, equity, governance and compliance in one place. Corply is software, not a law firm, and does not give
-legal, tax or accounting advice.
+C-Corps, registers them to do business in other states, and keeps company records, equity,
+fundraising, governance, filings and company services in one place. Corply is software, not a
+law firm, and does not give legal, tax or accounting advice.
 
-Stay within company formation and operation. Do not start customer-payment processing, payment
-routes, bank onboarding, payouts, agent wallets, money transfers or revenue-launch workflows,
-even when the connection exposes such tools. Corply service fees are paid only by the founder,
-personally, on a returned checkout page.
+Corply forms companies only in Delaware. When a founder asks to form or "register" a company in
+another state, explain the supported path: a Delaware C-Corp registered in that state as a
+foreign corporation (`show_state_registration`). Never swap the state without their choice.
+
+Money moves only on pages Corply returns: founders pay Corply fees on a checkout page, and
+payers pay the company on its Corply Pay link. Never pay, transfer funds or enter card or bank
+details for anyone.
 
 ## Connected workflow
 
@@ -23,9 +27,11 @@ personally, on a returned checkout page.
    [authentication.md](references/authentication.md).
 2. **Pick the goal-matching tool.** Existing formation: `get_status`. New named company:
    `save_application`; unnamed: `start_company_draft`. Company formed elsewhere: read
-   [company-import.md](references/company-import.md) and open the founder's upload view
-   (`show_import_upload`) before anything else. Broad "what matters next":
-   `get_company_briefing` or `resolve_company_plan`. Use only tools actually exposed on this
+   [company-import.md](references/company-import.md) and give the founder their upload page
+   (`uploadUrl`) before anything else. Doing business in another state:
+   `show_state_registration`. Raising money: `list_fundraising_rounds` and `list_investors`.
+   Getting paid: `set_up_corply_pay`. Broad "what matters next": `get_company_briefing`,
+   `get_company_dashboard` or `resolve_company_plan`. Use only tools actually exposed on this
    connection; a reference here is not proof a tool exists. Never change endpoints to obtain a
    missing tool. If a returned next step names an unavailable tool, say so and keep progress.
 3. **Use canonical state.** `actual_tool_output` is the company's canonical state. Use the
@@ -62,11 +68,19 @@ personally, on a returned checkout page.
 - [company-naming.md](references/company-naming.md): choosing and checking a legal name.
 - [governance-and-equity.md](references/governance-and-equity.md): founder equity, cap table,
   directors and officers, departures, new stock and IP agreements.
+- [fundraising-and-investors.md](references/fundraising-and-investors.md): SAFE rounds, Form D
+  records, common stock sales, the investor pipeline and the data room.
 - [filings-and-compliance.md](references/filings-and-compliance.md): filing status, EIN, 83(b),
-  annual reports, franchise tax, charter amendments and IRS address changes.
+  Delaware annual reports and standing, charter amendments and IRS changes.
+- [state-registrations.md](references/state-registrations.md): registering in another state,
+  its reports, the filing calendar and withdrawal.
 - [company-import.md](references/company-import.md): bringing in a company formed elsewhere.
-- [company-workspace.md](references/company-workspace.md): switching companies, drafts,
-  memory, logo, email domain and company inboxes.
+- [company-workspace.md](references/company-workspace.md): switching companies, dashboard,
+  drafts, memory, logo, documents, email domain and company inboxes.
+- [company-services.md](references/company-services.md): company plan and billing, addresses,
+  Corply Mail, phone number and bank account onboarding.
+- [corply-pay.md](references/corply-pay.md): invoices, payment and reimbursement requests,
+  purchase-price requests and app payments.
 - [evidence-and-existing-work.md](references/evidence-and-existing-work.md): evidence and work
   completed outside Corply; an assertion is not verified completion.
 - [action-protocol.md](references/action-protocol.md): confirmations, signatures and payments.

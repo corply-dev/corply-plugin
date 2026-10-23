@@ -39,10 +39,14 @@ const directoryExcluded = ["request_payment", "await_payment", "request_signatur
   "run_sandbox_payment_probe", "run_sandbox_payout_probe", "open_bank_account",
   "start_company_domain_checkout", "checkout_charter_filing", "send_inbox_email"];
 const upgrades = ["request_registered_agent_upgrade", "await_registered_agent_upgrade"];
+// Listed only to signed-in clients that render MCP Apps (MCP_APPS_ONLY_RENDER_TOOLS on the server).
+const MCP_APPS_ONLY_TOOLS = ["show_cap_table", "show_import_intake_review", "show_company_dashboard"];
 const financeName = /^(?:prepare_revenue|.*payment_(?:project|pipeline|route|integration|catalog|portal|link)|configure_payment|verify_payment|run_sandbox|.*bank_onboarding|bank_transfer|wallet_spend|.*payout)/;
 const moneyMovement = /payout|transfer|wallet_spend|pay_payment_link/;
-// Backticked snake_case words in skills that are fields, not tools.
-const NON_TOOL_WORDS = new Set(["actual_tool_output", "fully_vested"]);
+// Backticked snake_case words in skills that are fields or a tool's own operations, not tools.
+const NON_TOOL_WORDS = new Set(["actual_tool_output", "fully_vested", "board_consent", "close_round", "record_cik",
+  "record_form_d", "record_state_notice", "record_cspa_report", "start_plan", "change_cadence", "add_optional_service",
+  "remove_optional_service", "cancel_plan", "revoke_tax_authorization", "open_payment_method", "request_refund"]);
 const toolWord = /^[a-z][a-z0-9]*(?:_[a-z0-9]+)+$/;
 
 function markdownFiles(directory) {
@@ -244,7 +248,13 @@ try {
         check(probe.headers.get("www-authenticate")?.includes(metadataUrl), "Directory probe advertises a different resource");
       } else {
         for (const [name, file] of toolReferences("skills")) {
-          check(names.has(name), file + " names a tool the plugin endpoint does not expose: " + name);
+          check(names.has(name) || MCP_APPS_ONLY_TOOLS.includes(name),
+            file + " names a tool the plugin endpoint does not expose: " + name);
+        }
+        // Parity: the skill covers every tool the plugin's endpoint exposes.
+        const mentioned = new Set(markdownFiles("skills").flatMap((file) => [...read(file).matchAll(/`([a-z][a-z0-9_]*)`/g)].map((match) => match[1])));
+        for (const name of [...names, ...MCP_APPS_ONLY_TOOLS]) {
+          check(mentioned.has(name), "The plugin skill never mentions live tool " + name);
         }
         const financial = [...names].filter((name) => financeName.test(name));
         if (financial.length) console.log("The plugin endpoint still advertises non-formation tools: " + financial.join(", "));

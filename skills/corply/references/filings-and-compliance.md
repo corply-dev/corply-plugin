@@ -27,6 +27,13 @@ Each founder with restricted stock decides whether to make an election, returned
   one-time secure browser field; `prepare_83b_tin_input` refreshes that link without another
   confirmation. Corply Ops sends standard certified mail with an acknowledgment copy and a
   prepaid return envelope, then records evidence.
+- **The founder files it:** a founder who chose personal filing signs and files the election
+  themselves. `continue_83b_self_filing` reads or resumes their direct IRS filing: the stage,
+  known form fields, missing fields and next action. Pass an observation only for a screen the
+  founder actually saw, with the returned `expectedRevision`; the fair market value total is the
+  founder's own confirmed figure, never inferred from price or par. It never signs or submits.
+  `save_83b_filing_proof` saves their redacted PDF confirmation or dated mailing receipt for
+  operator review; never pass an unredacted tax form. The task closes only after that review.
 - **No election:** respect the founder's decision and report it accurately.
 
 Fully vested founders have no 83(b) election. Use the returned actual stock-transfer date and
@@ -37,7 +44,43 @@ evidence, or treat an upload as IRS acceptance. Follow a legacy path only when r
 
 ## Delaware annual report and franchise tax
 
-Delaware annual-service tools are currently disabled on the public connection. Do not promise an automated annual-report or estimated-tax workflow when no corresponding tool is exposed. Read the company's operating plan for recorded obligations and direct the founder to Corply support for unavailable filing services. Never claim a report was filed or a tax payment was made without canonical evidence.
+Delaware's annual report and franchise tax are due March 1 for the year before.
+
+- `show_delaware_annual_report` is the founder's view: it checks standing, lists every year
+  still owed and opens one form pre-filled from Corply's records, with each year's tax by both
+  of Delaware's methods, late charges and the total. Call it when the founder asks about annual
+  reports, franchise tax or getting back into good standing. Its own `annual_report_action`
+  runs inside the view; agents never call it.
+- `get_delaware_annual_service` reads one year's workflow (or an estimated-tax installment):
+  deadline, plan coverage, registered-agent coverage, the dated `currentRoster`, the next
+  action and every owed year.
+- `prepare_delaware_annual_report` prepares one year from confirmed facts and
+  `expectedRevision`; if the directors or certifier differ from the dated roster, review the
+  records first. A year is refused while an earlier year is still owed:
+  `prepare_delaware_annual_batch` prepares every owed year together for Corply Ops to quote.
+- The founder supplies gross assets; never invent them. Certification and payment happen once,
+  by the founder, on `reviewUrl`. Each report costs Delaware's charges plus Corply's fee unless
+  the company plan covers it.
+
+Never claim a report was filed or a tax was paid without canonical evidence.
+
+## Delaware standing
+
+`get_company_standing` reads what Delaware last told Corply, free and without a new request.
+A company never checked is unverified, which means unknown, not bad. A reading older than about
+ninety days may be stale. "Ceased good standing" means behind on tax or the annual report, not
+dissolved; only void and forfeited put the company's own acts in doubt. Never say a company is
+in good standing on any basis other than a reading here.
+
+`check_company_standing` orders a new check the founder pays for on a Corply checkout: the $20
+detailed status (the only tier that sets Corply's standing), or a $50 short or $175 long
+certificate, plus Corply's $5. Delaware mails certificates, so a certificate needs an active
+Corply Mail mailbox; without one, offer Corply Mail instead of ordering. Delaware will not issue
+a certificate to a company that is behind, and a Corply operator obtains each record by hand, so
+results are not instant.
+
+Registrations, reports and standing in other states are in
+[state-registrations.md](state-registrations.md).
 
 ## Charter amendments
 
@@ -65,4 +108,4 @@ conclusions. Read [evidence-and-existing-work.md](evidence-and-existing-work.md)
 
 For professional legal, tax, accounting or immigration determinations, explain the specific
 question that needs qualified review and continue independent steps. Do not promise universal
-compliance, banking, payment processing or unrelated operating services.
+compliance or a service this connection does not expose.

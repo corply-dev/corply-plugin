@@ -7,17 +7,15 @@ work done elsewhere instead of making the founder repeat it.
 ## Start from documents when the founder has them
 
 1. `create_import_intake` (or `import_company` with only a `requestId`) opens a document dump.
-   No company details are needed first. Call `show_import_upload` with its `intakeId`: the
-   founder drops their PDFs or a zip, sees every file stored, removes any, and submits; Corply
-   then reads them in that view. Never upload, extract or transmit the founder's documents
-   yourself, even when the files are on this machine and the host allows shell commands. If the
-   view does not appear, give the founder `uploadUrl` (their signed-in Corply import page).
-2. `wait_for_import_upload` waits until the founder submitted and reading finished; call it
-   again while `done` is false. Nothing is read before the founder submits.
-3. `add_import_intake_url` adds a public HTTPS PDF link the founder pastes in chat. Only if the
-   upload view closed before reading finished, `read_import_intake` continues reading the
-   submitted files. When everything is read, call `show_import_intake_review` (or
-   `get_import_intake_review`).
+   No company details are needed first. Give the founder the returned `uploadUrl`, their
+   signed-in Corply import page: they drop their PDFs or a zip, see every file stored, remove
+   any, and submit. Never upload, extract or transmit the founder's documents yourself, even
+   when the files are on this machine and the host allows shell commands.
+2. Nothing is read before the founder submits. When they say they have, `read_import_intake`
+   reads the submitted files; call it again until reading finishes.
+3. `add_import_intake_url` adds a public HTTPS PDF link the founder pastes in chat. When
+   everything is read, call `show_import_intake_review` where the host shows Corply's views,
+   otherwise `get_import_intake_review`.
 4. Show the review tables, point out anything marked for a closer look and every cross-document
    issue, and let the founder confirm or correct. Call `confirm_import_intake` only after the
    founder chooses to confirm and import, sending only changed values and the returned review

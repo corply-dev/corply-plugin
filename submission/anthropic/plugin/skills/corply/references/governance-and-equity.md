@@ -25,7 +25,8 @@ returned stock purchase agreement path with no 83(b) election. Teams may mix tre
   from saved founder equity. In hosts that support MCP Apps it also renders Corply's ownership
   chart and vesting timeline; offer it when reviewing saved founder equity or before final
   application approval. Rendering a chart is not confirmation, stock issuance or consent.
-  Text-only hosts get the same ownership data.
+  Text-only hosts get the same ownership data. `show_cap_table` opens that chart directly where
+  the host shows Corply's views.
 - `get_company_stock_ledger` returns the append-only stock ledger, including opening
   balances, issuances, repurchases and treasury shares.
 - `import_cap_table` imports a Carta or Pulley CSV export. Call it with `confirm: false` first
@@ -51,27 +52,67 @@ not a completed evidence review.
   stockholder or subject documents are signed.
 - **New people:** `create_onboarding_package` for an appointment with restricted stock and/or
   an IP agreement; `propose_restricted_stock_issuance` and `propose_ip_assignment` individually.
-  `continue_linked_package` retries staged child actions after the primary change completes.
+  `continue_linked_package` retries staged child actions after the primary change completes;
+  `list_linked_packages` and `get_linked_package` report each package and its child actions.
+- **Issuing restricted stock:** when a founder asks to issue shares, start with
+  `continue_restricted_stock_issuance` (or `continue_restricted_stock_issuances` for several
+  purchasers) and pass every fact they already gave. Corply saves answers and returns only the
+  open questions. Reuse the `requestId`, `draftId` and `expectedRevision` it returns. A total
+  price stays a total. `record_issuance_valuation` saves a proposed fair market value and its
+  basis before the board consent is frozen; it approves nothing. `propose: true` needs explicit
+  confirmation of the returned proposal and still sends no signatures and issues no shares.
+- **Drafts and reservations:** `list_action_drafts` finds saved intakes, unprepared address
+  changes and proposals reserving shares. `discard_action_draft` removes one of the person's
+  own drafts after their explicit request and releases its reservation.
 - **Founder cliff buyback:** `propose_cliff_repurchase` only after a completed departure and an
   executed Corply RSPA. `send_repurchase_exercise_notice` only after board consent and the
   manager's explicit send confirmation.
 - **Signing:** `request_governed_signatures` emails each voter or contract party their own
-  link after a manager confirms the live roster and asks to send. A connected recipient reads
-  their document with `get_my_governed_document` and signs or declines with
-  `sign_my_governed_document` only after fresh consent in their own words.
+  link after a manager confirms the live roster and asks to send. A connected recipient opens
+  what they have to sign with `show_my_governed_document` (it lists everything waiting and
+  shows each frozen PDF, loaded by its viewer through `read_my_governed_pdf`), then
+  `wait_for_governed_document_decision` waits for the card's saved decision. In text-only hosts
+  they read it with `get_my_governed_document` and sign or decline with
+  `sign_my_governed_document`, only after fresh consent in their own words.
 - **Records of past changes:** `record_company_director_appointment` and
   `record_company_director_resignation` record already-effective changes from company records;
   they do not legally appoint or remove anyone. `list_company_directors` shows the roster.
 - **Written consents:** `request_corporate_action_consents`, `get_corporate_action_consents`
   and `remind_corporate_action_consents` manage approvals for a case. Never open or sign
   another person's emailed link.
+- **Legacy corporate action cases:** `create_corporate_action_case`,
+  `get_corporate_action_case`, `list_corporate_action_cases`, `advance_corporate_action_case`
+  and `attach_corporate_action_evidence` keep historical cases and the separate share-sale
+  intake. Read the returned gate instead of assuming one, advance a case only after the stated
+  human action actually happened, and never infer a cap-table change from a case status. Name
+  changes and authorized-share increases use `propose_charter_amendment`.
+- **Founders:** `set_founder_mark` lets a company manager mark a person a founder, or not.
+  Founders holding shares sign common stock sales, and their new shares can trigger an
+  investor's top-up right.
 
 Use `list_governed_actions` and `get_governed_action` to report status. Each child action keeps
 its own consent, filing and payment gates. Charter amendments are covered in
-[filings-and-compliance.md](filings-and-compliance.md).
+[filings-and-compliance.md](filings-and-compliance.md); SAFEs and common stock sales in
+[fundraising-and-investors.md](fundraising-and-investors.md).
 
-SAFE issuance, stock-plan adoption and option grants are not available as governed actions.
-Say so rather than editing a ledger to approximate them.
+Stock-plan adoption and option grants are not available as governed actions. Say so rather
+than editing a ledger to approximate them.
+
+## Corply administrators only
+
+For a verified Corply administrator managing an administrator-owned imported company, and only
+when the administrator asks for that exact record:
+
+- `complete_stock_issuance_with_receipt` issues a signed RSPA's shares from the purchaser's PDF
+  payment receipt for a payment made outside Corply Pay, on the day they paid; the 83(b)
+  deadline runs from completion. `complete_repurchase_with_receipt` completes a founder buyback
+  the same way. Both apply only when `get_governed_action` returns a `receiptUpload`.
+- `record_executed_common_stock_sale` records a Common Stock Purchase Agreement already signed
+  and paid outside Corply, from the signed agreement and the payment receipt.
+- `create_pdf_upload_url` gives a one-time link for a PDF too large to pass inline; pass the
+  returned `filePath` and hash to the tool that uses it.
+
+These move no money and claim no provider verification. Get fresh confirmation before each.
 
 ## Boundaries
 

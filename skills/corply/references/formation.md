@@ -41,6 +41,14 @@ feature.
   pick a match, then call `resolve_address`. Save the resolved Google-listed address with its
   postal code without a separate address confirmation. Never save unverified typed text, invent
   a postal code or substitute a nearby address; on failure, retry or choose another match.
+  After showing an address card, `wait_for_address_review` waits for the saved decision
+  instead of asking again.
+- Before a stock purchase agreement is signed, `show_own_address` shows the person their own
+  saved address with Confirm and Update controls. `confirm_own_address` records their
+  confirmation of that exact review; `update_own_address` saves a new address chosen in the
+  picker. Neither signs anything or rewrites a frozen agreement. `approve_issuance_address`
+  shares that reviewed address for one issuance only after the person's own plain-text
+  agreement to its `sharingDisclosure`.
 
 ## Application and documents
 
@@ -116,6 +124,7 @@ Signatures come before payment.
 Distinguish submitted, filing, accepted and rejected, and preserve operator-review holds.
 Report incorporation only when canonical state confirms state acceptance. For EIN, 83(b) and
 other follow-through, read [filings-and-compliance.md](filings-and-compliance.md). Preserve each
-founder's 83(b) decision; Corply mails every elected 83(b). Do not create a second signing ceremony
+founder's 83(b) decision and filing choice: Corply files it, or the founder files it personally
+with Corply's guidance. Do not create a second signing ceremony
 for work the Founder Formation Authorization already covers; follow a legacy path only when the
 server returns one.
