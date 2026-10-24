@@ -60,6 +60,18 @@ memory. Amounts are whole US cents.
 - `set_investor_photo` uses a public image link the founder gave or one on the investor's or
   firm's own site, never LinkedIn and never a guess at who a picture shows.
 
+## Finding investors
+
+- `save_fundraising_profile` saves what the company is raising: a one-sentence pitch in the
+  founder's words, sectors, stage, location and amount. Never invent traction or a raise.
+- `find_investors` searches Corply's directory of advisers that report venture funds to the SEC,
+  with facts read from each firm's own site, sorted by fit to that profile. Fit is a heuristic
+  from stated facts, not a prediction: never present a firm as interested in the company.
+- `get_investor_firm` reads one firm's SEC and researched facts, partners and recent deals;
+  cite its source pages when relaying them.
+- `add_firm_to_pipeline` adds a firm, or one of its listed partners, to the pipeline. It sends
+  nothing to the investor; confirm with the founder first.
+
 ## Data room
 
 `invite_investor_to_data_room` emails an investor read-only access to the company's final

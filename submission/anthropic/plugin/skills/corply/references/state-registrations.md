@@ -14,8 +14,11 @@ confirmation, then help with the registration they choose.
 `show_state_registration` opens Corply's view for it: the state's fee, filing channel and
 attachments, and its form pre-filled from Corply's records, where the founder confirms every
 fact and saves it for the quote. Without a state it lets the founder choose one. Its own
-`state_filing_action` runs inside the view; agents never call it. When the view does not
-appear, follow the steps below in chat.
+`state_filing_action` runs inside the view; agents never call it. When the founder answers in
+chat instead, save what they said with `save_state_registration_answers` and show the view
+again so the form carries it; never re-ask what the form or chat already has. If the view says
+it could not reach Corply, save the facts it sent with `prepare_state_registration`. When the
+view does not appear, follow the steps below in chat.
 
 1. `get_state_registration` with the state reads what that state needs: its fee, filing
    channel, attachments, the facts its form asks for, the facts Corply can already fill in and,
@@ -24,14 +27,18 @@ appear, follow the steps below in chat.
    Corply quotes them.
 2. Ask the founder to confirm every pre-filled fact and to supply the missing ones. Never
    invent an address, officer or date.
-3. `prepare_state_registration` saves the confirmed facts. A flat-fee state is quoted at once;
-   otherwise the request goes to Corply Ops for a quote. Saving again before payment replaces
-   the facts.
-4. Give the founder the returned `reviewUrl`. An officer or director certifies and pays there,
+3. Ask who the registered agent will be. Corply's agent, through Stable, costs $10 a month:
+   the first month is charged with the registration, then monthly until the company withdraws
+   from the state. A company that already has an agent there gives its name and address in
+   the state instead; Corply admin checks that agent before quoting, and there is no agent fee.
+4. `prepare_state_registration` saves the confirmed facts, with the agent choice in
+   `registeredAgent`. A flat-fee state with Corply's agent is quoted at once; otherwise the
+   request goes to Corply Ops for a quote. Saving again before payment replaces the facts.
+5. Give the founder the returned `reviewUrl`. An officer or director certifies and pays there,
    signed in; never ask for card details in chat.
 
-After payment Stable becomes the company's registered agent in that state, Corply Ops files the
-registration, and the state's reports appear on the filing calendar.
+After payment Corply Ops files the registration, and the state's reports appear on the filing
+calendar. Withdrawing from the state stops Corply's agent and its monthly charge.
 
 ## State reports
 
