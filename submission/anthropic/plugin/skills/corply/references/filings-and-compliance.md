@@ -46,11 +46,16 @@ evidence, or treat an upload as IRS acceptance. Follow a legacy path only when r
 
 Delaware's annual report and franchise tax are due March 1 for the year before.
 
-- `show_delaware_annual_report` is the founder's view: it checks standing, lists every year
-  still owed and opens one form pre-filled from Corply's records, with each year's tax by both
-  of Delaware's methods, late charges and the total. Call it when the founder asks about annual
-  reports, franchise tax or getting back into good standing. Its own `annual_report_action`
-  runs inside the view; agents never call it.
+- `show_delaware_annual_report` shows Corply's card for every year still owed, the same card as
+  a state registration: what Corply has (on file or said by the founder), what is missing and
+  the estimate. Call it when the founder asks about annual reports, franchise tax or getting
+  back into good standing. Ask every `questionBatch` group in one go, then the facts with no
+  choices (each year's gross assets amount, an address or person not on file) in one message.
+  Save each answer with `save_delaware_annual_answers` and, where the host lists it, pass
+  `cardUpdate.arguments` to `corply_card_update`. When a result says to show the card, call
+  `show_delaware_annual_report` then: the finished card's Sign and pay in Corply opens the
+  signed-in page at signing and goes on to the Corply Pay checkout. Its own
+  `annual_report_action` runs inside the view; agents never call it.
 - `get_delaware_annual_service` reads one year's workflow (or an estimated-tax installment):
   deadline, plan coverage, registered-agent coverage, the dated `currentRoster`, the next
   action and every owed year.

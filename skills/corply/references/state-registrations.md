@@ -11,14 +11,25 @@ confirmation, then help with the registration they choose.
 
 ## Registering in another state
 
-`show_state_registration` opens Corply's view for it: the state's fee, filing channel and
-attachments, and its form pre-filled from Corply's records, where the founder confirms every
-fact and saves it for the quote. Without a state it lets the founder choose one. Its own
-`state_filing_action` runs inside the view; agents never call it. When the founder answers in
-chat instead, save what they said with `save_state_registration_answers` and show the view
-again so the form carries it; never re-ask what the form or chat already has. If the view says
-it could not reach Corply, save the facts it sent with `prepare_state_registration`. When the
-view does not appear, follow the steps below in chat.
+The conversation collects the facts and a card confirms them. `show_state_registration` shows
+Corply's card: what Corply already has (each fact marked on file or said by the founder), what
+is missing and, once set, the quote. Without a state it lets the founder choose one.
+
+- Ask every `questionBatch` group through the host's question tool in one go, with its exact
+  wording and options; an "Other" answer is saved as typed. Ask the facts that have no choices
+  (a principal office not on file, their own agent's name and address, a person not on file)
+  together in one message right after the questions.
+- Save every answer with `save_state_registration_answers`: an option's `save.answers`, or the
+  typed fact. Never invent a fact or re-ask one the card shows.
+- After each save, if the host lists a `corply_card_update` tool (it may carry a prefix), call
+  it with the result's `cardUpdate.arguments` so the open card fills in.
+- When a result says to show the card, call `show_state_registration` then: it ends on the
+  finished card, never on a table of the same facts. Ask "Send for the exact quote?" and on
+  Send call `save_state_registration_answers` with `send: true`; the quoted card then offers
+  Certify and pay in Corply, which goes straight on to the Corply Pay checkout.
+
+The card's own `state_filing_action` runs inside it; agents never call it. When the card does
+not appear, follow the steps below in chat.
 
 1. `get_state_registration` with the state reads what that state needs: its fee, filing
    channel, attachments, the facts its form asks for, the facts Corply can already fill in and,

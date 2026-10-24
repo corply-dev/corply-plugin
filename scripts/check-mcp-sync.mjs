@@ -43,10 +43,12 @@ const upgrades = ["request_registered_agent_upgrade", "await_registered_agent_up
 const MCP_APPS_ONLY_TOOLS = ["show_cap_table", "show_import_intake_review", "show_company_dashboard"];
 const financeName = /^(?:prepare_revenue|.*payment_(?:project|pipeline|route|integration|catalog|portal|link)|configure_payment|verify_payment|run_sandbox|.*bank_onboarding|bank_transfer|wallet_spend|.*payout)/;
 const moneyMovement = /payout|transfer|wallet_spend|pay_payment_link/;
-// Backticked snake_case words in skills that are fields or a tool's own operations, not tools.
+// Backticked snake_case words in skills that are fields, a tool's own operations, or a tool an open card registers
+// with the host (corply_card_update), not tools on the endpoint.
 const NON_TOOL_WORDS = new Set(["actual_tool_output", "fully_vested", "board_consent", "close_round", "record_cik",
   "record_form_d", "record_state_notice", "record_cspa_report", "start_plan", "change_cadence", "add_optional_service",
-  "remove_optional_service", "cancel_plan", "revoke_tax_authorization", "open_payment_method", "request_refund"]);
+  "remove_optional_service", "cancel_plan", "revoke_tax_authorization", "open_payment_method", "request_refund",
+  "corply_card_update"]);
 const toolWord = /^[a-z][a-z0-9]*(?:_[a-z0-9]+)+$/;
 
 function markdownFiles(directory) {
