@@ -29,7 +29,7 @@ is missing and, once set, the quote. Without a state it lets the founder choose 
   says to show the card, call `show_state_registration` then: it ends on the finished card,
   never on a table of the same facts.
 - Once the card shows the total, ask its confirm question (Confirm and get the checkout link /
-  Change something). On Confirm call `checkout_state_filing` with filing `state_registration`
+  Change something). On Confirm call `checkout_state_filing` with filing state_registration
   and the state, and give the founder the link and when it expires. The link is personal to the
   officer or director who confirmed: it opens for 10 minutes, and they certify with their typed
   name and pay on that page with no sign-in. Never open the link, certify or pay for them.

@@ -56,7 +56,7 @@ Delaware's annual report and franchise tax are due March 1 for the year before.
   `cardUpdate.arguments` to `corply_card_update`. When a result says to show the card, call
   `show_delaware_annual_report` then; once it shows the total, ask its confirm question. On
   Confirm (which also confirms each year's figures) call `checkout_state_filing` with filing
-  `delaware_annual`: it returns a personal link for the signing officer that opens for 10
+  delaware_annual: it returns a personal link for the signing officer that opens for 10
   minutes, where they certify with their typed name and pay with no sign-in. Its own
   `annual_report_action` runs inside the view; agents never call it.
 - `get_delaware_annual_service` reads one year's workflow (or an estimated-tax installment):
