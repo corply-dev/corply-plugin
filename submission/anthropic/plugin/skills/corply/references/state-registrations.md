@@ -23,10 +23,16 @@ is missing and, once set, the quote. Without a state it lets the founder choose 
   typed fact. Never invent a fact or re-ask one the card shows.
 - After each save, if the host lists a `corply_card_update` tool (it may carry a prefix), call
   it with the result's `cardUpdate.arguments` so the open card fills in.
-- When a result says to show the card, call `show_state_registration` then: it ends on the
-  finished card, never on a table of the same facts. Ask "Send for the exact quote?" and on
-  Send call `save_state_registration_answers` with `send: true`; the quoted card then offers
-  Certify and pay in Corply, which goes straight on to the Corply Pay checkout.
+- The save that completes the facts submits the registration for Corply's quote by itself: a
+  state with a confirmed fee and Corply's agent is quoted at once, while a company's own agent or
+  a fee Corply has not confirmed waits for Corply's team, and the card says so. When a result
+  says to show the card, call `show_state_registration` then: it ends on the finished card,
+  never on a table of the same facts.
+- Once the card shows the total, ask its confirm question (Confirm and get the checkout link /
+  Change something). On Confirm call `checkout_state_filing` with filing `state_registration`
+  and the state, and give the founder the link and when it expires. The link is personal to the
+  officer or director who confirmed: it opens for 10 minutes, and they certify with their typed
+  name and pay on that page with no sign-in. Never open the link, certify or pay for them.
 
 The card's own `state_filing_action` runs inside it; agents never call it. When the card does
 not appear, follow the steps below in chat.

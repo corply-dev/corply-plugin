@@ -49,12 +49,15 @@ Delaware's annual report and franchise tax are due March 1 for the year before.
 - `show_delaware_annual_report` shows Corply's card for every year still owed, the same card as
   a state registration: what Corply has (on file or said by the founder), what is missing and
   the estimate. Call it when the founder asks about annual reports, franchise tax or getting
-  back into good standing. Ask every `questionBatch` group in one go, then the facts with no
-  choices (each year's gross assets amount, an address or person not on file) in one message.
+  back into good standing. Ask every `questionBatch` group in one go: it includes each year's
+  gross assets total (typed as the Other answer, or $0) and where it comes from. Ask any fact
+  with no choices (an address or person not on file) in one message.
   Save each answer with `save_delaware_annual_answers` and, where the host lists it, pass
   `cardUpdate.arguments` to `corply_card_update`. When a result says to show the card, call
-  `show_delaware_annual_report` then: the finished card's Sign and pay in Corply opens the
-  signed-in page at signing and goes on to the Corply Pay checkout. Its own
+  `show_delaware_annual_report` then; once it shows the total, ask its confirm question. On
+  Confirm (which also confirms each year's figures) call `checkout_state_filing` with filing
+  `delaware_annual`: it returns a personal link for the signing officer that opens for 10
+  minutes, where they certify with their typed name and pay with no sign-in. Its own
   `annual_report_action` runs inside the view; agents never call it.
 - `get_delaware_annual_service` reads one year's workflow (or an estimated-tax installment):
   deadline, plan coverage, registered-agent coverage, the dated `currentRoster`, the next
@@ -64,7 +67,7 @@ Delaware's annual report and franchise tax are due March 1 for the year before.
   records first. A year is refused while an earlier year is still owed:
   `prepare_delaware_annual_batch` prepares every owed year together for Corply Ops to quote.
 - The founder supplies gross assets; never invent them. Certification and payment happen once,
-  by the founder, on `reviewUrl`. Each report costs Delaware's charges plus Corply's fee unless
+  by the signing officer, on the checkout link from chat or on `reviewUrl`, signed in. Each report costs Delaware's charges plus Corply's fee unless
   the company plan covers it.
 
 Never claim a report was filed or a tax was paid without canonical evidence.
