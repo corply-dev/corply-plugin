@@ -6,7 +6,7 @@
     {
       "name": "corply",
       "description": "Form Delaware C-Corps, coordinate founder signatures and human-reviewed filing, import existing companies, and manage equity, governance and compliance.",
-      "version": "0.9.9",
+      "version": "0.9.10",
       "source": "./",
       "author": { "name": "Corply", "email": "founders@corply.dev" }
     }

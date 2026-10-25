@@ -7,41 +7,32 @@ work done elsewhere instead of making the founder repeat it.
 ## Start from documents when the founder has them
 
 1. `create_import_intake` (or `import_company` with only a `requestId`) opens a document dump.
-   No company details are needed first. Give the founder the returned `uploadUrl`, their
-   signed-in Corply import page: they drop their PDFs or a zip, see every file stored, remove
-   any, and submit. Never upload, extract or transmit the founder's documents yourself, even
-   when the files are on this machine and the host allows shell commands.
-2. Nothing is read before the founder submits. When they say they have, `read_import_intake`
-   reads the submitted files; call it again until reading finishes.
+   No company details are needed first. Where the host shows Corply's views, the founder drops
+   their PDFs, a zip or a folder into Corply's import card; otherwise give them the returned
+   `uploadUrl`, their signed-in Corply import page. They see every file stored, remove any, and
+   submit. Never upload, extract or transmit the founder's documents yourself, even when the
+   files are on this machine and the host allows shell commands.
+2. Nothing is read before the founder submits. The card reads each file and fills in the company
+   as the documents describe it; without the card, `read_import_intake` reads the submitted
+   files, called again until reading finishes.
 3. `add_import_intake_url` adds a public HTTPS PDF link the founder pastes in chat. When
    everything is read, call `show_import_intake_review` where the host shows Corply's views,
    otherwise `get_import_intake_review`.
-4. Show the review tables, point out anything marked for a closer look and every cross-document
-   issue, and let the founder confirm or correct. Call `confirm_import_intake` only after the
-   founder chooses to confirm and import, sending only changed values and the returned review
-   hash.
+4. What the documents leave open (values they disagree on, a missing document, a check) comes
+   back as numbered questions. Ask them through the host question tool with their exact wording
+   and options, and save each answer as the result instructs; the card fills in as answers are
+   saved. The founder can also answer in the card or simply tell you in chat.
+5. When nothing is left, ask whether to confirm and import. Call `confirm_import_intake` only
+   after the founder explicitly confirms, with the returned review hash.
 
-## Start from answers when there are no documents yet
+## When the founder has few or no documents
 
-`import_company` creates the import from the exact legal name, state and entity type, formation
-date, optional EIN and state file number, founder count and a stable `requestId`. Confirm before
-creating. Omit `companyId` to create a separate company; pass it only to resume that import.
-
-Then `get_company_import` resumes the checklist and `answer_company_import` saves the founder's
-explicit multiple-choice answers about existing documents and missing services. Ask one
-question at a time using each item's own question and options. Never assume a document exists
-or a step is complete.
-
-- Upload: `create_company_import_upload_link` returns a seven-day upload-only page;
-  `upload_company_import_document` imports a public HTTPS PDF under a checklist item.
-- Reading: `read_company_import_documents` proposes facts with the quote and page they came
-  from; `get_company_import_readings` shows them. Show each proposed value with its quote and
-  flag anything unverified or without a text layer. Call `confirm_company_import_reading` only
-  after the founder explicitly confirms or corrects the values.
-
-Uploaded documents stay pending until a Corply reviewer accepts them. Confirming a reading does
-not accept the document. EIN format and name checks are screening, not verification. If the
-result includes a checkout link for a missing service, the founder decides and pays personally.
+Still start the document import. The review asks for each checklist document no upload
+contained (the founder has it, wants Corply to handle it where offered, or it does not apply)
+and for any start detail no document states. Never assume a document exists or a step is
+complete. Uploaded documents stay pending until a Corply reviewer accepts them; EIN format and
+name checks are screening, not verification. If a result includes a checkout link for a missing
+service, the founder decides and pays personally.
 
 ## After import
 
