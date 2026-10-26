@@ -24,11 +24,10 @@ and does not provide legal, tax or accounting advice.
 
 ## What this plugin connects to
 
-- **One remote MCP server:** `https://corply.dev/mcp/claude`, declared in [.mcp.json](.mcp.json)
-  and operated by Corply (0Lumen Labs Corp. d/b/a Corply). It is Corply's directory profile:
-  everything on the general server except payment-route, payout, money-transfer and card tools.
-  It includes Corply Pay invoices and payment requests, paid by the payer on Corply's own page.
-  The separate OpenAI directory package in `submission/openai/` declares
+- **One remote MCP server:** `https://corply.dev/mcp`, declared in [.mcp.json](.mcp.json)
+  and operated by Corply (0Lumen Labs Corp. d/b/a Corply). It is the same general server every
+  Claude client connects to (Claude Code, Claude desktop, claude.ai), so the plugin always has
+  every Corply tool and view the moment it ships. The separate OpenAI directory package in `submission/openai/` declares
   `https://corply.dev/mcp/openai` for ChatGPT; Claude never loads it. The plugin runs no local code, hooks
   or package installs; `scripts/` holds maintainer checks that installs never execute.
 - **Data sent:** what the founder asks the agent to save or do in Corply, such as company and
@@ -113,6 +112,18 @@ Current supported prices are shown in the
 Owners, founders and operators can export available company records from Documents or Settings.
 The [records download page](https://corply.dev/records) is accessible without accepting revised
 service terms; personal founder documents remain scoped to their owner.
+
+## Rule: one endpoint for Claude
+
+The plugin connects to `https://corply.dev/mcp`, the general server, and nothing else. Never
+point it at a profile endpoint such as `https://corply.dev/mcp/claude`: a profile hides tools,
+and a hidden tool means founders on the plugin silently lose features the general server has.
+`scripts/check-mcp-sync.mjs` fails if the plugin's endpoint differs from the general server.
+
+## Version 0.9.11
+
+The plugin connects to `https://corply.dev/mcp`, the same server as every other Claude client,
+so Corply's import card and every new tool reach plugin users at once.
 
 ## Version 0.9.3
 

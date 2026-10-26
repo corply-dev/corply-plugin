@@ -4,7 +4,7 @@ Form a Delaware C-Corp, resume a saved application, import an existing company, 
 
 ## What this plugin connects to
 
-This plugin connects only to Corply’s hosted MCP server at https://corply.dev/mcp/claude. It contains one skill and no local executable code, hooks, installers or credential-reading scripts. The declared connector receives the company details, founder information, documents and requested actions you authorize Claude to send. OAuth authentication and token refresh are handled by the host. Never paste passwords, access tokens, government identifiers or payment credentials into chat.
+This plugin connects only to Corply’s hosted MCP server at https://corply.dev/mcp. It contains one skill and no local executable code, hooks, installers or credential-reading scripts. The declared connector receives the company details, founder information, documents and requested actions you authorize Claude to send. OAuth authentication and token refresh are handled by the host. Never paste passwords, access tokens, government identifiers or payment credentials into chat.
 
 ## Getting started
 

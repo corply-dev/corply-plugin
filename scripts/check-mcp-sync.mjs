@@ -6,9 +6,9 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-// The plugin declares the Claude directory profile; the MCP registry lists the general server;
-// the OpenAI directory package has its own endpoint.
-const PLUGIN_URL = "https://corply.dev/mcp/claude";
+// The plugin and the MCP registry connect to the one general server; the OpenAI directory
+// package has its own endpoint. Rule: the plugin never points at a profile endpoint (it hides tools).
+const PLUGIN_URL = "https://corply.dev/mcp";
 const REGISTRY_URL = "https://corply.dev/mcp";
 const DIRECTORY_URL = "https://corply.dev/mcp/openai";
 const DIRECTORY_PACKAGE_VERSION = "0.8.6";
@@ -41,6 +41,8 @@ const directoryExcluded = ["request_payment", "await_payment", "request_signatur
 const upgrades = ["request_registered_agent_upgrade", "await_registered_agent_upgrade"];
 // Listed only to signed-in clients that render MCP Apps (MCP_APPS_ONLY_RENDER_TOOLS on the server).
 const MCP_APPS_ONLY_TOOLS = ["show_cap_table", "show_import_intake_review", "show_company_dashboard"];
+// Listed by the general server only to a signed-in member (every active member while Corply Pay is on), never to this anonymous check.
+const SIGNED_IN_ONLY_TOOLS = ["set_up_corply_pay", "send_invoice", "request_money", "list_payment_requests", "manage_payment_request", "set_up_app_payments"];
 const financeName = /^(?:prepare_revenue|.*payment_(?:project|pipeline|route|integration|catalog|portal|link)|configure_payment|verify_payment|run_sandbox|.*bank_onboarding|bank_transfer|wallet_spend|.*payout)/;
 const moneyMovement = /payout|transfer|wallet_spend|pay_payment_link/;
 // Backticked snake_case words in skills that are fields, a tool's own operations, or a tool an open card registers
@@ -124,6 +126,7 @@ try {
   check(claude.icon && fs.existsSync(path.join(ROOT, claude.icon)), "Claude directory icon is missing");
   check(json(".claude-plugin/marketplace.json").plugins[0].version === version, "Marketplace version mismatch");
   check(json(".mcp.json").mcpServers.corply.url === PLUGIN_URL, "Plugin MCP endpoint changed");
+  check(PLUGIN_URL === REGISTRY_URL, "The plugin must connect to the general server (" + REGISTRY_URL + "), never a profile endpoint");
   check(json("server.json").remotes[0].url === REGISTRY_URL, "Registry endpoint mismatch");
   check(read("skills/corply/agents/openai.yaml").includes('url: "' + PLUGIN_URL + '"'), "Plugin skill endpoint mismatch");
   check(read("submission/openai/skills/corply/agents/openai.yaml").includes('url: "' + DIRECTORY_URL + '"'),
@@ -209,7 +212,8 @@ try {
         if (label === "plugin") block("anthropic", message);
         else console.log("Note: " + message);
       }
-      const metadataUrl = "https://corply.dev/.well-known/oauth-protected-resource" + new URL(url).pathname;
+      // The general server is Corply's root OAuth resource; profile endpoints are path-suffixed resources.
+      const metadataUrl = "https://corply.dev/.well-known/oauth-protected-resource" + (new URL(url).pathname === "/mcp" ? "" : new URL(url).pathname);
       const auth = await fetch(url, {
         method: "POST", headers: { "content-type": "application/json" },
         body: JSON.stringify({ jsonrpc: "2.0", id: 2, method: "tools/call", params: { name: "whoami", arguments: {} } }),
@@ -250,7 +254,7 @@ try {
         check(probe.headers.get("www-authenticate")?.includes(metadataUrl), "Directory probe advertises a different resource");
       } else {
         for (const [name, file] of toolReferences("skills")) {
-          check(names.has(name) || MCP_APPS_ONLY_TOOLS.includes(name),
+          check(names.has(name) || MCP_APPS_ONLY_TOOLS.includes(name) || SIGNED_IN_ONLY_TOOLS.includes(name),
             file + " names a tool the plugin endpoint does not expose: " + name);
         }
         // Parity: the skill covers every tool the plugin's endpoint exposes.

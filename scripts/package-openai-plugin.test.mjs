@@ -64,7 +64,7 @@ test("archives are deterministic and byte-verified against their own sources", a
       const config = kind === "skill" ? "skills/corply/agents/openai.yaml" : kind === "directory" ? ".mcp.json" : "corply/.mcp.json";
       const text = String(archiveFile(first, config));
       if (kind === "skill") assert.match(text, /https:\/\/corply\.dev\/mcp\/openai/);
-      else assert.equal(JSON.parse(text).mcpServers.corply.url, kind === "directory" ? "https://corply.dev/mcp/openai" : "https://corply.dev/mcp/claude");
+      else assert.equal(JSON.parse(text).mcpServers.corply.url, kind === "directory" ? "https://corply.dev/mcp/openai" : "https://corply.dev/mcp");
       const wrongMapping = new Map(mapping);
       wrongMapping.set([...mapping.keys()][0], "LICENSE");
       await assert.rejects(validateArchive(first, wrongMapping), /stale bytes/);

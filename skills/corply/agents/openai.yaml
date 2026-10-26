@@ -11,4 +11,4 @@ dependencies:
       value: "corply"
       description: "Corply company formation and management MCP server"
       transport: "streamable_http"
-      url: "https://corply.dev/mcp/claude"
+      url: "https://corply.dev/mcp"

@@ -6,24 +6,27 @@ work done elsewhere instead of making the founder repeat it.
 
 ## Start from documents when the founder has them
 
-1. `create_import_intake` (or `import_company` with only a `requestId`) opens a document dump.
-   No company details are needed first. Where the host shows Corply's views, the founder drops
-   their PDFs, a zip or a folder into Corply's import card; otherwise give them the returned
-   `uploadUrl`, their signed-in Corply import page. They see every file stored, remove any, and
-   submit. Never upload, extract or transmit the founder's documents yourself, even when the
-   files are on this machine and the host allows shell commands.
-2. Nothing is read before the founder submits. The card reads each file and fills in the company
-   as the documents describe it; without the card, `read_import_intake` reads the submitted
-   files, called again until reading finishes.
-3. `add_import_intake_url` adds a public HTTPS PDF link the founder pastes in chat. When
-   everything is read, call `show_import_intake_review` where the host shows Corply's views,
-   otherwise `get_import_intake_review`.
+1. `import_company` with only a fresh `requestId` UUID (or `create_import_intake`) opens a
+   document import. No company details are needed first. It returns `presentation.tool`
+   `show_import_upload`: call it so the founder drops their PDFs, a zip or a folder into Corply's
+   import card. Where the host shows no Corply views, give them the returned `uploadUrl`, their
+   signed-in Corply import page. Never upload, extract or transmit the founder's documents
+   yourself, even when the files are on this machine and the host allows shell commands. The
+   card's own `import_upload_action` runs inside it; agents never call it.
+2. The card reads each file as it lands and fills in the company the documents describe, then
+   opens the same review the Corply web app shows. Call `wait_for_import_upload` until it reports
+   done. Without the card, `read_import_intake` reads the founder's files, called again until
+   reading finishes.
+3. `add_import_intake_url` adds a public HTTPS PDF link the founder pastes in chat. To show the
+   review again call `show_import_intake_review` where the host shows Corply's views, otherwise
+   `get_import_intake_review`.
 4. What the documents leave open (values they disagree on, a missing document, a check) comes
-   back as numbered questions. Ask them through the host question tool with their exact wording
-   and options, and save each answer as the result instructs; the card fills in as answers are
-   saved. The founder can also answer in the card or simply tell you in chat.
+   back as `questionBatch`. Ask it through the host question tool with its exact wording and
+   options, and save each answer with `save_import_answers` as given; the card fills in within
+   seconds. The founder can also answer in the card or simply tell you in chat.
 5. When nothing is left, ask whether to confirm and import. Call `confirm_import_intake` only
-   after the founder explicitly confirms, with the returned review hash.
+   after the founder explicitly confirms, with a fresh `requestId` and the returned review hash,
+   or let the founder press Import in the card.
 
 ## When the founder has few or no documents
 
