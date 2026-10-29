@@ -38,13 +38,7 @@ Vesting shown in the timeline is a schedule, not proof of continued service or l
 
 ## After formation: directors, officers and stock
 
-These actions exist for Corply-formed Delaware C-Corps and, where the server reports
-governance eligibility, reviewed imported companies. Call `list_governed_action_options` first;
-it returns directors, officers, allocations, eligibility and any evidence gaps for imports.
-An eligible imported Delaware C-Corp needs reviewed governance records and a complete
-common-stock voting roster before director and officer actions. That does not make imported
-share issuance, stock plans, options or charter changes available, and an uploaded document is
-not a completed evidence review.
+Corply-formed and imported Delaware C-Corps can use supported company actions. Imported companies use the founder’s saved confirmation that all current company documents, amendments and agreements affecting approvals have been provided. `list_governed_action_options` returns that confirmation, directors, officers, allocations and specific document restrictions with their source and affected actions. A separate manual governance review and unrelated missing contact details do not close the action catalog. Each action still needs its own inputs, signers, approvals, share availability, payment and filing steps.
 
 - **Departures and replacements:** `propose_governed_departure` and
   `propose_governed_replacement`, or `create_departure_package` for a departure with a staged
@@ -64,9 +58,7 @@ not a completed evidence review.
 - **Drafts and reservations:** `list_action_drafts` finds saved intakes, unprepared address
   changes and proposals reserving shares. `discard_action_draft` removes one of the person's
   own drafts after their explicit request and releases its reservation.
-- **Founder cliff buyback:** `propose_cliff_repurchase` only after a completed departure and an
-  executed Corply RSPA. `send_repurchase_exercise_notice` only after board consent and the
-  manager's explicit send confirmation.
+- **Founder cliff buyback:** `propose_cliff_repurchase` uses a completed departure and the holder’s executed stock agreement, including a current founder-confirmed imported agreement whose reading establishes the repurchase right and price. Follow the actual cliff and exercise-window requirements. `send_repurchase_exercise_notice` follows board consent and the manager’s explicit send confirmation.
 - **Signing:** `request_governed_signatures` emails each voter or contract party their own
   link after a manager confirms the live roster and asks to send. A connected recipient opens
   what they have to sign with `show_my_governed_document` (it lists everything waiting and
@@ -95,8 +87,7 @@ its own consent, filing and payment gates. Charter amendments are covered in
 [filings-and-compliance.md](filings-and-compliance.md); SAFEs and common stock sales in
 [fundraising-and-investors.md](fundraising-and-investors.md).
 
-Stock-plan adoption and option grants are not available as governed actions. Say so rather
-than editing a ledger to approximate them.
+For stock-plan adoption and option grants, follow the live tool’s availability and any stated document-review requirement; never edit a ledger to approximate an unavailable action.
 
 ## Corply administrators only
 

@@ -120,6 +120,10 @@ point it at a profile endpoint such as `https://corply.dev/mcp/claude`: a profil
 and a hidden tool means founders on the plugin silently lose features the general server has.
 `scripts/check-mcp-sync.mjs` fails if the plugin's endpoint differs from the general server.
 
+## Version 0.9.12
+
+Imported company actions reuse the founder’s document-completeness confirmation. Only specific document restrictions and each action’s own requirements hold the relevant workflow; no separate manual governance review closes the action catalog. Installed copies receive these instructions through their host’s normal plugin update.
+
 ## Version 0.9.11
 
 The plugin connects to `https://corply.dev/mcp`, the same server as every other Claude client,

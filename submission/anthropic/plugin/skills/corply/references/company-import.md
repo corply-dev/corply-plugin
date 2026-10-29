@@ -41,8 +41,7 @@ service, the founder decides and pays personally.
 
 - `import_cap_table` brings in a Carta or Pulley CSV; preview first and confirm the full
   replacement explicitly, as [governance-and-equity.md](governance-and-equity.md) describes.
-- `list_governed_action_options` reports which governance actions the reviewed import supports
-  and any evidence gaps.
+- `list_governed_action_options` reports the founder’s saved document-completeness confirmation, supported company actions and any specific document restriction with its source. A confirmed import reuses that decision; a separate manual governance review is not required. Follow the current result for any missing confirmation and each action’s own requirements.
 - `resolve_company_plan` returns the company's current obligations; see
   [filings-and-compliance.md](filings-and-compliance.md).
 - `adopt_existing_company` is a legacy path that records the company's name, jurisdiction, type,
@@ -52,5 +51,4 @@ Optional follow-up questions, one at a time and never blocking the import: wheth
 has a logo and whether it already uses an email domain. See
 [company-workspace.md](company-workspace.md).
 
-Founder statements and uploaded files are claims until Corply's review promotes them. Read
-[evidence-and-existing-work.md](evidence-and-existing-work.md) before recording completed work.
+Founder confirmation and operator acceptance remain distinct records. Read [evidence-and-existing-work.md](evidence-and-existing-work.md) before recording work completed outside Corply.
