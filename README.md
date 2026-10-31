@@ -93,6 +93,7 @@ built-in commands.
 - "Incorporate our startup. My cofounder and I want a 60/40 split."
 - "Import my existing Delaware company into Corply from its documents."
 - "Show our cap table and what the company needs to do next."
+- "Check my company email and help me reply to this customer."
 
 The agent asks for the next relevant fact, saves progress and follows Corply's canonical results.
 It never invents signatures, payments, filing acceptance or deadlines. Each founder reviews and
@@ -119,6 +120,10 @@ The plugin connects to `https://corply.dev/mcp`, the general server, and nothing
 point it at a profile endpoint such as `https://corply.dev/mcp/claude`: a profile hides tools,
 and a hidden tool means founders on the plugin silently lose features the general server has.
 `scripts/check-mcp-sync.mjs` fails if the plugin's endpoint differs from the general server.
+
+## Version 0.9.13
+
+Company work-email discovery now covers the same owner-private mailbox in Corply MCP and the dashboard: search, drafts, attachments, folders, reviewed sending, schedules, snooze and private follow-ups. The universal endpoint is unchanged. Existing email tools remain compatible; narrower directory submissions are unchanged. Publish this plugin version after the matching server release.
 
 ## Version 0.9.12
 

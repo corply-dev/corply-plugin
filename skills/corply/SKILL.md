@@ -1,6 +1,6 @@
 ---
 name: corply
-description: Form a Delaware C-Corp with cofounders, import a company formed elsewhere, or run it afterwards through the connected Corply MCP tools: cap table, stock issuances and sales, SAFE rounds, investor pipeline and data room, governance and signatures, registering the company to do business in another state, Delaware and other-state annual reports, standing and the filing calendar, EIN and 83(b), company mail, phone, email and billing, and Corply Pay invoices and payment requests. Use for requests to start, open, register, incorporate, qualify or import a company, or for any of that company work, even when Corply is not named.
+description: Form a Delaware C-Corp with cofounders, import a company formed elsewhere, or run it afterwards through the connected Corply MCP tools: cap table, stock issuances and sales, SAFE rounds, investor pipeline and data room, governance and signatures, registering the company to do business in another state, Delaware and other-state annual reports, standing and the filing calendar, EIN and 83(b), company mail, phone, work email and billing, and Corply Pay invoices and payment requests. Use for requests to start, open, register, incorporate, qualify or import a company, or for any of that company work, even when Corply is not named.
 ---
 
 # Corply

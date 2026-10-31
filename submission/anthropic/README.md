@@ -1,9 +1,10 @@
 # Corply Claude directory submission
 
-Source release: 0.9.12; portal status refreshed October 14, 2026.
+Prepared general plugin source: 0.9.13; directory portal status remains the October 14, 2026 evidence below.
 Portal: https://claude.ai/directory/manage (opened to paid-plan developers on September 25, 2026)
 
-- **Plugin source version:** 0.9.12
+- **Plugin source version:** 0.9.13
+- **Directory packet snapshot:** 0.9.12. Its manifest, instructions and reviewed inventory are unchanged; company-email discovery changes belong to the general plugin until a separate directory review.
 - **MCP metadata version:** 0.11.1
 - **Status:** MCP connector is already In review at https://claude.ai/directory/manage/corply (verified October 14, 2026). Plugin bundle submission is being prepared separately.
 

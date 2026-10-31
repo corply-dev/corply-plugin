@@ -1,8 +1,8 @@
 {
   "name": "corply",
   "displayName": "Corply",
-  "version": "0.9.12",
-  "description": "Form Delaware C-Corps, import existing companies, and manage equity, governance and compliance with Corply.",
+  "version": "0.9.13",
+  "description": "Form Delaware C-Corps, import existing companies, and manage equity, governance, compliance and company work email with Corply.",
   "author": {
     "name": "Corply",
     "email": "founders@corply.dev"
