@@ -9,14 +9,7 @@ or bank details in chat, and let the founder pay on the returned page themselves
 dates, pending changes, masked saved methods, refundable charges and refund requests, or the
 server-priced offers for a company without a plan.
 
-`manage_company_billing` changes it, only after the founder asks for that exact change:
-`start_plan` returns a checkout for the full package or the services they named (work email is
-priced per mailbox), and `change_cadence`, `add_optional_service`, `remove_optional_service`,
-`cancel_plan`, `revoke_tax_authorization` and `open_payment_method` return a page where the
-cardholder approves the revised amount. When the plan includes a mailbox and the offer lists
-mailbox locations, ask its location and consent questions with the exact options first.
-`request_refund` files a refund request for one charge with the founder's own reason; Corply
-reviews it, and it never refunds by itself.
+`manage_company_billing` changes the plan only after the founder asks for that exact change. `start_plan` returns checkout for the current required package; new plans do not sell bespoke email mailboxes. Existing accepted plans and historical email charges keep their recorded terms. Connecting an existing Google account is separate from optional Google Workspace purchasing. `change_cadence`, `add_optional_service`, `remove_optional_service`, `cancel_plan`, `revoke_tax_authorization` and `open_payment_method` return a page where the cardholder approves the revised amount. When the plan includes a physical mailbox and the offer lists mailbox locations, use its exact location/consent review. `request_refund` files a request for one charge with the founder's own reason; Corply reviews it and it never refunds by itself.
 
 ## Company addresses
 

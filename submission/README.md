@@ -12,6 +12,10 @@ The review video is https://corply.dev/openai-plugin-review-20261014.mp4 (3:51),
 
 Production remains commit `4cc3a5a547340e3307f088009ea25249ab94fe79`, successful GitHub-triggered build `0846c198-4ec8-47a5-8ecb-ddab542a8c53`, revision `corply-site-01260-tot`. The logo-only package update requires no production release.
 
+## Prepared general plugin update
+
+General plugin 0.9.14 and its unsubmitted Anthropic candidate describe private Google mail and retirement of the bespoke inbox. The OpenAI 0.8.6 reviewed package and inventory are unchanged; personal mail remains outside that directory profile. The packaging script rebuilds and byte-verifies the separate directory, skill and full-plugin archives. A local build is not a portal submission or publication.
+
 ## Current scope
 
 The candidate supports Delaware C-Corp preparation, company names, saved applications, documents, revision review, imports, cap-table records, operating evidence and consented Mercury **sandbox** prefills, status and provider-confirmed recovery. The deployed service was inspected as `corply-site-01257-vah`: Mercury provider mode and the explicit MCP gate are enabled, and the environment is sandbox. A sandbox handoff cannot open a real bank account. Real-bank activation is a separate release decision.

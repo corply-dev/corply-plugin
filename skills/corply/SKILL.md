@@ -76,7 +76,7 @@ details for anyone.
   its reports, the filing calendar and withdrawal.
 - [company-import.md](references/company-import.md): bringing in a company formed elsewhere.
 - [company-workspace.md](references/company-workspace.md): switching companies, dashboard,
-  drafts, memory, logo, documents, email domain and company inboxes.
+  drafts, memory, logo, documents, private Google mail and legacy access.
 - [company-services.md](references/company-services.md): company plan and billing, addresses,
   Corply Mail, phone number and bank account onboarding.
 - [corply-pay.md](references/corply-pay.md): invoices, payment and reimbursement requests,

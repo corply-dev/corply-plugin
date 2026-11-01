@@ -1,10 +1,10 @@
 # Corply Claude directory submission
 
-Prepared general plugin source: 0.9.13; directory portal status remains the October 14, 2026 evidence below.
+Prepared general plugin source: 0.9.14; directory portal status remains the October 14, 2026 evidence below.
 Portal: https://claude.ai/directory/manage (opened to paid-plan developers on September 25, 2026)
 
-- **Plugin source version:** 0.9.13
-- **Directory packet snapshot:** 0.9.12. Its manifest, instructions and reviewed inventory are unchanged; company-email discovery changes belong to the general plugin until a separate directory review.
+- **Plugin source version:** 0.9.14
+- **Prepared directory packet:** 0.9.14, not submitted. Its affected company-mail/services references now describe private Google-backed mail, legacy retirement and preserved access/billing. This does not change historical portal evidence or assert approval of the new mail scope. The OpenAI 0.8.6 package and reviewed inventory remain frozen.
 - **MCP metadata version:** 0.11.1
 - **Status:** MCP connector is already In review at https://claude.ai/directory/manage/corply (verified October 14, 2026). Plugin bundle submission is being prepared separately.
 

@@ -32,7 +32,7 @@ and does not provide legal, tax or accounting advice.
   or package installs; `scripts/` holds maintainer checks that installs never execute.
 - **Data sent:** what the founder asks the agent to save or do in Corply, such as company and
   founder details, addresses, ownership, documents the founder supplies and answers to filing
-  questions, plus the OAuth access token the client obtains. Data goes only to that server.
+  questions, plus the OAuth access token the client obtains. Plugin requests go to that server. Optional general Google mail requires separate browser consent and confirmation of the Google-verified address. Requested messages, attachments and draft details then return to the connected MCP or AI client; Google permission covers the entire selected mailbox, and other company members receive no access. Google continues hosting the mailbox.
 - **Sign-in:** standard OAuth 2.0 with PKCE and dynamic client registration on corply.dev. The
   client stores and refreshes credentials. The skill never asks for passwords, tokens, SSNs or
   ITINs in chat; taxpayer numbers are entered only on Corply's secure browser page.
@@ -121,9 +121,13 @@ point it at a profile endpoint such as `https://corply.dev/mcp/claude`: a profil
 and a hidden tool means founders on the plugin silently lose features the general server has.
 `scripts/check-mcp-sync.mjs` fails if the plugin's endpoint differs from the general server.
 
-## Version 0.9.13
+## Version 0.9.14
 
-Company work-email discovery now covers the same owner-private mailbox in Corply MCP and the dashboard: search, drafts, attachments, folders, reviewed sending, schedules, snooze and private follow-ups. The universal endpoint is unchanged. Existing email tools remain compatible; narrower directory submissions are unchanged. Publish this plugin version after the matching server release.
+Company mail uses each person's separately consented Google account through the same universal Corply MCP. The company-bound browser page reviews the Google-verified account before access; the address may differ from the Corply login. Humans use Gmail directly, and the live mail tools handle supported reading, drafts, exact reviewed sending and organization. Existing Google users need no license purchase or migration. Optional Workspace buying remains separate and reseller-gated. The bespoke inbox and legacy tools are retired with owner access/migration guidance; messages and accepted billing commitments are preserved. Calendar MCP, scheduled sending, snooze and private follow-up tools are outside this connection. This prepared patch must follow the matching server release; it is not evidence of Google verification, a real send or directory approval.
+
+## Version 0.9.13 (superseded)
+
+This historical release introduced Corply's bespoke mailbox discovery. Version 0.9.14 replaces that model with private Google-backed mail and retires the earlier tool routes; its feature list is no longer a current capability promise.
 
 ## Version 0.9.12
 
