@@ -12,11 +12,17 @@ The review video is https://corply.dev/openai-plugin-review-20261014.mp4 (3:51),
 
 Production remains commit `4cc3a5a547340e3307f088009ea25249ab94fe79`, successful GitHub-triggered build `0846c198-4ec8-47a5-8ecb-ddab542a8c53`, revision `corply-site-01260-tot`. The logo-only package update requires no production release.
 
-## Prepared general plugin update
+## General plugin release and prepared review candidate
 
-General plugin 0.9.14 and its unsubmitted Anthropic candidate describe private Google mail and retirement of the bespoke inbox. The OpenAI 0.8.6 reviewed package and inventory are unchanged; personal mail remains outside that directory profile. The packaging script rebuilds and byte-verifies the separate directory, skill and full-plugin archives. A local build is not a portal submission or publication.
+General plugin 0.9.14 and its unsubmitted Anthropic candidate describe private Google mail and retirement of the bespoke inbox. The OpenAI 0.8.6 reviewed package and its 59-tool inventory remain a historical submitted snapshot. The live OpenAI profile intentionally has 63 tools, including four additions beyond that snapshot: `get_company_ein`, `disconnect_google_documents`, `get_gmail_connection` and `manage_gmail`. Personal Google mail is supported on both current profiles; the frozen review package has not been resubmitted to cover the additions. The packaging script rebuilds and byte-verifies the separate directory, skill and full-plugin archives. A local build or GitHub push is not a portal submission or directory approval.
 
-## Current scope
+## General plugin 0.9.14 release evidence
+
+Published general plugin commit: `70f154e07059bf8970bda2bce1fb8630662724cd` on `main`, after core release `042404d9` completed its configured production pipeline. Scoped read-only live checks observed HTTP 200 and 241 universal tools: `get_gmail_connection`, `manage_gmail`, `get_company_google_workspace` and `manage_company_google_workspace` were present with titles, OAuth and required annotations; all 13 retired inbox tools were absent. An unauthenticated `get_gmail_connection` call returned HTTP 401. The plugin and prepared Anthropic candidate retain the universal endpoint. Frozen OpenAI sources and inventory were unchanged. Local sync checks, byte-verified archive generation and six package/readiness tests passed.
+
+The broader legacy live checker did not pass: it reported 447 failures across stale receipt-schema shape expectations, unrelated general-tool documentation coverage, and differences between current directory metadata/runtime and the historical 59-tool submission (the live profile has 63). These failures are recorded rather than presented as an all-green release check. No new OpenAI or Anthropic portal submission, legal attestation or directory approval occurred; installed-host updating and external directory review remain separate steps.
+
+## Historical submitted scope
 
 The candidate supports Delaware C-Corp preparation, company names, saved applications, documents, revision review, imports, cap-table records, operating evidence and consented Mercury **sandbox** prefills, status and provider-confirmed recovery. The deployed service was inspected as `corply-site-01257-vah`: Mercury provider mode and the explicit MCP gate are enabled, and the environment is sandbox. A sandbox handoff cannot open a real bank account. Real-bank activation is a separate release decision.
 
