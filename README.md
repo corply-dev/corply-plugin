@@ -121,6 +121,10 @@ point it at a profile endpoint such as `https://corply.dev/mcp/claude`: a profil
 and a hidden tool means founders on the plugin silently lose features the general server has.
 `scripts/check-mcp-sync.mjs` fails if the plugin's endpoint differs from the general server.
 
+## Version 0.9.15
+
+The skill's `description` is now a quoted YAML string. Its unquoted `: ` made the frontmatter fail to parse, so the skill loaded with empty metadata and the Claude directory could not fully check the plugin. No workflow or tool changes.
+
 ## Version 0.9.14
 
 Company mail uses each person's separately consented Google account through the same universal Corply MCP. The company-bound browser page reviews the Google-verified account before access; the address may differ from the Corply login. Humans use Gmail directly, and the live mail tools handle supported reading, drafts, exact reviewed sending and organization. Existing Google users need no license purchase or migration. Optional Workspace buying remains separate and reseller-gated. The bespoke inbox and legacy tools are retired with owner access/migration guidance; messages and accepted billing commitments are preserved. Calendar MCP, scheduled sending, snooze and private follow-up tools are outside this connection. This prepared patch must follow the matching server release; it is not evidence of Google verification, a real send or directory approval.
